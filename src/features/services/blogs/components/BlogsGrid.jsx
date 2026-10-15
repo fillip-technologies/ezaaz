@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { Calendar, Clock, ArrowRight, User, BookOpen, AlertCircle } from 'lucide-react'
+import { useDoctors, findBlogAuthor } from '../../../doctors/useDoctors'
 
 export default function BlogsGrid({ blogs = [], onSelectBlog, resetFilters }) {
   const { i18n } = useTranslation('home')
   const isHindi = i18n?.language === 'hi'
+  const { doctors } = useDoctors()
 
   const handleCardClick = (blogId) => {
     if (onSelectBlog) {
@@ -74,7 +76,8 @@ export default function BlogsGrid({ blogs = [], onSelectBlog, resetFilters }) {
             const category = isHindi ? blog.categoryHi : blog.category
             const date = isHindi ? blog.dateHi : blog.date
             const readTime = isHindi ? blog.readTimeHi : blog.readTime
-            const author = isHindi ? blog.authorHi : blog.author
+            const authorDoctor = findBlogAuthor(doctors, blog.authorDoctor, isHindi)
+            const author = authorDoctor?.name
 
             return (
               <article
@@ -84,12 +87,14 @@ export default function BlogsGrid({ blogs = [], onSelectBlog, resetFilters }) {
               >
                 {/* Top Image Container */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                  <img
-                    src={blog.image}
-                    alt={title}
-                    className="w-full h-full object-cover object-center group-hover:scale-106 transition-transform duration-500 ease-out"
-                    loading="lazy"
-                  />
+                  {blog.image && (
+                    <img
+                      src={blog.image}
+                      alt={title}
+                      className="w-full h-full object-cover object-center group-hover:scale-106 transition-transform duration-500 ease-out"
+                      loading="lazy"
+                    />
+                  )}
                   {/* Category Pill Tag Overlay */}
                   <div className="absolute top-3.5 left-3.5">
                     <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#003a70]/90 backdrop-blur-md text-white shadow-xs">
@@ -111,20 +116,20 @@ export default function BlogsGrid({ blogs = [], onSelectBlog, resetFilters }) {
                   <div>
                     {/* Meta Info: Author & Date */}
                     <div className="flex items-center justify-between text-xs text-slate-500 mb-3 gap-2 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-medium text-slate-700">
-                        {blog.authorPhoto ? (
+                      {authorDoctor ? (
+                        <div className="flex items-center gap-1.5 font-medium text-slate-700">
                           <img
-                            src={blog.authorPhoto}
+                            src={authorDoctor.photo}
                             alt={author}
                             className="w-5 h-5 rounded-full object-cover object-top border border-slate-200"
                           />
-                        ) : (
-                          <User className="w-3.5 h-3.5 text-[#ea580c]" />
-                        )}
-                        <span className="truncate max-w-[140px] sm:max-w-[160px] text-[11.5px] sm:text-xs font-semibold">
-                          {author}
-                        </span>
-                      </div>
+                          <span className="truncate max-w-[140px] sm:max-w-[160px] text-[11.5px] sm:text-xs font-semibold">
+                            {author}
+                          </span>
+                        </div>
+                      ) : (
+                        <User className="w-3.5 h-3.5 text-[#ea580c]" aria-hidden="true" />
+                      )}
 
                       <div className="flex items-center gap-1 text-[11px] text-slate-400">
                         <Calendar className="w-3 h-3" />

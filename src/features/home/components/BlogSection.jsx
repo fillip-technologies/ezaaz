@@ -13,23 +13,11 @@ import {
   Check,
   BookOpen
 } from 'lucide-react'
-
-// Import generated realistic blog photos
-import whiteCoatImg from '../../../assets/home/blog/white-coat-ceremony.jpg'
-import heatIllnessImg from '../../../assets/home/blog/heat-illness.jpg'
-import slippingRibImg from '../../../assets/home/blog/slipping-rib.jpg'
-import optimismImg from '../../../assets/home/blog/cultivate-optimism.jpg'
-import fallPreventionImg from '../../../assets/home/blog/fall-prevention.jpg'
+import { useBlogs } from '../../services/blogs/useBlogs'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const ARTICLE_IMAGES = {
-  'white-coat': whiteCoatImg,
-  'heat-illness': heatIllnessImg,
-  'slipping-rib': slippingRibImg,
-  'cultivate-optimism': optimismImg,
-  'fall-prevention': fallPreventionImg
-}
+const MAX_HOME_ARTICLES = 6
 
 export default function BlogSection() {
   const { t, i18n } = useTranslation('home')
@@ -43,28 +31,19 @@ export default function BlogSection() {
   const [touchStart, setTouchStart] = useState(null)
   const [isPaused, setIsPaused] = useState(false)
 
-  // Localized data
-  const rawFeatured = t('blog.featured', { returnObjects: true }) || {}
-  const rawArticles = t('blog.articles', { returnObjects: true })
-  const articles = Array.isArray(rawArticles) ? rawArticles : []
-
-  // Fallback featured data
-  const featured = {
-    id: rawFeatured.id || 'white-coat',
-    title: rawFeatured.title || 'Different paths, same calling: Ejaz Hospital welcomes newest medical students & fellows',
-    excerpt: rawFeatured.excerpt || 'Nearly 175 incoming medical students and fellows donned white coats at the annual White Coat Ceremony this summer to mark the start of their medical education and advanced surgical training.',
-    date: rawFeatured.date || 'September 3, 2026',
-    readTime: rawFeatured.readTime || '3 min read',
-    category: rawFeatured.category || (isHindi ? 'चिकित्सा शिक्षा एवं प्रशिक्षण' : 'Medical Education & Training'),
-    author: rawFeatured.author || 'Dr. Shahzad Ejaz',
-    fullContent: rawFeatured.fullContent || rawFeatured.excerpt
-  }
-
-  // Combined articles list for the scroller
-  const allArticles = [
-    featured,
-    ...articles.filter((a) => a.id !== featured.id)
-  ]
+  // Articles managed in the admin panel: featured first, then the newest
+  const { posts, loading: blogsLoading } = useBlogs()
+  const allArticles = [...posts.filter((p) => p.isFeatured), ...posts.filter((p) => !p.isFeatured)]
+    .slice(0, MAX_HOME_ARTICLES)
+    .map((p) => ({
+      id: p.slug,
+      title: isHindi ? p.titleHi : p.title,
+      excerpt: isHindi ? p.excerptHi : p.excerpt,
+      category: isHindi ? p.categoryHi : p.category,
+      date: isHindi ? p.dateHi : p.date,
+      readTime: isHindi ? p.readTimeHi : p.readTime,
+      imageSrc: p.image,
+    }))
 
   // Update visible card count based on screen width
   useEffect(() => {
@@ -196,6 +175,9 @@ export default function BlogSection() {
     )
   }, { scope: sectionRef })
 
+  // Nothing published yet: hide the section
+  if (!blogsLoading && allArticles.length === 0) return null
+
   return (
     <section
       id="latest-news"
@@ -265,7 +247,7 @@ export default function BlogSection() {
               }}
             >
               {allArticles.map((article, idx) => {
-                const imageSrc = ARTICLE_IMAGES[article.id] || whiteCoatImg
+                const imageSrc = article.imageSrc
 
                 return (
                   <div
@@ -278,12 +260,14 @@ export default function BlogSection() {
                   >
                     {/* Top Image with Category Tag */}
                     <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                      <img
-                        src={imageSrc}
-                        alt={article.title}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-                        loading="lazy"
-                      />
+                      {imageSrc && (
+                        <img
+                          src={imageSrc}
+                          alt={article.title}
+                          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                          loading="lazy"
+                        />
+                      )}
                       {article.category && (
                         <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-semibold bg-white/95 text-[#003a70] shadow-xs backdrop-blur-xs">
                           {article.category}

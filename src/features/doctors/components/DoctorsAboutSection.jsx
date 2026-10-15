@@ -1,28 +1,10 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import EnquiryForm from '../../speciality/common/EnquiryForm'
-
-import doctor1 from '../../../assets/home/doctor-image.jpg'
-import doctor2 from '../../../assets/home/doctor-2.jpg'
-import doctor3 from '../../../assets/home/doctor-3.jpg'
-import doctor4 from '../../../assets/home/doctor-4.jpg'
-import doctor5 from '../../../assets/home/doctor-5.jpg'
-import doctor6 from '../../../assets/home/doctor-6.jpg'
-
-const doctorImageMap = {
-  'dr-shahzad': doctor1,
-  'dr-ejaz-ali': doctor4,
-  'dr-ortho-specialist': doctor5,
-  'dr-internal-med': doctor1,
-  'dr-onco-surgeon': doctor4,
-  'dr-gynaecologist': doctor3,
-  'dr-urologist': doctor5,
-  'dr-plastic-surgeon': doctor2,
-  'dr-anaesthesiologist': doctor3,
-}
+import { useDoctors, toDoctorCard } from '../useDoctors'
 
 // Reusable Doctor Card matching Homepage layout & design
-function DoctorCard({ doctor, photoSrc, isHindi, getDoctorGender, formatExp, scrollToEnquiry, navigateToProfile }) {
+function DoctorCard({ doctor, isHindi, navigateToProfile }) {
   return (
     <div className="doctor-card group bg-white rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-xl hover:border-slate-300 hover:-translate-y-1 transition-all duration-300 p-4 sm:p-5 flex flex-col justify-between text-left">
       <div className="flex items-start gap-3.5 sm:gap-4 flex-1">
@@ -31,7 +13,7 @@ function DoctorCard({ doctor, photoSrc, isHindi, getDoctorGender, formatExp, scr
         <div className="shrink-0 flex flex-col items-center">
           <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-lg sm:rounded-xl overflow-hidden bg-slate-50 border border-slate-200/70 shadow-xs">
             <img
-              src={photoSrc}
+              src={doctor.photo}
               alt={doctor.name}
               className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
             />
@@ -64,11 +46,11 @@ function DoctorCard({ doctor, photoSrc, isHindi, getDoctorGender, formatExp, scr
               </p>
               <p className="text-slate-600 truncate">
                 <strong className="font-bold text-slate-800">{isHindi ? 'अनुभव: ' : 'Experience: '}</strong>
-                <span className="text-slate-700 font-normal">{formatExp(doctor.experience)}</span>
+                <span className="text-slate-700 font-normal">{doctor.experience}</span>
               </p>
               <p className="text-slate-600 truncate">
                 <strong className="font-bold text-slate-800">{isHindi ? 'लिंग: ' : 'Gender: '}</strong>
-                <span className="text-slate-700 font-normal">{getDoctorGender(doctor)}</span>
+                <span className="text-slate-700 font-normal">{doctor.gender}</span>
               </p>
             </div>
           </div>
@@ -103,46 +85,14 @@ export default function DoctorsAboutSection() {
   const { i18n } = useTranslation('home')
   const isHindi = i18n.language === 'hi'
 
-  // Load all doctors from i18n data
-  const rawDoctors = useTranslation('home').t('doctorsSection.doctors', { returnObjects: true }) || []
-  const allDoctors = useMemo(() => {
-    return Array.isArray(rawDoctors) ? rawDoctors : []
-  }, [rawDoctors])
+  // Doctors managed in the admin panel (only active ones are returned)
+  const { doctors, loading } = useDoctors()
+  const allDoctors = useMemo(() => doctors.map((doc) => toDoctorCard(doc, isHindi)), [doctors, isHindi])
 
   // First 2 rows (4 doctors: 2 rows x 2 cols) alongside the non-sticky Enquiry Form
   const topDoctors = useMemo(() => allDoctors.slice(0, 4), [allDoctors])
-  // Remaining doctors (5 doctors) shown in a full-width 3-column grid
+  // Remaining doctors shown in a full-width 3-column grid
   const remainingDoctors = useMemo(() => allDoctors.slice(4), [allDoctors])
-
-  // Gender helper matching homepage
-  const getDoctorGender = (doc) => {
-    if (doc.gender) return doc.gender
-    if (
-      doc.id === 'dr-gynaecologist' ||
-      doc.id === 'dr-plastic-surgeon' ||
-      doc.id === 'dr-anaesthesiologist'
-    ) {
-      return isHindi ? 'महिला' : 'Female'
-    }
-    return isHindi ? 'पुरुष' : 'Male'
-  }
-
-  // Experience text formatter matching homepage
-  const formatExp = (exp) => {
-    if (!exp) return ''
-    if (isHindi) return exp.replace('Yrs', 'वर्ष').replace('Years', 'वर्ष')
-    return exp.replace('Yrs', 'Years')
-  }
-
-  const scrollToEnquiry = (e) => {
-    if (e) e.preventDefault()
-    const el = document.getElementById('enquiry-form')
-    if (el) {
-      const navOffset = 90
-      const top = el.getBoundingClientRect().top + window.scrollY - navOffset
-      window.scrollTo({ top, behavior: 'smooth' })
-    }
-  }
 
   const navigateToProfile = (id) => {
     if (window.history?.pushState) {
@@ -174,20 +124,28 @@ export default function DoctorsAboutSection() {
           
           {/* LEFT: 2 rows of 2 cards (first 4 doctors) */}
           <div className="order-1 lg:order-1 lg:col-span-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-              {topDoctors.map((doctor) => (
-                <DoctorCard
-                  key={doctor.id}
-                  doctor={doctor}
-                  photoSrc={doctorImageMap[doctor.id] || doctor1}
-                  isHindi={isHindi}
-                  getDoctorGender={getDoctorGender}
-                  formatExp={formatExp}
-                  scrollToEnquiry={scrollToEnquiry}
-                  navigateToProfile={navigateToProfile}
-                />
-              ))}
-            </div>
+            {loading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5" aria-busy="true">
+                {[0, 1, 2, 3].map((i) => (
+                  <div key={i} className="h-44 rounded-xl sm:rounded-2xl bg-slate-200/60 animate-pulse" />
+                ))}
+              </div>
+            ) : topDoctors.length === 0 ? (
+              <p className="py-12 text-center text-sm text-slate-500">
+                {isHindi ? 'डॉक्टरों की जानकारी जल्द ही उपलब्ध होगी।' : 'Doctor profiles will be available soon.'}
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                {topDoctors.map((doctor) => (
+                  <DoctorCard
+                    key={doctor.id}
+                    doctor={doctor}
+                    isHindi={isHindi}
+                    navigateToProfile={navigateToProfile}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* RIGHT: Enquiry Form (NOT sticky, perfectly sits beside row 1 & 2) */}
@@ -205,11 +163,7 @@ export default function DoctorsAboutSection() {
                 <DoctorCard
                   key={doctor.id}
                   doctor={doctor}
-                  photoSrc={doctorImageMap[doctor.id] || doctor1}
                   isHindi={isHindi}
-                  getDoctorGender={getDoctorGender}
-                  formatExp={formatExp}
-                  scrollToEnquiry={scrollToEnquiry}
                   navigateToProfile={navigateToProfile}
                 />
               ))}

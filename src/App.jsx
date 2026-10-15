@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import WhatsAppButton from './components/layout/WhatsAppButton'
@@ -31,9 +31,15 @@ import AppointmentBookingPage from './pages/AppointmentBookingPage'
 import BlogsPage from './pages/BlogsPage'
 import BlogDetailsPage from './pages/BlogDetailsPage'
 
+// Admin panel is loaded only when visiting /master
+const AdminApp = lazy(() => import('./features/admin/AdminApp'))
+
 const getRouteFromUrl = () => {
   const path = window.location.pathname.toLowerCase()
   const hash = window.location.hash.toLowerCase()
+
+  // Must run before the keyword matching below (e.g. /master/... must never match 'doctor')
+  if (path === '/master' || path.startsWith('/master/')) return 'master'
 
   // If path is root '/' or empty, only allow explicit hash-routing like '#/doctors'
   let target = path
@@ -159,6 +165,14 @@ export default function App() {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [currentRoute])
+
+  if (currentRoute === 'master') {
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-slate-100" />}>
+        <AdminApp />
+      </Suspense>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-master text-white flex flex-col font-sans selection:bg-amber-400/30 selection:text-amber-200">

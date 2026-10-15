@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Calendar,
@@ -14,9 +14,11 @@ import {
   ArrowRight,
   ShieldCheck,
   Building2,
-  Phone
+  Phone,
+  Loader2
 } from 'lucide-react'
-import { getBlogById, getAllBlogs } from '../data/blogsData'
+import { useBlogPost } from '../useBlogs'
+import { useDoctors, findBlogAuthor } from '../../../doctors/useDoctors'
 import SuggestedBlogsSection from './SuggestedBlogsSection'
 
 export default function BlogDetailsView() {
@@ -25,13 +27,13 @@ export default function BlogDetailsView() {
 
   const [copied, setCopied] = useState(false)
 
-  // Retrieve blog ID from URL query params
+  // Retrieve blog slug from URL query params
   const [activeBlogId, setActiveBlogId] = useState(() => {
     try {
       const params = new URLSearchParams(window.location.search)
-      return params.get('id') || params.get('blog') || 'laparoscopic-gi-advances'
+      return (params.get('id') || params.get('blog') || '').toLowerCase()
     } catch {
-      return 'laparoscopic-gi-advances'
+      return ''
     }
   })
 
@@ -41,7 +43,7 @@ export default function BlogDetailsView() {
       try {
         const params = new URLSearchParams(window.location.search)
         const id = params.get('id') || params.get('blog')
-        if (id) setActiveBlogId(id)
+        if (id) setActiveBlogId(id.toLowerCase())
       } catch {
         // ignore
       }
@@ -54,17 +56,10 @@ export default function BlogDetailsView() {
     }
   }, [])
 
-  const blog = useMemo(() => {
-    return getBlogById(activeBlogId)
-  }, [activeBlogId])
-
-  const title = isHindi ? blog.titleHi : blog.title
-  const category = isHindi ? blog.categoryHi : blog.category
-  const date = isHindi ? blog.dateHi : blog.date
-  const readTime = isHindi ? blog.readTimeHi : blog.readTime
-  const author = isHindi ? blog.authorHi : blog.author
-  const authorRole = isHindi ? blog.authorRoleHi : blog.authorRole
-  const highlights = isHindi ? blog.keyHighlightsHi : blog.keyHighlights
+  // Article is managed in the admin panel and loaded from the API
+  const { post: blog, loading, notFound } = useBlogPost(activeBlogId)
+  // Author details come from the doctor managed in the admin panel (hidden if that doctor isn't listed)
+  const { doctors } = useDoctors()
 
   const handleShare = () => {
     if (navigator?.clipboard) {
@@ -98,6 +93,45 @@ export default function BlogDetailsView() {
     }
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  if (!blog) {
+    return (
+      <div className="w-full min-h-screen bg-[#f8f9fc] text-slate-800 pt-20 sm:pt-24 flex items-center justify-center px-4">
+        {loading ? (
+          <Loader2 className="w-8 h-8 text-[#003a70] animate-spin" aria-label={isHindi ? 'लोड हो रहा है' : 'Loading'} />
+        ) : (
+          <div className="text-center max-w-md py-16">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
+              {notFound
+                ? (isHindi ? 'लेख नहीं मिला' : 'Article not found')
+                : (isHindi ? 'लेख लोड नहीं हो सका' : "Couldn't load this article")}
+            </h1>
+            <p className="mt-2 text-sm text-slate-500">
+              {notFound
+                ? (isHindi ? 'यह लेख उपलब्ध नहीं है। हमारे अन्य लेख पढ़ें।' : 'This article is not available. Browse our other articles instead.')
+                : (isHindi ? 'कृपया थोड़ी देर बाद पुनः प्रयास करें।' : 'Please try again in a moment.')}
+            </p>
+            <button
+              type="button"
+              onClick={(e) => navigateTo(e, '/services/blogs')}
+              className="mt-5 px-5 py-2.5 bg-[#003a70] hover:bg-[#00284d] text-white rounded-xl text-sm font-semibold cursor-pointer transition-colors"
+            >
+              {isHindi ? 'सभी ब्लॉग देखें' : 'View All Blogs'}
+            </button>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  const title = isHindi ? blog.titleHi : blog.title
+  const category = isHindi ? blog.categoryHi : blog.category
+  const date = isHindi ? blog.dateHi : blog.date
+  const readTime = isHindi ? blog.readTimeHi : blog.readTime
+  const authorDoctor = findBlogAuthor(doctors, blog.authorDoctor, isHindi)
+  const author = authorDoctor?.name
+  const authorRole = authorDoctor?.role
+  const highlights = isHindi ? blog.keyHighlightsHi : blog.keyHighlights
 
   return (
     <div className="w-full min-h-screen bg-[#f8f9fc] text-slate-800 pt-20 sm:pt-24">
@@ -172,24 +206,28 @@ export default function BlogDetailsView() {
           <div className="mt-6 pt-5 border-t border-slate-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             
             {/* Author details */}
-            <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-200 border-2 border-white shadow-xs shrink-0">
-                <img
-                  src={blog.authorPhoto}
-                  alt={author}
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-bold text-slate-900">{author}</h3>
-                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold uppercase tracking-wider">
-                    {isHindi ? 'सत्यापित विशेषज्ञ' : 'Verified Doctor'}
-                  </span>
+            {authorDoctor ? (
+              <div className="flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-200 border-2 border-white shadow-xs shrink-0">
+                  <img
+                    src={authorDoctor.photo}
+                    alt={author}
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
-                <p className="text-xs text-[#ea580c] font-medium">{authorRole}</p>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-bold text-slate-900">{author}</h3>
+                    <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold uppercase tracking-wider">
+                      {isHindi ? 'सत्यापित विशेषज्ञ' : 'Verified Doctor'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#ea580c] font-medium">{authorRole}</p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div />
+            )}
 
             {/* Share and Action */}
             <div className="flex items-center gap-2 self-end sm:self-auto">
@@ -212,14 +250,16 @@ export default function BlogDetailsView() {
                 )}
               </button>
 
-              <button
-                type="button"
-                onClick={(e) => navigateTo(e, `/appointment-booking?doctorId=${blog.authorDoctorId}`)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#ea580c] hover:bg-[#d9532f] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all cursor-pointer whitespace-nowrap"
-              >
-                <Stethoscope className="w-3.5 h-3.5" />
-                <span>{isHindi ? 'डॉक्टर से परामर्श लें' : 'Consult Author'}</span>
-              </button>
+              {authorDoctor && (
+                <button
+                  type="button"
+                  onClick={(e) => navigateTo(e, `/appointment-booking?doctorId=${authorDoctor.id}`)}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#ea580c] hover:bg-[#d9532f] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all cursor-pointer whitespace-nowrap"
+                >
+                  <Stethoscope className="w-3.5 h-3.5" />
+                  <span>{isHindi ? 'डॉक्टर से परामर्श लें' : 'Consult Author'}</span>
+                </button>
+              )}
             </div>
 
           </div>
@@ -227,13 +267,15 @@ export default function BlogDetailsView() {
         </header>
 
         {/* Featured Big Image */}
-        <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-200 shadow-md mb-8 sm:mb-10 border border-slate-200/80">
-          <img
-            src={blog.image}
-            alt={title}
-            className="w-full h-full object-cover object-center"
-          />
-        </div>
+        {blog.image && (
+          <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-200 shadow-md mb-8 sm:mb-10 border border-slate-200/80">
+            <img
+              src={blog.image}
+              alt={title}
+              className="w-full h-full object-cover object-center"
+            />
+          </div>
+        )}
 
         {/* Key Highlights / Takeaways Box */}
         {highlights && highlights.length > 0 && (
@@ -317,11 +359,12 @@ export default function BlogDetailsView() {
         )}
 
         {/* Doctor Consultation Banner at the Bottom of Article */}
+        {authorDoctor && (
         <div className="mt-12 bg-gradient-to-r from-[#003a70] via-[#002d59] to-[#001e3d] text-white rounded-3xl p-6 sm:p-8 shadow-xl text-left flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl overflow-hidden bg-white/10 shrink-0 border-2 border-white/20">
               <img
-                src={blog.authorPhoto}
+                src={authorDoctor.photo}
                 alt={author}
                 className="w-full h-full object-cover object-top"
               />
@@ -344,7 +387,7 @@ export default function BlogDetailsView() {
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto shrink-0">
             <button
               type="button"
-              onClick={(e) => navigateTo(e, `/appointment-booking?doctorId=${blog.authorDoctorId}`)}
+              onClick={(e) => navigateTo(e, `/appointment-booking?doctorId=${authorDoctor.id}`)}
               className="w-full sm:w-auto px-6 py-3 rounded-full bg-[#ea580c] hover:bg-[#d9532f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               <span>{isHindi ? 'अपॉइंटमेंट बुक करें' : 'Book Appointment'}</span>
@@ -360,6 +403,7 @@ export default function BlogDetailsView() {
             </a>
           </div>
         </div>
+        )}
 
       </article>
 

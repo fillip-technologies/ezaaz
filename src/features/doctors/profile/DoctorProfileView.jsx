@@ -12,45 +12,43 @@ import {
   ChevronLeft,
   Sparkles,
   Check,
-  Calendar
+  Calendar,
+  Loader2
 } from 'lucide-react'
-import { DOCTORS_PROFILE_DATA } from '../data/doctorsProfileData'
+import { useDoctors, toDoctorProfile } from '../useDoctors'
 
-export default function DoctorProfileView({ doctorId = 'dr-shahzad' }) {
+// Doctor slug from ?id=... (or /doctor-profile/<slug>)
+const getDoctorIdFromUrl = () => {
+  const params = new URLSearchParams(window.location.search)
+  const qId = params.get('id')
+  if (qId) return qId.toLowerCase()
+  const lastPart = window.location.pathname.split('/').pop()
+  return lastPart && lastPart !== 'doctor-profile' ? lastPart.toLowerCase() : ''
+}
+
+export default function DoctorProfileView({ doctorId = '' }) {
   const { i18n } = useTranslation()
   const isHindi = i18n.language === 'hi'
 
-  // Extract selected doctor ID from URL query if present, otherwise prop
-  const [currentDoctorId, setCurrentDoctorId] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search)
-      const qId = params.get('id')
-      if (qId && DOCTORS_PROFILE_DATA[qId]) return qId
-
-      const pathParts = window.location.pathname.split('/')
-      const lastPart = pathParts[pathParts.length - 1]
-      if (lastPart && DOCTORS_PROFILE_DATA[lastPart]) return lastPart
-    }
-    return doctorId || 'dr-shahzad'
-  })
+  // Doctors are managed in the admin panel and loaded from the API
+  const { doctors, loading, error } = useDoctors()
+  const [currentDoctorId, setCurrentDoctorId] = useState(() => getDoctorIdFromUrl() || doctorId)
 
   // Synchronize on browser history popstate
   useEffect(() => {
     const handleUrlChange = () => {
-      const params = new URLSearchParams(window.location.search)
-      const qId = params.get('id')
-      if (qId && DOCTORS_PROFILE_DATA[qId]) {
-        setCurrentDoctorId(qId)
-      }
+      const qId = getDoctorIdFromUrl()
+      if (qId) setCurrentDoctorId(qId)
     }
     window.addEventListener('popstate', handleUrlChange)
     return () => window.removeEventListener('popstate', handleUrlChange)
   }, [])
 
-  // Doctor details object
+  // Doctor details object (null while loading or if the doctor doesn't exist / is hidden)
   const doctor = useMemo(() => {
-    return DOCTORS_PROFILE_DATA[currentDoctorId] || DOCTORS_PROFILE_DATA['dr-shahzad']
-  }, [currentDoctorId])
+    const found = currentDoctorId ? doctors.find((d) => d.slug === currentDoctorId) : doctors[0]
+    return found ? toDoctorProfile(found) : null
+  }, [doctors, currentDoctorId])
 
   // Booking Form State
   const [formData, setFormData] = useState({
@@ -148,8 +146,38 @@ export default function DoctorProfileView({ doctorId = 'dr-shahzad' }) {
   }
 
   const otherDoctors = useMemo(() => {
-    return Object.values(DOCTORS_PROFILE_DATA).filter((d) => d.id !== doctor.id)
-  }, [doctor.id])
+    return doctors.filter((d) => d.slug !== doctor?.id).map(toDoctorProfile)
+  }, [doctors, doctor?.id])
+
+  if (loading || !doctor) {
+    return (
+      <div className="w-full bg-[#f8f9fc] text-slate-800 min-h-screen pt-20 sm:pt-22 flex items-center justify-center px-4">
+        {loading ? (
+          <Loader2 className="w-8 h-8 text-[#003a70] animate-spin" aria-label={isHindi ? 'लोड हो रहा है' : 'Loading'} />
+        ) : (
+          <div className="text-center max-w-md py-16">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
+              {error
+                ? (isHindi ? 'डॉक्टर की जानकारी लोड नहीं हो सकी' : "Couldn't load doctor details")
+                : (isHindi ? 'डॉक्टर नहीं मिले' : 'Doctor not found')}
+            </h1>
+            <p className="mt-2 text-sm text-slate-500">
+              {error
+                ? (isHindi ? 'कृपया थोड़ी देर बाद पुनः प्रयास करें।' : 'Please try again in a moment.')
+                : (isHindi ? 'यह प्रोफ़ाइल उपलब्ध नहीं है। हमारे सभी डॉक्टर्स देखें।' : 'This profile is not available. Browse all our doctors instead.')}
+            </p>
+            <button
+              type="button"
+              onClick={handleBackToDoctors}
+              className="mt-5 px-5 py-2.5 bg-[#003a70] hover:bg-[#00284d] text-white rounded-xl text-sm font-semibold cursor-pointer transition-colors"
+            >
+              {isHindi ? 'सभी डॉक्टर्स देखें' : 'View All Doctors'}
+            </button>
+          </div>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div className="w-full bg-[#f8f9fc] text-slate-800 min-h-screen pt-20 sm:pt-22">
@@ -274,7 +302,7 @@ export default function DoctorProfileView({ doctorId = 'dr-shahzad' }) {
                 <div className="mt-3.5 pt-3 border-t border-white/15 space-y-2 text-xs text-white/90">
                   <p className="leading-relaxed">
                     <span className="text-white font-semibold">{isHindi ? 'शिक्षा: ' : 'Education: '}</span>
-                    {doctor.degrees}
+                    {isHindi ? doctor.degreesHi : doctor.degrees}
                   </p>
 
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-0.5">
@@ -349,7 +377,7 @@ export default function DoctorProfileView({ doctorId = 'dr-shahzad' }) {
                     </p>
                     <p>
                       <span className="text-white font-semibold">{isHindi ? 'शिक्षा: ' : 'Education: '}</span>
-                      {doctor.degrees}
+                      {isHindi ? doctor.degreesHi : doctor.degrees}
                     </p>
                   </div>
 
@@ -578,7 +606,7 @@ export default function DoctorProfileView({ doctorId = 'dr-shahzad' }) {
                     >
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                       <span className="text-xs sm:text-sm font-medium text-slate-700 leading-snug">
-                        {spec}
+                        {isHindi && spec.hi ? spec.hi : spec.en}
                       </span>
                     </div>
                   ))}

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
 import appointmentHeroBg from '../../../../assets/appointment/appointment-hero.jpg'
+import { SPECIALTY_TAGS } from '../../../doctors/specialtyTags'
 
 export default function BookAppointmentHero({
   onFilterGo,
@@ -18,18 +19,7 @@ export default function BookAppointmentHero({
 
   const specialtiesList = [
     { id: 'all', name: isHindi ? 'सभी विशेषज्ञताएं' : 'All Specialities' },
-    { id: 'laparoscopic', name: isHindi ? 'लैप्रोस्कोपिक सर्जरी' : 'Laparoscopic Surgery' },
-    { id: 'hernia', name: isHindi ? 'हर्निया सर्जरी' : 'Hernia Surgery' },
-    { id: 'general-surgery', name: isHindi ? 'सामान्य सर्जरी' : 'General Surgery' },
-    { id: 'cancer-surgery', name: isHindi ? 'कैंसर सर्जरी' : 'Cancer Surgery' },
-    { id: 'urology', name: isHindi ? 'यूरोलॉजी' : 'Urology' },
-    { id: 'gynaecology', name: isHindi ? 'स्त्री एवं प्रसूति रोग' : 'Gynaecology & Obstetrics' },
-    { id: 'orthopaedics', name: isHindi ? 'ऑर्थोपेडिक्स एवं जोड़ देखभाल' : 'Orthopaedics' },
-    { id: 'internal-medicine', name: isHindi ? 'जनरल इंटरनल मेडिसिन' : 'General Internal Medicine' },
-    { id: 'gastrointestinal', name: isHindi ? 'गैस्ट्रोइंटेस्टाइनल सर्जरी' : 'Gastrointestinal Surgery' },
-    { id: 'plastic-surgery', name: isHindi ? 'प्लास्टिक सर्जरी' : 'Plastic Surgery' },
-    { id: 'physiotherapist', name: isHindi ? 'फिजियोथेरेपी' : 'Physiotherapy & Rehabilitation' },
-    { id: 'anaesthesia', name: isHindi ? 'एनेस्थीसिया एवं क्रिटिकल केयर' : 'Anaesthesia & Critical Care' }
+    ...SPECIALTY_TAGS.map((tag) => ({ id: tag.id, name: isHindi ? tag.hi : tag.en }))
   ]
 
   const handleGo = (e) => {

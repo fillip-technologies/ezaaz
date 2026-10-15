@@ -17,25 +17,7 @@ import {
   RefreshCw
 } from 'lucide-react'
 import { submitSpecialtyEnquiry } from '../../../../services/enquiryService'
-
-import doctor1 from '../../../../assets/home/doctor-image.jpg'
-import doctor2 from '../../../../assets/home/doctor-2.jpg'
-import doctor3 from '../../../../assets/home/doctor-3.jpg'
-import doctor4 from '../../../../assets/home/doctor-4.jpg'
-import doctor5 from '../../../../assets/home/doctor-5.jpg'
-import doctor6 from '../../../../assets/home/doctor-6.jpg'
-
-const doctorImageMap = {
-  'dr-shahzad': doctor1,
-  'dr-ejaz-ali': doctor2,
-  'dr-ortho-specialist': doctor3,
-  'dr-internal-med': doctor4,
-  'dr-onco-surgeon': doctor5,
-  'dr-gynaecologist': doctor6,
-  'dr-urologist': doctor3,
-  'dr-plastic-surgeon': doctor6,
-  'dr-anaesthesiologist': doctor3,
-}
+import { useDoctors, toDoctorCard } from '../../../doctors/useDoctors'
 
 // Available Consultation Booking Slots
 const TIME_SLOTS = [
@@ -45,25 +27,22 @@ const TIME_SLOTS = [
 ]
 
 export default function AppointmentBookingForm() {
-  const { i18n, t: tHome } = useTranslation('home')
+  const { i18n } = useTranslation('home')
   const isHindi = i18n.language === 'hi'
 
-  // Load raw doctors from i18n
-  const rawDoctors = tHome('doctorsSection.doctors', { returnObjects: true })
-  const allDoctors = useMemo(() => {
-    const list = Array.isArray(rawDoctors) && rawDoctors.length > 0 ? rawDoctors : []
-    return list.filter(doc => doc.id !== 'dr-urologist' && doc.id !== 'dr-plastic-surgeon')
-  }, [rawDoctors])
+  // Doctors managed in the admin panel (only active ones are returned)
+  const { doctors } = useDoctors()
+  const allDoctors = useMemo(() => doctors.map((doc) => toDoctorCard(doc, isHindi)), [doctors, isHindi])
 
   // Get doctorId from URL query param if user clicked a specific doctor card
   const initialDoctorId = useMemo(() => {
     try {
       const params = new URLSearchParams(window.location.search)
-      return params.get('doctorId') || params.get('doctor') || (allDoctors[0]?.id || 'dr-shahzad')
+      return params.get('doctorId') || params.get('doctor') || ''
     } catch {
-      return allDoctors[0]?.id || 'dr-shahzad'
+      return ''
     }
-  }, [allDoctors])
+  }, [])
 
   const [selectedDoctorId, setSelectedDoctorId] = useState(initialDoctorId)
   const [selectedSlot, setSelectedSlot] = useState('10:30 AM')
@@ -100,7 +79,7 @@ export default function AppointmentBookingForm() {
     return allDoctors.find(d => d.id === selectedDoctorId) || allDoctors[0]
   }, [allDoctors, selectedDoctorId])
 
-  const doctorPhoto = doctorImageMap[currentDoctor?.id] || doctor1
+  const doctorPhoto = currentDoctor?.photo
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -323,7 +302,7 @@ export default function AppointmentBookingForm() {
                   {/* Doctor Selector Dropdown to Switch Doctor */}
                   <div className="relative">
                     <select
-                      value={selectedDoctorId}
+                      value={currentDoctor?.id || ''}
                       onChange={(e) => setSelectedDoctorId(e.target.value)}
                       className="w-full appearance-none px-4 py-3 bg-slate-50 hover:bg-slate-100/70 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#ea580c]/20 focus:border-[#ea580c] cursor-pointer"
                     >

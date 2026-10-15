@@ -19,6 +19,7 @@ import {
   AlertCircle
 } from 'lucide-react'
 import contactHeroBg from '../../assets/contact-page-1.png'
+import { useDoctors, toDoctorCard } from '../doctors/useDoctors'
 
 export default function ContactView() {
   const { t, i18n } = useTranslation(['home', 'common'])
@@ -39,6 +40,7 @@ export default function ContactView() {
   })
 
   const [formErrors, setFormErrors] = useState({})
+  const { doctors } = useDoctors()
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -82,11 +84,13 @@ export default function ContactView() {
     { id: 'physiotherapy', label: isHindi ? 'फिजियोथेरेपी एवं पुनर्वास' : 'Physiotherapy & Rehabilitation' }
   ]
 
+  // Doctors managed in the admin panel
   const doctorsList = [
     { id: 'any', name: isHindi ? 'कोई भी उपलब्ध वरिष्ठ विशेषज्ञ' : 'Any Available Senior Specialist' },
-    { id: 'dr-shahzad', name: isHindi ? 'डॉ. शाहजाद एजाज (वरिष्ठ लैप्रोस्कोपिक एवं जीआई सर्जन)' : 'Dr. Shahzad Ejaz (Senior Laparoscopic Surgeon)' },
-    { id: 'dr-tariq', name: isHindi ? 'डॉ. तारिक अनवर (ऑर्थोपेडिक एवं जॉइंट रिप्लेसमेंट)' : 'Dr. Tariq Anwar (Orthopaedic & Joint Surgeon)' },
-    { id: 'dr-saba', name: isHindi ? 'डॉ. सबा परवीन (स्त्री एवं प्रसूति रोग विशेषज्ञ)' : 'Dr. Saba Parveen (Gynaecologist & Obstetrician)' }
+    ...doctors.map((doc) => {
+      const card = toDoctorCard(doc, isHindi)
+      return { id: card.id, name: card.specialty ? `${card.name} (${card.specialty})` : card.name }
+    })
   ]
 
   const keyHotlines = [

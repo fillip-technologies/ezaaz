@@ -3,28 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDown, ArrowRight, X, Calendar, Clock, Phone, CheckCircle2, AlertCircle, Search } from 'lucide-react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import { submitSpecialtyEnquiry } from '../../../services/enquiryService'
-
-import doctor1 from '../../../assets/home/doctor-image.jpg'
-import doctor2 from '../../../assets/home/doctor-2.jpg'
-import doctor3 from '../../../assets/home/doctor-3.jpg'
-import doctor4 from '../../../assets/home/doctor-4.jpg'
-import doctor5 from '../../../assets/home/doctor-5.jpg'
-import doctor6 from '../../../assets/home/doctor-6.jpg'
-
-const doctorImageMap = {
-  'dr-shahzad': doctor1,
-  'dr-ejaz-ali': doctor2,
-  'dr-ortho-specialist': doctor3,
-  'dr-internal-med': doctor4,
-  'dr-onco-surgeon': doctor5,
-  'dr-gynaecologist': doctor6,
-  'dr-urologist': doctor3,
-  'dr-plastic-surgeon': doctor6,
-  'dr-anaesthesiologist': doctor3,
-}
-
-const doctorImagesList = [doctor1, doctor2, doctor3, doctor4, doctor5, doctor6]
+import { useDoctors, toDoctorCard } from '../../doctors/useDoctors'
+import { normalizeSpecialty, specialtyLabel } from '../../doctors/specialtyTags'
 
 const MAX_INITIAL_DOCTORS = 6 // Exactly 2 rows on desktop (3 cols x 2)
 
@@ -58,28 +38,8 @@ export default function DoctorsSection({
     window.scrollTo({ top: 0, behavior: 'instant' })
   }
 
-  // Load all doctors from i18n
-  const doctorsList = useTranslation('home').t('doctorsSection.doctors', { returnObjects: true }) || []
-
-  // Gender helper
-  const getDoctorGender = (doc) => {
-    if (doc.gender) return doc.gender
-    if (
-      doc.id === 'dr-gynaecologist' ||
-      doc.id === 'dr-plastic-surgeon' ||
-      doc.id === 'dr-anaesthesiologist'
-    ) {
-      return isHindi ? 'महिला' : 'Female'
-    }
-    return isHindi ? 'पुरुष' : 'Male'
-  }
-
-  // Experience text formatter
-  const formatExp = (exp) => {
-    if (!exp) return ''
-    if (isHindi) return exp.replace('Yrs', 'वर्ष').replace('Years', 'वर्ष')
-    return exp.replace('Yrs', 'Years')
-  }
+  // Doctors managed in the admin panel (only active ones are returned)
+  const { doctors, loading: doctorsLoading } = useDoctors()
 
   // Filter categories
   const filterTabs = useMemo(() => [
@@ -100,55 +60,17 @@ export default function DoctorsSection({
     window.scrollTo({ top: 0, behavior: 'instant' })
   }
 
-  // Active doctors list (temporarily removing Dr. Rajiv Ranjan and Dr. Neha Verma)
-  const activeDoctors = useMemo(() => {
-    return doctorsList.filter(doc => doc.id !== 'dr-urologist' && doc.id !== 'dr-plastic-surgeon')
-  }, [doctorsList])
+  const activeDoctors = useMemo(() => doctors.map((doc) => toDoctorCard(doc, isHindi)), [doctors, isHindi])
 
   const filteredDoctors = useMemo(() => {
     let list = activeDoctors
     if (selectedFilter !== 'all') {
       list = list.filter(doc => doc.departmentId === selectedFilter)
     }
+    // Specialties are ticked per doctor in the admin panel (Doctors > Specialty filters)
     if (selectedSpecialtyFilter && selectedSpecialtyFilter !== 'all') {
-      list = list.filter(doc => {
-        const id = doc.id?.toLowerCase() || ''
-        const dept = doc.department?.toLowerCase() || ''
-        const spec = doc.specialty?.toLowerCase() || ''
-        switch (selectedSpecialtyFilter) {
-          case 'laparoscopic':
-            return id.includes('shahzad') || dept.includes('laparoscopic') || spec.includes('laparoscopic')
-          case 'cancer-surgery':
-          case 'cancer':
-            return id.includes('onco') || dept.includes('oncology') || dept.includes('cancer') || spec.includes('cancer')
-          case 'hernia':
-            return id.includes('shahzad') || id.includes('ejaz') || dept.includes('surgery')
-          case 'general-surgery':
-            return id.includes('shahzad') || id.includes('ejaz') || dept.includes('general') || dept.includes('surgery')
-          case 'gastrointestinal':
-            return id.includes('shahzad') || spec.includes('gi') || dept.includes('gastro')
-          case 'orthopaedics':
-          case 'orthopedic':
-            return id.includes('ortho') || dept.includes('ortho') || spec.includes('ortho') || dept.includes('joint')
-          case 'internal-medicine':
-            return id.includes('internal') || dept.includes('medicine') || spec.includes('medicine')
-          case 'gynaecology':
-          case 'gynecology':
-            return id.includes('gynae') || dept.includes('gynae') || spec.includes('gynae')
-          case 'urology':
-            return id.includes('urol') || dept.includes('urol')
-          case 'plastic-surgery':
-            return id.includes('plastic') || dept.includes('plastic')
-          case 'physiotherapist':
-          case 'physiotherapy':
-            return id.includes('physio') || dept.includes('physio')
-          case 'anaesthesia':
-          case 'anesthesia':
-            return id.includes('anaesthe') || dept.includes('anaesthe') || spec.includes('critical care')
-          default:
-            return true
-        }
-      })
+      const tag = normalizeSpecialty(selectedSpecialtyFilter)
+      list = list.filter(doc => doc.specialtyTags.includes(tag))
     }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim()
@@ -267,7 +189,7 @@ export default function DoctorsSection({
             <div className="flex flex-wrap items-center gap-2.5 self-start sm:self-center px-1">
               {selectedSpecialtyFilter && selectedSpecialtyFilter !== 'all' && (
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 border border-blue-200 text-[#205493] rounded-full text-xs font-semibold shadow-2xs">
-                  <span>{isHindi ? 'विशेषज्ञता: ' : 'Speciality: '}<strong className="capitalize">{selectedSpecialtyFilter.replace('-', ' ')}</strong></span>
+                  <span>{isHindi ? 'विशेषज्ञता: ' : 'Speciality: '}<strong>{specialtyLabel(selectedSpecialtyFilter, isHindi)}</strong></span>
                   {onClearSpecialtyFilter && (
                     <button
                       type="button"
@@ -292,7 +214,17 @@ export default function DoctorsSection({
         )}
 
         {/* 3-Column Responsive Doctors Grid or Empty Search State */}
-        {displayedDoctors.length === 0 ? (
+        {doctorsLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6" aria-busy="true">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="h-44 rounded-xl sm:rounded-2xl bg-slate-100 animate-pulse" />
+            ))}
+          </div>
+        ) : activeDoctors.length === 0 ? (
+          <p className="py-12 text-center text-sm text-slate-500">
+            {isHindi ? 'डॉक्टरों की जानकारी जल्द ही उपलब्ध होगी।' : 'Doctor profiles will be available soon.'}
+          </p>
+        ) : displayedDoctors.length === 0 ? (
           <div className="py-14 sm:py-16 px-4 text-center bg-slate-50/70 border border-slate-200/80 rounded-2xl sm:rounded-3xl max-w-md mx-auto my-6">
             <div className="w-12 h-12 rounded-full bg-orange-100 text-[#ea580c] flex items-center justify-center mx-auto mb-3.5">
               <Search className="w-6 h-6" />
@@ -301,15 +233,20 @@ export default function DoctorsSection({
               {isHindi ? 'कोई डॉक्टर नहीं मिला' : 'No specialists found'}
             </h3>
             <p className="text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed">
-              {isHindi
-                ? `"${searchQuery}" के लिए कोई डॉक्टर उपलब्ध नहीं है। कृपया कोई अन्य नाम या विभाग खोजें।`
-                : `We couldn't find any specialist matching "${searchQuery}". Try a different keyword or reset filters.`}
+              {searchQuery.trim()
+                ? (isHindi
+                  ? `"${searchQuery}" के लिए कोई डॉक्टर उपलब्ध नहीं है। कृपया कोई अन्य नाम या विभाग खोजें।`
+                  : `We couldn't find any specialist matching "${searchQuery}". Try a different keyword or reset filters.`)
+                : (isHindi
+                  ? 'चुने गए फ़िल्टर के लिए अभी कोई डॉक्टर उपलब्ध नहीं है।'
+                  : 'No specialist is listed for the selected filters yet.')}
             </p>
             <button
               type="button"
               onClick={() => {
                 setSearchQuery('')
                 setSelectedFilter('all')
+                onClearSpecialtyFilter?.()
               }}
               className="mt-4 px-5 py-2.5 rounded-full bg-[#ea580c] hover:bg-[#d9532f] text-white font-bold text-xs shadow-xs transition-all cursor-pointer"
             >
@@ -319,7 +256,7 @@ export default function DoctorsSection({
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
           {displayedDoctors.map((doctor) => {
-            const photoSrc = doctorImageMap[doctor.id] || doctorImagesList[0]
+            const photoSrc = doctor.photo
             return (
               <div
                 key={doctor.id}
@@ -369,11 +306,11 @@ export default function DoctorsSection({
                         </p>
                         <p className="text-slate-600 truncate">
                           <strong className="font-bold text-slate-800">{isHindi ? 'अनुभव: ' : 'Experience: '}</strong>
-                          <span className="text-slate-700 font-normal">{formatExp(doctor.experience)}</span>
+                          <span className="text-slate-700 font-normal">{doctor.experience}</span>
                         </p>
                         <p className="text-slate-600 truncate">
                           <strong className="font-bold text-slate-800">{isHindi ? 'लिंग: ' : 'Gender: '}</strong>
-                          <span className="text-slate-700 font-normal">{getDoctorGender(doctor)}</span>
+                          <span className="text-slate-700 font-normal">{doctor.gender}</span>
                         </p>
                       </div>
                     </div>

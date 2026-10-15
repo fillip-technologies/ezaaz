@@ -1,12 +1,17 @@
 import { useTranslation } from 'react-i18next'
 import { Calendar, Clock, ArrowRight, BookOpen, Sparkles } from 'lucide-react'
-import { getSuggestedBlogs } from '../data/blogsData'
+import { useBlogs } from '../useBlogs'
+import { useDoctors, findBlogAuthor } from '../../../doctors/useDoctors'
 
 export default function SuggestedBlogsSection({ currentBlogId, onSelectBlog }) {
   const { i18n } = useTranslation('home')
   const isHindi = i18n?.language === 'hi'
+  const { doctors } = useDoctors()
+  const { posts } = useBlogs()
 
-  const suggestedBlogs = getSuggestedBlogs(currentBlogId, 3)
+  // Latest other articles (posts are newest first)
+  const suggestedBlogs = posts.filter((b) => b.slug !== currentBlogId).slice(0, 3)
+  if (suggestedBlogs.length === 0) return null
 
   const handleCardClick = (blogId) => {
     if (onSelectBlog) {
@@ -85,12 +90,14 @@ export default function SuggestedBlogsSection({ currentBlogId, onSelectBlog }) {
               >
                 {/* Image */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                  <img
-                    src={blog.image}
-                    alt={title}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
+                  {blog.image && (
+                    <img
+                      src={blog.image}
+                      alt={title}
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  )}
                   <div className="absolute top-3 left-3">
                     <span className="px-2.5 py-1 rounded-full text-[10.5px] font-bold bg-[#003a70]/90 text-white shadow-2xs">
                       {category}
@@ -136,7 +143,7 @@ export default function SuggestedBlogsSection({ currentBlogId, onSelectBlog }) {
                     </button>
 
                     <span className="text-[11px] text-slate-400 font-medium">
-                      {blog.author}
+                      {findBlogAuthor(doctors, blog.authorDoctor, isHindi)?.name}
                     </span>
                   </div>
 
