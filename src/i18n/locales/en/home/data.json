@@ -1,0 +1,608 @@
+{
+  "hero": {
+    "badge": "NABH Accredited • Premier Surgical & Healthcare Centre",
+    "titleLine1": "Advancing Healthcare,",
+    "titleHighlight": "Care Beyond Treatment",
+    "subtitle": "Ejaz Clinic & Advanced Surgical Hospital, Patna — delivering world-class surgical precision, cutting-edge laparoscopic technology, and ethical healing for over 35 years.",
+    "btnPrimary": "Book an Appointment",
+    "btnSecondary": "Explore Specialties",
+    "stats": [
+      {
+        "id": "operations",
+        "value": "15,000+",
+        "label": "Total Successful Operations",
+        "sublabel": "General & Laparoscopic Surgeries"
+      },
+      {
+        "id": "experience",
+        "value": "35+",
+        "label": "Total Years of Experience",
+        "sublabel": "Decades of Clinical Excellence"
+      },
+      {
+        "id": "patients",
+        "value": "50,000+",
+        "label": "Happy Patients Treated",
+        "sublabel": "Across Bihar & Beyond"
+      },
+      {
+        "id": "doctors",
+        "value": "40+",
+        "label": "Experienced Specialists",
+        "sublabel": "Renowned Medical Faculty"
+      }
+    ]
+  },
+  "quickActions": {
+    "radiology": "Radiology",
+    "diagnosticLab": "Diagnostic lab",
+    "physiotherapy": "Physiotherapy",
+    "icuServices": "ICU Services",
+    "appointment": "Doctor Consultation",
+    "labTest": "Diagnostic lab",
+    "healthCheck": "Preventive Health Checkup",
+    "locateUs": "Hospital Location & Directions"
+  },
+  "about": {
+    "title": "Ejaz Clinic & Advanced Surgical Hospital, Patna",
+    "paragraphs": [
+      "At Ejaz Clinic, our main goal is to bring advanced medical and surgical care to all our patients. Our team of very competent and compassionate doctors dedicate their expertise in diagnosing and treating patients ailments.",
+      "We utterly understand the financial burden of healthcare and strive to make the care as affordable as feasible. We can proudly yet humbly proclaim that at Ejaz Clinic, no patient has ever been refused care due to their inability to pay for their treatment.",
+      "Dr. Ejaz Ali founded the hospital with this philosophy and built the deep foundations of this mission. Dr Shahzad, after finishing his surgical training from Mayo Clinic, took the baton in 2017. A team of expert doctors and healthcare providers was built to advance the complexity of care offered at our centre. Our team continues to grow and the variety of diseases now being treated has grown exponentially.",
+      "We look forward to taking care of patients in the most compassionate way feasible."
+    ],
+    "accreditations": {
+      "nabh": "NABH Accredited Healthcare Facility",
+      "quality": "Quality & Patient Safety Certified"
+    },
+    "stats": [
+      {
+        "value": "40+",
+        "label": "Experienced Doctors"
+      },
+      {
+        "value": "100+",
+        "label": "Beds"
+      },
+      {
+        "value": "250+",
+        "label": "Trained Staff"
+      },
+      {
+        "value": "15+",
+        "label": "Superspecialities"
+      }
+    ]
+  },
+  "specialtiesSection": {
+    "badge": "Centres of Clinical Excellence",
+    "title": "Our Specialities",
+    "subtitle": "Expert care across medical specialities, combining clinical excellence, advanced technology and compassionate care.",
+    "viewAll": "View All Specialities",
+    "searchPlaceholder": "Search by speciality, procedure, or symptom...",
+    "allFilter": "All Specialities",
+    "filterSurgical": "Surgical Care",
+    "filterSuper": "Super Specialities",
+    "filterMedicine": "Medicine & Critical Care",
+    "filterWellness": "Women & Rehab",
+    "ctaCardTitle": "Need help choosing the right specialist?",
+    "ctaCardDesc": "Speak directly with our 24/7 patient triage and care coordinators for immediate guidance.",
+    "ctaCall": "Call 24/7 Helpline",
+    "ctaBook": "Book Consultation",
+    "exploreDetails": "Explore Speciality",
+    "bookDoctor": "Consult Specialist",
+    "items": [
+      {
+        "id": "hernia",
+        "name": "Hernia Surgery",
+        "category": "Surgical Care",
+        "categoryId": "surgical",
+        "desc": "Specialised laparoscopic and open anatomical hernioplasties utilising state-of-the-art biocompatible 3D meshes.",
+        "tags": ["Inguinal Hernia", "Umbilical Hernia", "Incisional Repair"]
+      },
+      {
+        "id": "cancer-surgery",
+        "name": "Cancer Surgery",
+        "category": "Super Speciality",
+        "categoryId": "super",
+        "desc": "Multi-disciplinary surgical oncology delivering radical curative resections, organ-preserving procedures, and tumour board care.",
+        "tags": ["GI Oncology", "Breast & Endocrine", "Tumour Resection"]
+      },
+      {
+        "id": "urology",
+        "name": "Urology",
+        "category": "Super Speciality",
+        "categoryId": "super",
+        "desc": "Precision endourology and laser treatments for complex kidney stones, enlarged prostate, urinary tract disorders, and uro-oncology.",
+        "tags": ["Laser Lithotripsy", "Prostate (TURP)", "Kidney Care"]
+      },
+      {
+        "id": "gynaecology",
+        "name": "Gynaecology & Obstetrics",
+        "category": "Women & Rehab",
+        "categoryId": "wellness",
+        "desc": "Holistic women's healthcare encompassing safe maternity, laparoscopic gynaecological surgery, PCOS management, and fertility support.",
+        "tags": ["Safe Motherhood", "Lap Hysterectomy", "PCOS Care"]
+      },
+      {
+        "id": "internal-medicine",
+        "name": "General Internal Medicine",
+        "category": "Medicine & Critical Care",
+        "categoryId": "medicine",
+        "desc": "Holistic clinical diagnosis, chronic lifestyle disease therapy, adult immunisation, and preventive multi-system health management.",
+        "tags": ["Diabetes & BP", "Infectious Diseases", "Multi-organ Care"]
+      },
+      {
+        "id": "gastrointestinal",
+        "name": "Gastrointestinal Surgery",
+        "category": "Surgical Care",
+        "categoryId": "surgical",
+        "desc": "Dedicated surgical gastro-care targeting liver, pancreas, biliary tract, stomach, colorectal diseases, and acute gastrointestinal bleeding.",
+        "tags": ["HPB Surgery", "Colorectal Surgery", "GERD & Acid Reflux"]
+      },
+      {
+        "id": "plastic-surgery",
+        "name": "Plastic Surgery",
+        "category": "Surgical Care",
+        "categoryId": "surgical",
+        "desc": "Pioneering aesthetic, cosmetic enhancements, reconstructive microsurgery for burn victims, trauma restoration, and scar reduction.",
+        "tags": ["Reconstructive Surgery", "Aesthetic Contouring", "Burn & Trauma Care"]
+      },
+      {
+        "id": "anaesthesia",
+        "name": "Anaesthesia & Critical Care",
+        "category": "Medicine & Critical Care",
+        "categoryId": "medicine",
+        "desc": "Advanced perioperative hemodynamic monitoring, high-dependency intensive care, and multimodal painless labour & surgical analgesia.",
+        "tags": ["Painless Delivery", "Critical Care ICU", "Advanced Analgesia"]
+      }
+    ]
+  },
+  "doctorsSection": {
+    "badge": "Expert Medical Faculty",
+    "title": "Meet Our Renowned Medical Specialists",
+    "subtitle": "Led by Mayo Clinic trained surgeons and distinguished medical leaders dedicated to compassionate, evidence-based clinical care.",
+    "allFilter": "All Specialists",
+    "filterSurgical": "Surgical Specialists",
+    "filterMedicine": "Medicine & Critical Care",
+    "filterSuper": "Super Specialists",
+    "experience": "Years Experience",
+    "bookBtn": "Book Appointment",
+    "profileBtn": "View Profile",
+    "seeMore": "See More",
+    "seeLess": "See Less",
+    "viewAll": "View All Doctors",
+    "opdHours": "OPD Timings",
+    "availability": "Available for Consultation",
+    "doctors": [
+      {
+        "id": "dr-shahzad",
+        "name": "Dr. Shahzad Ejaz",
+        "degrees": "MBBS, MS (General Surgery), FACS (USA)",
+        "specialty": "Senior Laparoscopic & GI Surgeon",
+        "subSpecialty": "Mayo Clinic Fellow - Advanced GI & Laparoscopic Surgery",
+        "experience": "18+ Yrs",
+        "department": "Laparoscopic & General Surgery",
+        "departmentId": "surgical",
+        "timing": "Mon - Sat: 10:00 AM - 04:00 PM",
+        "rating": "4.9",
+        "reviews": "1,450+ patients",
+        "bio": "Fellow of the Mayo Clinic, pioneering minimally invasive laparoscopic procedures, complex abdominal wall reconstructions, and advanced surgical interventions."
+      },
+      {
+        "id": "dr-ejaz-ali",
+        "name": "Dr. Ejaz Ali",
+        "degrees": "MBBS, MS, Senior Consultant Surgeon",
+        "specialty": "Founder & Chief Medical Advisor",
+        "subSpecialty": "Pioneer of Accessible Surgical Healthcare",
+        "experience": "35+ Yrs",
+        "department": "General & Trauma Surgery",
+        "departmentId": "surgical",
+        "timing": "Mon - Fri: 11:00 AM - 02:00 PM",
+        "rating": "5.0",
+        "reviews": "10,000+ patients",
+        "bio": "Founding visionary of Ejaz Clinic & Advanced Surgical Hospital, committed to ensuring no patient is ever denied quality surgical care due to financial constraints."
+      },
+      {
+        "id": "dr-ortho-specialist",
+        "name": "Dr. Tariq Anwar",
+        "degrees": "MBBS, MS (Ortho), DNB, Fellow Joint Replacement",
+        "specialty": "Consultant Orthopaedic & Spine Surgeon",
+        "subSpecialty": "Knee & Hip Arthroplasty, Arthroscopy",
+        "experience": "15+ Yrs",
+        "department": "Orthopaedics & Joint Care",
+        "departmentId": "super",
+        "timing": "Tue, Thu, Sat: 02:00 PM - 06:00 PM",
+        "rating": "4.8",
+        "reviews": "820+ patients",
+        "bio": "Specialising in total joint replacements, sports injury arthroscopic ligament repairs, and advanced spine stabilization surgeries."
+      },
+      {
+        "id": "dr-internal-med",
+        "name": "Dr. Farhan Siddiqui",
+        "degrees": "MBBS, MD (Medicine), FCCP (USA)",
+        "specialty": "Senior Consultant Internal Medicine",
+        "subSpecialty": "Critical Care, Diabetes & Lifestyle Disorders",
+        "experience": "14+ Yrs",
+        "department": "Internal Medicine & Critical Care",
+        "departmentId": "medicine",
+        "timing": "Mon - Sat: 09:00 AM - 01:00 PM",
+        "rating": "4.9",
+        "reviews": "2,100+ patients",
+        "bio": "Expert in managing multi-organ systemic disorders, diabetic emergencies, refractory hypertension, and advanced intensive care resuscitation."
+      },
+      {
+        "id": "dr-onco-surgeon",
+        "name": "Dr. Sameer Khan",
+        "degrees": "MBBS, MS, MCh (Surgical Oncology)",
+        "specialty": "Senior Consultant Cancer Surgeon",
+        "subSpecialty": "Gastrointestinal & Thoracic Onco-Surgery",
+        "experience": "16+ Yrs",
+        "department": "Cancer Surgery & Onco Care",
+        "departmentId": "super",
+        "timing": "Mon - Fri: 03:00 PM - 07:00 PM",
+        "rating": "4.9",
+        "reviews": "950+ patients",
+        "bio": "Specialises in precision tumour resections, organ-preserving oncological interventions, and multidisciplinary cancer board treatment planning."
+      },
+      {
+        "id": "dr-gynaecologist",
+        "name": "Dr. Ayesha Rehman",
+        "degrees": "MBBS, MS (OB-GYN), DGO, Fellow Laparoscopy",
+        "specialty": "Senior Consultant Gynaecologist",
+        "subSpecialty": "High-Risk Pregnancy & Laparoscopic Gynaec Surgery",
+        "experience": "13+ Yrs",
+        "department": "Gynaecology & Obstetrics",
+        "departmentId": "surgical",
+        "timing": "Mon - Sat: 10:30 AM - 02:30 PM",
+        "rating": "4.9",
+        "reviews": "1,800+ patients",
+        "bio": "Dedicated to comprehensive women's health, minimally invasive hysterectomies, PCOS management, and painless delivery protocols."
+      },
+      {
+        "id": "dr-urologist",
+        "name": "Dr. Rajiv Ranjan",
+        "degrees": "MBBS, MS, MCh (Urology), Fellow Endourology",
+        "specialty": "Consultant Urologist & Andrologist",
+        "subSpecialty": "Laser Kidney Stone Surgery & Prostate Care",
+        "experience": "12+ Yrs",
+        "department": "Urology & Kidney Care",
+        "departmentId": "super",
+        "timing": "Tue, Thu, Sat: 01:00 PM - 05:00 PM",
+        "rating": "4.8",
+        "reviews": "1,120+ patients",
+        "bio": "Expert in laser lithotripsy (RIRS/PCNL) for complex renal calculi, bipolar TURP for prostate enlargement, and reconstructive urology."
+      },
+      {
+        "id": "dr-plastic-surgeon",
+        "name": "Dr. Neha Verma",
+        "degrees": "MBBS, MS, MCh (Plastic & Reconstructive Surgery)",
+        "specialty": "Consultant Plastic & Cosmetic Surgeon",
+        "subSpecialty": "Microvascular, Burn & Aesthetic Reconstruction",
+        "experience": "11+ Yrs",
+        "department": "Plastic & Reconstructive Surgery",
+        "departmentId": "surgical",
+        "timing": "Mon - Fri: 04:00 PM - 07:00 PM",
+        "rating": "4.9",
+        "reviews": "740+ patients",
+        "bio": "Pioneering microsurgical limb restoration, post-trauma scar revisions, burn contracture releases, and advanced aesthetic surgery."
+      },
+      {
+        "id": "dr-anaesthesiologist",
+        "name": "Dr. Sneha Kapoor",
+        "degrees": "MBBS, MD (Anaesthesiology), IDCCM (Critical Care)",
+        "specialty": "Senior Consultant Anaesthesiologist",
+        "subSpecialty": "Critical Care Medicine & Pain Management",
+        "experience": "14+ Yrs",
+        "department": "Anaesthesia & Critical Care",
+        "departmentId": "medicine",
+        "timing": "Mon - Sat: 08:30 AM - 04:30 PM",
+        "rating": "4.9",
+        "reviews": "1,600+ patients",
+        "bio": "Expert in advanced hemodynamic monitoring, ICU resuscitation, multimodal pain relief protocols, and precision neuro-axial anaesthesia."
+      }
+    ]
+  },
+  "healthServices": {
+    "badge": "OUR SERVICES",
+    "title": "Advanced Care For A Healthier Tomorrow",
+    "subtitle": "Complete healthcare solutions with advanced technology and expert care, designed for you and your family.",
+    "bookBtn": "Book an Appointment",
+    "features": [
+      {
+        "id": "consultation",
+        "title": "Consultation",
+        "desc": "Expert medical advice",
+        "icon": "shield"
+      },
+      {
+        "id": "diagnostic",
+        "title": "Diagnostic Tests",
+        "desc": "Accurate & timely reports",
+        "icon": "diagnostic"
+      },
+      {
+        "id": "surgical",
+        "title": "Surgical Care",
+        "desc": "Advanced technology",
+        "icon": "surgical"
+      },
+      {
+        "id": "support",
+        "title": "Patient Support",
+        "desc": "24/7 assistance",
+        "icon": "support"
+      }
+    ]
+  },
+  "whyChoose": {
+    "badge": "Excellence in Patient-Centric Healthcare",
+    "title": "Advanced Surgical Procedures",
+    "titleHighlight": "Surgical Procedures",
+    "subtitle": "Explore modern surgical techniques performed by our expert medical team, combining precision, advanced technology, and patient-focused care.",
+    "suiteTitle": "Advanced Modular Surgical Suites",
+    "suiteSubtitle": "Equipped for Complex Tertiary Interventions",
+    "suiteStatus": "Operational 24×7",
+    "ctaText": "Have Questions? Consult With Our Senior Specialists",
+    "ctaBtn": "Book Consultation",
+    "emergencyBadge": "24×7 Emergency & Trauma Helpline",
+    "emergencyPhone": "+91 6203 770 070",
+    "stats": [
+      { "value": "50,000+", "label": "Treated Patients" },
+      { "value": "99.4%", "label": "Clinical Success Rate" },
+      { "value": "40+", "label": "Specialist Doctors" },
+      { "value": "100%", "label": "Compassionate Care" }
+    ],
+    "pillars": [
+      {
+        "id": "specialists",
+        "title": "Experienced Medical Specialists",
+        "description": "A dedicated team of experienced doctors and specialists providing expert care across multiple medical disciplines.",
+        "icon": "specialists"
+      },
+      {
+        "id": "technology",
+        "title": "Advanced Surgical & Medical Technology",
+        "description": "Modern operation theatres, advanced diagnostic equipment, and technology designed to support precise treatment.",
+        "icon": "technology"
+      },
+      {
+        "id": "comprehensive",
+        "title": "Comprehensive Healthcare Under One Roof",
+        "description": "From consultation and diagnostics to surgery, critical care, and recovery — coordinated healthcare in one place.",
+        "icon": "comprehensive"
+      },
+      {
+        "id": "emergency",
+        "title": "24×7 Emergency & Critical Care",
+        "description": "Round-the-clock emergency support with dedicated critical-care facilities for patients who need immediate attention.",
+        "icon": "emergency"
+      },
+      {
+        "id": "compassionate",
+        "title": "Patient-Centred & Compassionate Care",
+        "description": "Every patient receives personalized attention, clear communication, and care focused on comfort, safety, and recovery.",
+        "icon": "compassionate"
+      },
+      {
+        "id": "affordable",
+        "title": "Affordable & Transparent Healthcare",
+        "description": "Quality medical treatment with clear cost communication and a commitment to making healthcare accessible.",
+        "icon": "affordable"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Gallery",
+    "viewPhoto": "View Photo",
+    "close": "Close"
+  },
+  "topProcedures": {
+    "title": "Our Facilities",
+    "subtitle": "At Ejaz Hospital, we provide world-class medical infrastructure, advanced diagnostic imaging, modern intensive care units, and 24/7 emergency response dedicated to patient safety and recovery.",
+    "knowMore": "Know More",
+    "bookConsultation": "Book Consultation",
+    "callHelpline": "Call 24/7 Helpline",
+    "items": [
+      {
+        "id": "emergency",
+        "title": "24×7 Emergency & Critical Care",
+        "category": "Immediate Trauma Response",
+        "desc": "Round-the-clock emergency triage, trauma care, advanced life support, and rapid surgical interventions.",
+        "href": "/facilities/24-7-service"
+      },
+      {
+        "id": "icu",
+        "title": "Advanced Intensive Care Units (ICU)",
+        "category": "Critical Care Medicine",
+        "desc": "Comprehensive critical care equipped with invasive ventilators, advanced hemodynamic monitoring, and 1:1 nursing.",
+        "href": "/facilities/icu"
+      },
+      {
+        "id": "radiology",
+        "title": "Radiology & Advanced Imaging",
+        "category": "High-Precision Diagnostics",
+        "desc": "High-resolution digital X-rays, multi-slice CT scanning, ultrasound, and Doppler imaging for rapid diagnostics.",
+        "href": "/facilities/radiology"
+      },
+      {
+        "id": "diagnosis",
+        "title": "Automated Diagnostic Laboratory",
+        "category": "Pathology & Biochemistry",
+        "desc": "Fully automated clinical pathology, biochemistry, and microbiology delivering reliable test results.",
+        "href": "/facilities/diagnosis"
+      },
+      {
+        "id": "physiotherapy",
+        "title": "Physiotherapy & Physical Rehabilitation",
+        "category": "Restorative Therapy",
+        "desc": "Specialized post-op recovery programs, joint rehabilitation, and targeted musculoskeletal pain management.",
+        "href": "/facilities/physiotherapy"
+      },
+      {
+        "id": "operation-theatres",
+        "title": "Modern Modular Operation Theatres",
+        "category": "Advanced Surgical Suites",
+        "desc": "HEPA-filtered laminar airflow surgical suites equipped with 4K laparoscopy and robotic assistance.",
+        "href": "#specialties"
+      },
+      {
+        "id": "general-ward",
+        "title": "Inpatient General & Private Wards",
+        "category": "Comfortable Patient Care",
+        "desc": "Comfortable, hygienic patient rooms and general wards supported by attentive nursing and round-the-clock medical care.",
+        "href": "/contact"
+      }
+    ]
+  },
+  "blog": {
+    "title": "Latest News",
+    "readFullArticle": "Read the Full Article",
+    "minRead": "min read",
+    "close": "Close",
+    "shareArticle": "Share Article",
+    "featured": {
+      "id": "white-coat",
+      "title": "Different paths, same calling: Ejaz Hospital welcomes newest medical students & fellows",
+      "excerpt": "Nearly 175 incoming medical students and fellows donned white coats at the annual White Coat Ceremony this summer to mark the start of their medical education and advanced surgical training.",
+      "date": "September 3, 2026",
+      "readTime": "3 min read",
+      "category": "Medical Education & Training",
+      "author": "Dr. Shahzad Ejaz, Chief of Surgery",
+      "fullContent": "The annual White Coat Ceremony at Ejaz Hospital represents a milestone of dedication, ethical healthcare, and compassionate service. Welcoming incoming surgical fellows, resident doctors, and clinical researchers, the event highlights the multidisciplinary spirit inspired by international medical excellence.\n\nAddressing the newly inducted fellows, senior leadership emphasized the hospital's founding ethos: providing high-standard surgical precision and ethical medical care accessible to every patient regardless of socioeconomic status. Incoming fellows will train in modular surgical suites, advanced laparoscopic keyhole procedures, interventional radiology, and acute critical care units over their intensive residency."
+    },
+    "articles": [
+      {
+        "id": "heat-illness",
+        "title": "Take precautions and monitor for heat-related illness as temperatures soar again",
+        "excerpt": "High environmental temperatures increase the risk of heat exhaustion, heat stroke, and dehydration, especially for children and older adults.",
+        "date": "October 2, 2026",
+        "readTime": "5 min read",
+        "category": "Preventive Health",
+        "fullContent": "With regional summer temperatures reaching peak levels, clinical specialists at Ejaz Hospital advise proactive hydration, avoidance of direct mid-day sun exposure, and vigilance for warning signs of heat stress.\n\nHeat exhaustion can quickly escalate to life-threatening heat stroke if internal body temperature regulation fails. Symptoms including dizziness, rapid pulse, profuse sweating followed by dry hot skin, confusion, and nausea demand immediate shaded rest, cooling hydration, and urgent medical evaluation at our 24/7 Emergency unit if symptoms persist beyond 30 minutes."
+      },
+      {
+        "id": "slipping-rib",
+        "title": "Slipping rib syndrome causes pain as rib becomes unstabilized",
+        "excerpt": "Hypermobility in the false or floating ribs can lead to sharp intercostal nerve irritation and severe lower chest pain often misdiagnosed as visceral illness.",
+        "date": "October 2, 2026",
+        "readTime": "3 min read",
+        "category": "Thoracic & Pain Care",
+        "fullContent": "Slipping rib syndrome occurs when costal cartilage attached to lower false ribs (8th, 9th, or 10th) detaches or stretches, causing the rib to rub against adjacent nerves with chest expansion or twisting movement.\n\nPatients often endure prolonged unexplained chest or upper abdominal discomfort before receiving accurate dynamic ultrasound diagnostics. At Ejaz Hospital, multidisciplinary pain specialists and thoracic surgeons offer minimally invasive cartilage stabilization, intercostal nerve blocks, and targeted physical rehabilitation."
+      },
+      {
+        "id": "cultivate-optimism",
+        "title": "How to cultivate optimism",
+        "excerpt": "Evidence-based psychological resilience and emotional wellness practices that strengthen immune response and post-operative surgical recovery.",
+        "date": "October 2, 2026",
+        "readTime": "4 min read",
+        "category": "Mental Wellness & Recovery",
+        "fullContent": "Clinical health research consistently links optimistic mental perspectives with improved cardiovascular health, balanced immune regulation, and faster recovery following major surgical procedures.\n\nCultivating optimism is a learnable skill that involves reframing daily cognitive appraisals, practicing gratitude journaling, and fostering supportive community relationships. Our patient recovery teams emphasize holistic health — addressing psychological well-being alongside physical healing for comprehensive long-term vitality."
+      },
+      {
+        "id": "fall-prevention",
+        "title": "How confidence — and physical strength — keep you safe from falling",
+        "excerpt": "Core balance conditioning, environmental safety audits, and bone health vigilance help seniors maintain active mobility and prevent fractures.",
+        "date": "October 1, 2026",
+        "readTime": "4 min read",
+        "category": "Geriatrics & Orthopaedics",
+        "fullContent": "Accidental falls among older adults represent a leading cause of hip fractures, head trauma, and loss of independent living. Maintaining physical lower-extremity strength and balance confidence dramatically reduces fall frequency.\n\nEjaz Hospital's Physiotherapy and Orthopaedic teams recommend targeted daily quad strengthening, gentle heel-to-toe walking exercises, home trip-hazard modifications, and routine bone mineral density screenings to safeguard lifelong independence."
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Patients’ Stories",
+    "subtitle": "Our patients' voices echo the heart of our dedication. From heartfelt gratitude to stories of transformation, their words speak volumes about our commitment to personalized care and compassionate healing.",
+    "close": "Close",
+    "verified": "Verified Patient",
+    "stories": [
+      {
+        "id": "story-1",
+        "quote": "After years of severe knee pain, robotic joint replacement at Ejaz Hospital completely restored my mobility. Dr. Tariq Anwar and the nursing staff took wonderful care of me.",
+        "headline": "After years of severe knee pain, robotic joint replacement at Ejaz Hospital completely restored my mobility. Dr. Tariq Anwar and the nursing staff took wonderful care of me.",
+        "name": "Sunita Devi",
+        "location": "Muzaffarpur, Bihar",
+        "procedure": "Robotic Knee Replacement",
+        "doctor": "Dr. Tariq Anwar",
+        "fullStory": "I suffered from debilitating osteoarthritis in both knees for over six years, making even walking around the house agonizing. Dr. Tariq Anwar performed robotic total knee replacement at Ejaz Hospital. The surgical precision, pain-management protocol, and dedicated physiotherapy team helped me walk independently within days."
+      },
+      {
+        "id": "story-2",
+        "quote": "When my brother met with a severe accident, the emergency ICU team acted immediately. Dr. Ejaz Ali performed life-saving surgery with great expertise. Forever thankful.",
+        "headline": "When my brother met with a severe accident, the emergency ICU team acted immediately. Dr. Ejaz Ali performed life-saving surgery with great expertise. Forever thankful.",
+        "name": "Vikramaditya Singh",
+        "location": "Gaya, Bihar",
+        "procedure": "Emergency Trauma & Critical Care",
+        "doctor": "Dr. Ejaz Ali",
+        "fullStory": "Following a highway collision near Gaya, my brother was brought to Ejaz Hospital past midnight in critical condition. The emergency trauma team stabilized him instantly and Dr. Ejaz Ali led a complex emergency abdominal surgery that saved his life. Their swift action and round-the-clock ICU care were truly heroic."
+      },
+      {
+        "id": "story-3",
+        "quote": "Dr. Ayesha Rehman provided exceptional care throughout my high-risk pregnancy. Her calm guidance and dedicated support ensured a safe and healthy delivery.",
+        "headline": "Dr. Ayesha Rehman provided exceptional care throughout my high-risk pregnancy. Her calm guidance and dedicated support ensured a safe and healthy delivery.",
+        "name": "Ananya Sharma",
+        "location": "Darbhanga, Bihar",
+        "procedure": "High-Risk Obstetrics & Maternity",
+        "doctor": "Dr. Ayesha Rehman",
+        "fullStory": "Because of complications, other clinics advised high-risk interventions. Dr. Ayesha Rehman closely monitored my condition with regular scans, personalized advice, and continuous reassurance. Thanks to her expertise and the supportive NICU & maternity nursing staff, our baby was delivered safely."
+      },
+      {
+        "id": "story-4",
+        "quote": "My laser kidney stone surgery was completely painless and I was discharged the very same day. Modern facilities, transparent advice, and very caring hospital staff.",
+        "headline": "My laser kidney stone surgery was completely painless and I was discharged the very same day. Modern facilities, transparent advice, and very caring hospital staff.",
+        "name": "Mohammad Tariq Alam",
+        "location": "Bhagalpur, Bihar",
+        "procedure": "Laser Urology & Stone Surgery",
+        "doctor": "Dr. Farhan Siddiqui",
+        "fullStory": "I had recurrent kidney stones that caused severe flank pain. Dr. Farhan Siddiqui performed advanced RIRS laser stone removal with zero external incisions. The procedure took less than an hour, was virtually pain-free, and I returned home the same evening. World-class treatment right here in Bihar."
+      },
+      {
+        "id": "story-5",
+        "quote": "Underwent laparoscopic gallbladder surgery under Dr. Shahzad Ejaz. The procedure was smooth with rapid recovery, and I was back to my normal routine within three days.",
+        "headline": "Underwent laparoscopic gallbladder surgery under Dr. Shahzad Ejaz. The procedure was smooth with rapid recovery, and I was back to my normal routine within three days.",
+        "name": "Rajesh Kumar",
+        "location": "Patna, Bihar",
+        "procedure": "Advanced Laparoscopic Surgery",
+        "doctor": "Dr. Shahzad Ejaz",
+        "fullStory": "After suffering from gallstone colic for months, I consulted Dr. Shahzad Ejaz. The 3D laparoscopic procedure was performed with tiny keyhole incisions, minimal post-op pain, and I was discharged within 24 hours. The hospital hygiene and nursing attention were exemplary."
+      },
+      {
+        "id": "story-6",
+        "quote": "Our entire family has trusted Ejaz Hospital for years. The doctors are attentive, ethical, and prioritize patient health without recommending any unnecessary tests.",
+        "headline": "Our entire family has trusted Ejaz Hospital for years. The doctors are attentive, ethical, and prioritize patient health without recommending any unnecessary tests.",
+        "name": "Suresh Chokhani",
+        "location": "Kankarbagh, Patna",
+        "procedure": "Cardiology & Preventive Care",
+        "doctor": "Dr. Tariq Anwar",
+        "fullStory": "Over the past several years, our family has consulted Ejaz Hospital for cardiac monitoring and general medicine. The specialists always explain treatment plans transparently, prescribe only necessary medications, and provide genuine warmth and reassurance."
+      }
+    ]
+  },
+  "helpContact": {
+    "title": "We're Here to Help",
+    "subtitle": "If you have questions, need help or want to share comments about your experience, our team is ready to help you.",
+    "sendButton": "Send a Message",
+    "form": {
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter your 10-digit mobile number",
+      "email": "Email Address",
+      "emailPlaceholder": "example@email.com",
+      "specialty": "Select Department / Specialty",
+      "date": "Preferred Date",
+      "message": "Your Message / Query",
+      "messagePlaceholder": "Tell us how we can assist you...",
+      "successTitle": "Message Sent Successfully!",
+      "successDesc": "Thank you for reaching out. Our care team will contact you shortly.",
+      "sendAnother": "Send Another Message"
+    },
+    "map": {
+      "hospitalName": "Ejaz Hospital & Advanced Surgical Center",
+      "address": "Main Hospital Road, Patna, Bihar – 800001",
+      "getDirections": "Get Directions",
+      "emergencyCall": "Call Helpline",
+      "timings": "OPD: Mon – Sat (9 AM – 8 PM) • Emergency: 24×7"
+    }
+  }
+}

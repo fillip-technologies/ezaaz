@@ -1,0 +1,41 @@
+{
+  "hospitalName": "EJAZ HOSPITAL",
+  "tagline": "CARE BEYOND TREATMENT",
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "specialities": "Speciality",
+    "departments": "Speciality",
+    "doctors": "Doctors",
+    "facilities": "Facilities",
+    "services": "Services",
+    "gallery": "Gallery",
+    "photos": "Photos",
+    "videos": "Videos",
+    "photoGallery": "Photo Gallery",
+    "videoGallery": "Video Gallery",
+    "contact": "Contact",
+    "bookAppointment": "Book an Appointment"
+  },
+  "language": {
+    "en": "EN",
+    "hi": "हिंदी"
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "getInTouch": "Get in Touch",
+    "writeToUs": "Write to Us:",
+    "helplineNumber": "Helpline Number:",
+    "email": "care@ejazhospital.com",
+    "phone": "+91 6203 770 070",
+    "links": {
+      "aboutUs": "About Us",
+      "faqs": "FAQs",
+      "testimonials": "Testimonials",
+      "ourHospitals": "Our Hospitals",
+      "ourDoctors": "Our Doctors",
+      "specialties": "Specialties"
+    },
+    "copyright": "Copyright © 2026 Ejaz Hospital. All Rights Reserved"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "hospitalName": "एजाज हॉस्पिटल",
+  "tagline": "उपचार से परे देखभाल",
+  "nav": {
+    "home": "होम",
+    "about": "परिचय",
+    "specialities": "विशेषज्ञताएं",
+    "departments": "विशेषज्ञताएं",
+    "doctors": "चिकित्सक",
+    "facilities": "सुविधाएं",
+    "services": "सेवाएं",
+    "gallery": "गैलरी",
+    "photos": "फोटो",
+    "videos": "वीडियो",
+    "photoGallery": "फोटो गैलरी",
+    "videoGallery": "वीडियो गैलरी",
+    "contact": "संपर्क",
+    "bookAppointment": "अपॉइंटमेंट लें"
+  },
+  "language": {
+    "en": "EN",
+    "hi": "हिंदी"
+  },
+  "footer": {
+    "quickLinks": "त्वरित लिंक",
+    "getInTouch": "संपर्क करें",
+    "writeToUs": "हमें लिखें:",
+    "helplineNumber": "हेल्पलाइन नंबर:",
+    "email": "care@ejazhospital.com",
+    "phone": "+91 6203 770 070",
+    "links": {
+      "aboutUs": "हमारे बारे में",
+      "faqs": "अक्सर पूछे जाने वाले प्रश्न",
+      "testimonials": "मरीजों के अनुभव",
+      "ourHospitals": "हमारा अस्पताल",
+      "ourDoctors": "हमारे डॉक्टर्स",
+      "specialties": "चिकित्सा विशेषताएं"
+    },
+    "copyright": "कॉपीराइट © 2026 एजाज अस्पताल। सर्वाधिकार सुरक्षित"
+  }
+}
