@@ -105,7 +105,7 @@ export default function OrthopedicsAboutSection() {
 
           {/* RIGHT SIDE: Shared Reusable Enquiry Form */}
           <div className="order-1 lg:order-2 lg:col-span-5 w-full lg:sticky lg:top-28">
-            <EnquiryForm specialtyName={isHindi ? 'ऑर्थोपेडिक्स एवं जोड़ देखभाल' : 'Orthopaedics & Joint Care'} />
+            <EnquiryForm specialtyName={isHindi ? 'ऑर्थोपेडिक्स एवं जोड़ देखभाल' : 'Orthopaedics & Joint Care'} pageName="Orthopaedics & Joint Care" />
           </div>
 
         </div>

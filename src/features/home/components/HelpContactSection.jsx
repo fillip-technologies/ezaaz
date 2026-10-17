@@ -8,8 +8,19 @@ import {
   PhoneCall,
   Mail,
   CheckCircle2,
-  User
+  User,
+  AlertCircle
 } from 'lucide-react'
+import { contactApi } from '../../../api'
+import { useDepartments } from '../../contact/useDepartments'
+
+const EMPTY_FORM = {
+  fullName: '',
+  phone: '',
+  email: '',
+  department: '',
+  message: ''
+}
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -20,26 +31,49 @@ export default function HelpContactSection() {
   const sectionRef = useRef(null)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    specialty: 'laparoscopic',
-    message: ''
-  })
+  const [formData, setFormData] = useState(EMPTY_FORM)
+  const [error, setError] = useState('')
+
+  // Same admin-managed departments as the contact page (Settings → Departments)
+  const departments = useDepartments(isHindi)
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    if (error) setError('')
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setError('')
+
+    if (formData.phone.replace(/\D/g, '').length < 10) {
+      return setError(isHindi ? 'कृपया 10 अंकों का मान्य मोबाइल नंबर दर्ज करें' : 'Please enter a valid 10-digit mobile number')
+    }
+    if (departments.length > 0 && !formData.department) {
+      return setError(isHindi ? 'कृपया विभाग चुनें' : 'Please choose a department')
+    }
+
     setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
+    try {
+      await contactApi.submit({
+        fullName: formData.fullName.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim(),
+        department: formData.department || null,
+        message: formData.message.trim(),
+        source: 'home'
+      })
       setSubmitted(true)
-    }, 800)
+    } catch (err) {
+      setError(
+        err.details?.[0]?.message ||
+          err.message ||
+          (isHindi ? 'संदेश नहीं भेजा जा सका। कृपया पुनः प्रयास करें या हमें कॉल करें।' : 'Could not send your message. Please try again or call us.')
+      )
+    } finally {
+      setLoading(false)
+    }
   }
 
   // GSAP Entrance
@@ -73,15 +107,6 @@ export default function HelpContactSection() {
     )
   }, { scope: sectionRef })
 
-  const departments = [
-    { id: 'laparoscopic', label: isHindi ? 'उन्नत लेप्रोस्कोपिक सर्जरी' : 'Advanced Laparoscopic Surgery' },
-    { id: 'orthopaedics', label: isHindi ? 'ऑर्थोपेडिक्स एवं रोबोटिक नी रिप्लेसमेंट' : 'Orthopaedics & Joint Replacement' },
-    { id: 'cardiology', label: isHindi ? 'कार्डियोलॉजी एवं कैथ लैब' : 'Interventional Cardiology' },
-    { id: 'gynaecology', label: isHindi ? 'स्त्री एवं प्रसूति रोग' : 'Obstetrics & Gynaecology' },
-    { id: 'urology', label: isHindi ? 'यूरोलॉजी एवं लेजर सर्जरी' : 'Urology & Kidney Care' },
-    { id: 'general', label: isHindi ? 'जनरल एवं ट्रॉमा सर्जरी' : 'General & Trauma Surgery' },
-    { id: 'internal', label: isHindi ? 'इंटरनल मेडिसिन' : 'Internal Medicine & Critical Care' }
-  ]
 
   return (
     <section
@@ -189,11 +214,14 @@ export default function HelpContactSection() {
                       {t('helpContact.form.specialty') || 'Select Department / Specialty'}
                     </label>
                     <select
-                      name="specialty"
-                      value={formData.specialty}
+                      name="department"
+                      value={formData.department}
                       onChange={handleChange}
                       className="w-full px-3.5 py-2.5 sm:py-3 bg-slate-50/70 border border-slate-200 rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none focus:border-[#003a70] focus:bg-white transition-all cursor-pointer"
                     >
+                      <option value="" disabled>
+                        {isHindi ? 'विभाग चुनें' : 'Select a department'}
+                      </option>
                       {departments.map((dep) => (
                         <option key={dep.id} value={dep.id}>
                           {dep.label}
@@ -218,6 +246,13 @@ export default function HelpContactSection() {
                     className="w-full px-4 py-3 bg-slate-50/70 border border-slate-200 rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none focus:border-[#003a70] focus:bg-white transition-all resize-none"
                   />
                 </div>
+
+                {error && (
+                  <p role="alert" className="text-xs sm:text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3 flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                    <span>{error}</span>
+                  </p>
+                )}
 
                 {/* Submit Button */}
                 <div className="pt-2">
@@ -254,13 +289,7 @@ export default function HelpContactSection() {
                   type="button"
                   onClick={() => {
                     setSubmitted(false)
-                    setFormData({
-                      fullName: '',
-                      phone: '',
-                      email: '',
-                      specialty: 'laparoscopic',
-                      message: ''
-                    })
+                    setFormData(EMPTY_FORM)
                   }}
                   className="mt-4 px-6 py-2.5 rounded-xl bg-[#1a1f26] hover:bg-[#003a70] text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer shadow-xs"
                 >

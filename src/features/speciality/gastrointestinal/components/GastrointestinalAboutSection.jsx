@@ -105,7 +105,7 @@ export default function GastrointestinalAboutSection() {
 
           {/* RIGHT SIDE: Shared Reusable Enquiry Form */}
           <div className="order-1 lg:order-2 lg:col-span-5 w-full lg:sticky lg:top-28">
-            <EnquiryForm specialtyName={isHindi ? 'गैस्ट्रोइंटेस्टाइनल सर्जरी' : 'Gastrointestinal Surgery'} />
+            <EnquiryForm specialtyName={isHindi ? 'गैस्ट्रोइंटेस्टाइनल सर्जरी' : 'Gastrointestinal Surgery'} pageName="Gastrointestinal Surgery" />
           </div>
 
         </div>

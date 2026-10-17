@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpRight, ChevronDown, CheckCircle2, AlertCircle } from 'lucide-react'
-import { submitSpecialtyEnquiry } from '../../../services/enquiryService'
+import { contactApi } from '../../../api'
 
-export default function EnquiryForm({ specialtyName = 'Specialty Care', className = '' }) {
+// "Enquiry Form" on every specialty page (and the doctors page). Submissions appear in the
+// admin panel under Contact Forms, tagged with `source` and the page's English name.
+// specialtyName: shown to the visitor (current language) · pageName: saved for the admin (English)
+export default function EnquiryForm({ specialtyName = 'Specialty Care', pageName, source = 'specialty', className = '' }) {
   const { i18n } = useTranslation()
   const isHindi = i18n.language === 'hi'
 
@@ -28,21 +31,30 @@ export default function EnquiryForm({ specialtyName = 'Specialty Care', classNam
       setErrorMessage(isHindi ? 'कृपया नाम और मोबाइल नंबर भरें।' : 'Please enter your name and phone number.')
       return
     }
+    if (formData.phone.replace(/\D/g, '').length < 10) {
+      setErrorMessage(isHindi ? 'कृपया 10 अंकों का मान्य मोबाइल नंबर दर्ज करें।' : 'Please enter a valid 10-digit mobile number.')
+      return
+    }
 
     setIsSubmitting(true)
     setErrorMessage('')
 
     try {
-      await submitSpecialtyEnquiry({
-        name: formData.name,
-        phone: formData.phone,
-        message: formData.message,
-        specialtyName
+      await contactApi.submit({
+        fullName: formData.name.trim(),
+        phone: formData.phone.trim(),
+        message: formData.message.trim(),
+        source,
+        page: pageName || specialtyName
       })
       setIsSubmitted(true)
     } catch (err) {
-      console.error('Submission error:', err)
-      setErrorMessage(isHindi ? 'त्रुटि हुई। कृपया पुनः प्रयास करें।' : 'An error occurred. Please try again.')
+      // Rate limit and validation messages from the server are shown as-is
+      setErrorMessage(
+        err.details?.[0]?.message ||
+          (err.status === 429 && err.message) ||
+          (isHindi ? 'त्रुटि हुई। कृपया पुनः प्रयास करें।' : 'An error occurred. Please try again.')
+      )
     } finally {
       setIsSubmitting(false)
     }

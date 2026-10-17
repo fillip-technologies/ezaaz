@@ -10,11 +10,19 @@ export const ADMIN_PATHS = {
   blogs: '/master/blogs',
   newBlog: '/master/blogs/new',
   blogCategories: '/master/blogs/categories',
+  enquiries: '/master/contact-forms',
+  appointments: '/master/appointments',
+  settings: '/master/settings',
+  departments: '/master/settings/departments',
+  leaves: '/master/settings/leave',
+  slotPlans: '/master/settings/slot-plans',
+  newSlotPlan: '/master/settings/slot-plans/new',
   account: '/master/account',
 }
 
 export const doctorEditPath = (id) => `${ADMIN_PATHS.doctors}/${id}`
 export const blogEditPath = (id) => `${ADMIN_PATHS.blogs}/${id}`
+export const slotPlanEditPath = (id) => `${ADMIN_PATHS.slotPlans}/${id}`
 
 // One-time message shown on the next page (e.g. "Doctor added") after a redirect
 let flashMessage = ''

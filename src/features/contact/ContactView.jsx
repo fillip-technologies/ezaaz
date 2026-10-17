@@ -20,6 +20,18 @@ import {
 } from 'lucide-react'
 import contactHeroBg from '../../assets/contact-page-1.png'
 import { useDoctors, toDoctorCard } from '../doctors/useDoctors'
+import { contactApi } from '../../api'
+import { useDepartments } from './useDepartments'
+
+const EMPTY_FORM = {
+  fullName: '',
+  phone: '',
+  email: '',
+  department: '',
+  doctor: 'any',
+  date: '',
+  message: ''
+}
 
 export default function ContactView() {
   const { t, i18n } = useTranslation(['home', 'common'])
@@ -29,18 +41,14 @@ export default function ContactView() {
   const [submitted, setSubmitted] = useState(false)
   const [openFaq, setOpenFaq] = useState(0)
 
-  const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    specialty: 'laparoscopic',
-    doctor: 'any',
-    date: '',
-    message: ''
-  })
+  const [formData, setFormData] = useState(EMPTY_FORM)
 
   const [formErrors, setFormErrors] = useState({})
+  const [submitError, setSubmitError] = useState('')
   const { doctors } = useDoctors()
+
+  // Departments are managed in the admin panel (Settings → Departments)
+  const departments = useDepartments(isHindi)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -50,14 +58,21 @@ export default function ContactView() {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitError('')
     const errors = {}
     if (!formData.fullName.trim()) {
       errors.fullName = isHindi ? 'कृपया अपना नाम दर्ज करें' : 'Please enter your full name'
     }
-    if (!formData.phone.trim() || formData.phone.length < 10) {
+    if (formData.phone.replace(/\D/g, '').length < 10) {
       errors.phone = isHindi ? 'कृपया 10 अंकों का मान्य मोबाइल नंबर दर्ज करें' : 'Please enter a valid 10-digit mobile number'
+    }
+    if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      errors.email = isHindi ? 'कृपया मान्य ईमेल पता दर्ज करें' : 'Please enter a valid email address'
+    }
+    if (departments.length > 0 && !formData.department) {
+      errors.department = isHindi ? 'कृपया विभाग चुनें' : 'Please choose a department'
     }
 
     if (Object.keys(errors).length > 0) {
@@ -66,30 +81,41 @@ export default function ContactView() {
     }
 
     setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
+    try {
+      await contactApi.submit({
+        fullName: formData.fullName.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim(),
+        department: formData.department || null,
+        doctor: formData.doctor === 'any' ? null : formData.doctor,
+        preferredDate: formData.date || null,
+        message: formData.message.trim(),
+        source: 'contact'
+      })
       setSubmitted(true)
-    }, 800)
+    } catch (err) {
+      // Show field errors from the server next to the matching input
+      const fieldMap = { fullName: 'fullName', phone: 'phone', email: 'email', department: 'department' }
+      const fieldErrors = {}
+      for (const d of err.details || []) if (fieldMap[d.field]) fieldErrors[fieldMap[d.field]] = d.message
+      if (Object.keys(fieldErrors).length > 0) setFormErrors(fieldErrors)
+      setSubmitError(
+        err.status === 429 || !err.details
+          ? err.message || (isHindi ? 'अनुरोध नहीं भेजा जा सका। कृपया पुनः प्रयास करें या हमें कॉल करें।' : 'Could not send your request. Please try again or call us.')
+          : isHindi ? 'कृपया चिह्नित फ़ील्ड ठीक करें।' : 'Please correct the highlighted fields.'
+      )
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const departments = [
-    { id: 'laparoscopic', label: isHindi ? 'उन्नत लैप्रोस्कोपिक सर्जरी' : 'Advanced Laparoscopic Surgery' },
-    { id: 'cancer', label: isHindi ? 'कैंसर सर्जरी (ऑन्कोलॉजी)' : 'Cancer Surgery (Oncology)' },
-    { id: 'hernia', label: isHindi ? 'हर्निया एवं एब्डोमिनल वॉल रिपेयर' : 'Complex Hernia & Abdominal Wall' },
-    { id: 'orthopaedics', label: isHindi ? 'ऑर्थोपेडिक्स एवं रोबोटिक नी रिप्लेसमेंट' : 'Orthopaedics & Joint Replacement' },
-    { id: 'urology', label: isHindi ? 'यूरोलॉजी एवं किडनी स्टोन' : 'Urology & Kidney Stone Care' },
-    { id: 'gynaecology', label: isHindi ? 'स्त्री एवं प्रसूति रोग' : 'Obstetrics & Gynaecology' },
-    { id: 'general-surgery', label: isHindi ? 'जनरल एवं ट्रॉमा सर्जरी' : 'General & Emergency Surgery' },
-    { id: 'internal', label: isHindi ? 'इंटरनल मेडिसिन एवं क्रिटिकल केयर' : 'Internal Medicine & ICU' },
-    { id: 'physiotherapy', label: isHindi ? 'फिजियोथेरेपी एवं पुनर्वास' : 'Physiotherapy & Rehabilitation' }
-  ]
 
   // Doctors managed in the admin panel
   const doctorsList = [
     { id: 'any', name: isHindi ? 'कोई भी उपलब्ध वरिष्ठ विशेषज्ञ' : 'Any Available Senior Specialist' },
     ...doctors.map((doc) => {
       const card = toDoctorCard(doc, isHindi)
-      return { id: card.id, name: card.specialty ? `${card.name} (${card.specialty})` : card.name }
+      return { id: doc._id, name: card.specialty ? `${card.name} (${card.specialty})` : card.name }
     })
   ]
 
@@ -393,9 +419,18 @@ export default function ContactView() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="example@gmail.com"
-                          className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white border border-slate-300 rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none focus:border-[#003a70] focus:ring-2 focus:ring-[#003a70]/10 transition-all"
+                          className={`w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white border rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none transition-all ${formErrors.email
+                            ? 'border-red-500 focus:ring-1 focus:ring-red-500'
+                            : 'border-slate-300 focus:border-[#003a70] focus:ring-2 focus:ring-[#003a70]/10'
+                            }`}
                         />
                       </div>
+                      {formErrors.email && (
+                        <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
+                          <span>{formErrors.email}</span>
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -422,17 +457,29 @@ export default function ContactView() {
                         {isHindi ? 'विभाग / विशेषता' : 'Department / Specialty'}
                       </label>
                       <select
-                        name="specialty"
-                        value={formData.specialty}
+                        name="department"
+                        value={formData.department}
                         onChange={handleChange}
-                        className="w-full px-3.5 py-2.5 sm:py-3 bg-white border border-slate-300 rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none focus:border-[#003a70] focus:ring-2 focus:ring-[#003a70]/10 transition-all cursor-pointer"
+                        className={`w-full px-3.5 py-2.5 sm:py-3 bg-white border rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none transition-all cursor-pointer ${formErrors.department
+                          ? 'border-red-500 focus:ring-1 focus:ring-red-500'
+                          : 'border-slate-300 focus:border-[#003a70] focus:ring-2 focus:ring-[#003a70]/10'
+                          }`}
                       >
+                        <option value="" disabled>
+                          {isHindi ? 'विभाग चुनें' : 'Select a department'}
+                        </option>
                         {departments.map((dept) => (
                           <option key={dept.id} value={dept.id}>
                             {dept.label}
                           </option>
                         ))}
                       </select>
+                      {formErrors.department && (
+                        <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
+                          <span>{formErrors.department}</span>
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -472,6 +519,13 @@ export default function ContactView() {
                       className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none focus:border-[#003a70] focus:ring-2 focus:ring-[#003a70]/10 transition-all resize-none"
                     />
                   </div>
+
+                  {submitError && (
+                    <p role="alert" className="text-xs sm:text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3 flex items-start gap-2">
+                      <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                      <span>{submitError}</span>
+                    </p>
+                  )}
 
                   {/* Action Buttons */}
                   <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
@@ -527,15 +581,7 @@ export default function ContactView() {
                     type="button"
                     onClick={() => {
                       setSubmitted(false)
-                      setFormData({
-                        fullName: '',
-                        phone: '',
-                        email: '',
-                        specialty: 'laparoscopic',
-                        doctor: 'any',
-                        date: '',
-                        message: ''
-                      })
+                      setFormData(EMPTY_FORM)
                     }}
                     className="mt-4 px-6 py-2.5 rounded-xl bg-[#003a70] hover:bg-[#00284d] text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer shadow-sm"
                   >

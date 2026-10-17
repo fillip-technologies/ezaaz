@@ -109,7 +109,7 @@ export default function LaparoscopicAboutSection() {
 
           {/* RIGHT SIDE: Enquiry Form Card (Span 5 on desktop, 1st on mobile right after hero) */}
           <div className="order-1 lg:order-2 lg:col-span-5 w-full lg:sticky lg:top-28">
-            <EnquiryForm specialtyName={isHindi ? 'लैप्रोस्कोपिक सर्जरी' : 'Laparoscopic Surgery'} />
+            <EnquiryForm specialtyName={isHindi ? 'लैप्रोस्कोपिक सर्जरी' : 'Laparoscopic Surgery'} pageName="Laparoscopic Surgery" />
           </div>
 
         </div>

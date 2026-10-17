@@ -105,7 +105,7 @@ export default function PlasticSurgeryAboutSection() {
 
           {/* RIGHT SIDE: Shared Reusable Enquiry Form */}
           <div className="order-1 lg:order-2 lg:col-span-5 w-full lg:sticky lg:top-28">
-            <EnquiryForm specialtyName={isHindi ? 'प्लास्टिक सर्जरी' : 'Plastic Surgery'} />
+            <EnquiryForm specialtyName={isHindi ? 'प्लास्टिक सर्जरी' : 'Plastic Surgery'} pageName="Plastic Surgery" />
           </div>
 
         </div>

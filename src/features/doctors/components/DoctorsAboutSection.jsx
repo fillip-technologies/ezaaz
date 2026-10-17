@@ -150,7 +150,7 @@ export default function DoctorsAboutSection() {
 
           {/* RIGHT: Enquiry Form (NOT sticky, perfectly sits beside row 1 & 2) */}
           <div id="enquiry-form" className="order-2 lg:order-2 lg:col-span-4 w-full">
-            <EnquiryForm specialtyName={isHindi ? 'डॉक्टर अपॉइंटमेंट' : 'Doctor Appointment'} />
+            <EnquiryForm specialtyName={isHindi ? 'डॉक्टर अपॉइंटमेंट' : 'Doctor Appointment'} pageName="Doctors page" source="doctors" />
           </div>
 
         </div>

@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
-import { ArrowLeft, Plus, Trash2 } from 'lucide-react'
-import { adminDoctorsApi } from '../../../api'
+import { useEffect, useMemo, useState } from 'react'
+import { ArrowLeft, Plus, RotateCcw, Trash2 } from 'lucide-react'
+import { adminDoctorsApi, adminSlotPlansApi } from '../../../api'
 import placeholderPhoto from '../../../assets/doctor-placeholder.svg'
 import AdminLayout from '../components/AdminLayout'
 import { Alert, Button, Field, Link, Spinner, Switch } from '../components/ui'
 import { ImagePicker, LocalizedField, LocalizedListEditor, Section } from '../components/formParts'
+import ScheduleEditor from '../components/ScheduleEditor'
+import { EMPTY_SCHEDULE, describeSchedule, sameSchedule, scheduleToForm, scheduleToPayload, validateSchedule } from '../scheduleOptions'
 import { CATEGORY_OPTIONS, GENDER_OPTIONS } from '../doctorOptions'
 import { ADMIN_PATHS, navigate, setFlash } from '../navigation'
 import { SPECIALTY_TAGS } from '../../doctors/specialtyTags'
@@ -33,6 +35,8 @@ const EMPTY_FORM = {
   about: emptyLocalized(),
   specializations: [],
   education: [],
+  schedule: EMPTY_SCHEDULE,
+  schedulePlan: '',
   isActive: true,
   order: '',
 }
@@ -55,6 +59,8 @@ function toForm(doctor) {
     languages: doctor.languages || '',
     specializations: (doctor.specializations || []).map((s) => ({ en: s.en || '', hi: s.hi || '' })),
     education: (doctor.education || []).map((e) => ({ degree: e.degree || '', institution: e.institution || '' })),
+    schedule: scheduleToForm(doctor.schedule),
+    schedulePlan: doctor.schedulePlan || '',
     isActive: doctor.isActive,
     order: String(doctor.order ?? ''),
   }
@@ -76,6 +82,8 @@ function toPayload(form) {
     education: form.education
       .map((e) => ({ degree: e.degree.trim(), institution: e.institution.trim() }))
       .filter((e) => e.degree),
+    schedule: scheduleToPayload(form.schedule),
+    schedulePlan: form.schedulePlan || null,
   }
   for (const key of LOCALIZED) payload[key] = trimLocalized(form[key])
   if (form.order !== '') payload.order = Number(form.order)
@@ -94,7 +102,7 @@ function validate(form) {
   if (form.experienceYears !== '' && (!Number.isFinite(years) || years < 0 || years > 80)) {
     errors.experienceYears = 'Enter a number between 0 and 80'
   }
-  return errors
+  return { ...errors, ...validateSchedule(form.schedule) }
 }
 
 export default function DoctorFormView({ path, id }) {
@@ -107,6 +115,31 @@ export default function DoctorFormView({ path, id }) {
   const [loading, setLoading] = useState(isEdit)
   const [loadError, setLoadError] = useState('')
   const [saving, setSaving] = useState(false)
+
+  // Slot plans for the "Online appointments" picker
+  const [plans, setPlans] = useState([])
+  useEffect(() => {
+    let cancelled = false
+    adminSlotPlansApi
+      .list()
+      .then((list) => !cancelled && setPlans(list))
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [])
+  const currentPlan = plans.find((p) => p._id === form.schedulePlan)
+  const followsPlan = useMemo(
+    () => Boolean(currentPlan) && sameSchedule(scheduleToPayload(form.schedule), currentPlan.schedule),
+    [currentPlan, form.schedule],
+  )
+
+  // Picking a plan copies its hours into the editor; "own hours" keeps whatever is there
+  const choosePlan = (planId) => {
+    const plan = plans.find((p) => p._id === planId)
+    setForm((f) => ({ ...f, schedulePlan: planId, ...(plan && { schedule: scheduleToForm(plan.schedule) }) }))
+    setErrors((e) => Object.fromEntries(Object.entries(e).filter(([k]) => !k.startsWith('schedule'))))
+  }
 
   // Photo: `current` is what's saved; `file` is a new pick waiting for Save; `remove` clears it on Save
   const [photo, setPhoto] = useState({ current: '', file: null, remove: false })
@@ -357,6 +390,65 @@ export default function DoctorFormView({ path, id }) {
           <Section title="OPD details">
             <LocalizedField label="OPD timing" value={form.timing} onChange={(lang, v) => setLocalized('timing', lang, v)} errorKey="timing" errors={errors} placeholder="10:00 - 16:00 • Mon - Sat" />
             <LocalizedField label="Hospital / clinic" value={form.hospital} onChange={(lang, v) => setLocalized('hospital', lang, v)} errorKey="hospital" errors={errors} />
+          </Section>
+
+          <Section
+            title="Online appointments"
+            description="These hours create the bookable time slots on the website's Book Appointment page. Use Settings → Leave & holidays to block specific dates."
+          >
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <Field
+                as="select"
+                label="Slot plan"
+                value={form.schedulePlan}
+                onChange={(e) => choosePlan(e.target.value)}
+                error={errors.schedulePlan}
+                hint={
+                  plans.length === 0 ? (
+                    <>
+                      No plans yet. Create reusable plans in{' '}
+                      <Link to={ADMIN_PATHS.slotPlans} className="font-medium text-[#0091da] hover:underline">
+                        Settings → Slot plans
+                      </Link>
+                      .
+                    </>
+                  ) : (
+                    'Choosing a plan copies its hours below.'
+                  )
+                }
+              >
+                <option value="">No plan (this doctor's own hours)</option>
+                {plans.map((p) => (
+                  <option key={p._id} value={p._id}>
+                    {p.name}
+                  </option>
+                ))}
+              </Field>
+              {currentPlan &&
+                (followsPlan ? (
+                  <p className="mt-3 text-sm text-emerald-700">
+                    Following <strong>{currentPlan.name}</strong>: when the plan is edited, this doctor's hours update too.
+                  </p>
+                ) : (
+                  <div className="mt-3 flex flex-wrap items-center gap-3 rounded-lg bg-amber-50 px-3.5 py-2.5 text-sm text-amber-900">
+                    <p className="min-w-0 flex-1">
+                      <strong>Customized</strong> from {currentPlan.name}: this doctor keeps the hours below and won't get plan updates.
+                      <span className="mt-0.5 block text-xs text-amber-800">Plan: {describeSchedule(currentPlan.schedule)}</span>
+                    </p>
+                    <Button variant="secondary" size="sm" onClick={() => choosePlan(currentPlan._id)}>
+                      <RotateCcw className="h-4 w-4" aria-hidden="true" /> Reset to plan
+                    </Button>
+                  </div>
+                ))}
+            </div>
+            <ScheduleEditor
+              value={form.schedule}
+              onChange={(schedule) => {
+                setForm((f) => ({ ...f, schedule }))
+                setErrors((e) => Object.fromEntries(Object.entries(e).filter(([k]) => !k.startsWith('schedule.'))))
+              }}
+              errors={errors}
+            />
           </Section>
 
           <Section title="About" description="The short bio is used for search on the doctors list; the full profile appears on the doctor's page.">

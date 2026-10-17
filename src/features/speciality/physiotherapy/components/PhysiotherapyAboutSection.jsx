@@ -105,7 +105,7 @@ export default function PhysiotherapyAboutSection() {
 
           {/* RIGHT SIDE: Shared Reusable Enquiry Form */}
           <div className="order-1 lg:order-2 lg:col-span-5 w-full lg:sticky lg:top-28">
-            <EnquiryForm specialtyName={isHindi ? 'फिजियोथेरेपी एवं पुनर्वास' : 'Physiotherapy & Rehabilitation'} />
+            <EnquiryForm specialtyName={isHindi ? 'फिजियोथेरेपी एवं पुनर्वास' : 'Physiotherapy & Rehabilitation'} pageName="Physiotherapy & Rehabilitation" />
           </div>
 
         </div>

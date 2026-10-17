@@ -105,7 +105,7 @@ export default function GeneralSurgeryAboutSection() {
 
           {/* RIGHT SIDE: Shared Reusable Enquiry Form */}
           <div className="order-1 lg:order-2 lg:col-span-5 w-full lg:sticky lg:top-28">
-            <EnquiryForm specialtyName={isHindi ? 'सामान्य सर्जरी' : 'General Surgery'} />
+            <EnquiryForm specialtyName={isHindi ? 'सामान्य सर्जरी' : 'General Surgery'} pageName="General Surgery" />
           </div>
 
         </div>

@@ -105,7 +105,7 @@ export default function AnaesthesiaAboutSection() {
 
           {/* RIGHT SIDE: Shared Reusable Enquiry Form */}
           <div className="order-1 lg:order-2 lg:col-span-5 w-full lg:sticky lg:top-28">
-            <EnquiryForm specialtyName={isHindi ? 'एनेस्थीसिया एवं क्रिटिकल केयर' : 'Anaesthesia & Critical Care'} />
+            <EnquiryForm specialtyName={isHindi ? 'एनेस्थीसिया एवं क्रिटिकल केयर' : 'Anaesthesia & Critical Care'} pageName="Anaesthesia & Critical Care" />
           </div>
 
         </div>

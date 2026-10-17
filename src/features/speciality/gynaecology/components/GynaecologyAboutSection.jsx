@@ -105,7 +105,7 @@ export default function GynaecologyAboutSection() {
 
           {/* RIGHT SIDE: Shared Reusable Enquiry Form */}
           <div className="order-1 lg:order-2 lg:col-span-5 w-full lg:sticky lg:top-28">
-            <EnquiryForm specialtyName={isHindi ? 'स्त्री एवं प्रसूति रोग' : 'Gynaecology & Obstetrics'} />
+            <EnquiryForm specialtyName={isHindi ? 'स्त्री एवं प्रसूति रोग' : 'Gynaecology & Obstetrics'} pageName="Gynaecology & Obstetrics" />
           </div>
 
         </div>

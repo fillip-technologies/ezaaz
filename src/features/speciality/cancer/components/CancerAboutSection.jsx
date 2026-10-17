@@ -105,7 +105,7 @@ export default function CancerAboutSection() {
 
           {/* RIGHT SIDE: Shared Reusable Enquiry Form */}
           <div className="order-1 lg:order-2 lg:col-span-5 w-full lg:sticky lg:top-28">
-            <EnquiryForm specialtyName={isHindi ? 'कैंसर सर्जरी' : 'Cancer Surgery'} />
+            <EnquiryForm specialtyName={isHindi ? 'कैंसर सर्जरी' : 'Cancer Surgery'} pageName="Cancer Surgery" />
           </div>
 
         </div>

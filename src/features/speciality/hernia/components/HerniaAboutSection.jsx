@@ -105,7 +105,7 @@ export default function HerniaAboutSection() {
 
           {/* RIGHT SIDE: Shared Reusable Enquiry Form */}
           <div className="order-1 lg:order-2 lg:col-span-5 w-full lg:sticky lg:top-28">
-            <EnquiryForm specialtyName={isHindi ? 'हर्निया सर्जरी' : 'Hernia Surgery'} />
+            <EnquiryForm specialtyName={isHindi ? 'हर्निया सर्जरी' : 'Hernia Surgery'} pageName="Hernia Surgery" />
           </div>
 
         </div>

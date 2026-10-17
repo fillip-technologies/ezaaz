@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ExternalLink, Pencil, Plus, Search, Trash2 } from 'lucide-react'
-import { adminDoctorsApi } from '../../../api'
+import { adminDoctorsApi, adminSlotPlansApi } from '../../../api'
 import { doctorPhoto } from '../../doctors/useDoctors'
 import AdminLayout from '../components/AdminLayout'
 import { Alert, Button, Link, Modal, Spinner, Switch } from '../components/ui'
@@ -15,6 +15,7 @@ export default function DoctorsView({ path }) {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [togglingId, setTogglingId] = useState('')
+  const [planNames, setPlanNames] = useState(() => new Map())
 
   const [deleting, setDeleting] = useState(null)
   const [deleteError, setDeleteError] = useState('')
@@ -27,6 +28,11 @@ export default function DoctorsView({ path }) {
       .then((list) => !cancelled && setDoctors(list))
       .catch((err) => !cancelled && setError(err.message))
       .finally(() => !cancelled && setLoading(false))
+    // Plan names for the "Hours" line; the list still works without them
+    adminSlotPlansApi
+      .list()
+      .then((plans) => !cancelled && setPlanNames(new Map(plans.map((p) => [p._id, p.name]))))
+      .catch(() => {})
     return () => {
       cancelled = true
     }
@@ -154,6 +160,13 @@ export default function DoctorsView({ path }) {
                       <span>{CATEGORY_LABELS[doctor.category]}</span>
                       {doctor.experienceYears > 0 && <span>{doctor.experienceYears}+ yrs</span>}
                       <span>Order {doctor.order}</span>
+                      <span className={doctor.scheduleCustomized ? 'text-amber-600' : doctor.schedule?.weekly?.length ? '' : 'text-red-500'}>
+                        {doctor.schedulePlan
+                          ? `${doctor.scheduleCustomized ? 'Customized from' : 'Plan:'} ${planNames.get(doctor.schedulePlan) || '…'}`
+                          : doctor.schedule?.weekly?.length
+                            ? 'Own hours'
+                            : 'No online booking'}
+                      </span>
                     </p>
                   </div>
 
