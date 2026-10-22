@@ -11,7 +11,7 @@ function DoctorCard({ doctor, isHindi, navigateToProfile }) {
         
         {/* Left Column: Doctor Photo + View Profile link */}
         <div className="shrink-0 flex flex-col items-center">
-          <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-lg sm:rounded-xl overflow-hidden bg-slate-50 border border-slate-200/70 shadow-xs">
+          <div className="w-20 sm:w-24 xl:w-26 h-28 sm:h-32 xl:h-[132px] rounded-lg sm:rounded-xl overflow-hidden bg-slate-50 border border-slate-200/70 shadow-xs">
             <img
               src={doctor.photo}
               alt={doctor.name}
@@ -21,7 +21,7 @@ function DoctorCard({ doctor, isHindi, navigateToProfile }) {
           <button
             type="button"
             onClick={() => navigateToProfile(doctor.id)}
-            className="mt-2.5 text-[#003a70] hover:text-[#ea580c] text-[11.5px] sm:text-xs font-semibold underline underline-offset-3 transition-colors cursor-pointer text-center"
+            className="mt-2 text-[#003a70] hover:text-[#ea580c] text-[11.5px] sm:text-xs font-semibold underline underline-offset-3 transition-colors cursor-pointer text-center"
           >
             {isHindi ? 'प्रोफाइल देखें' : 'View Profile'}
           </button>
