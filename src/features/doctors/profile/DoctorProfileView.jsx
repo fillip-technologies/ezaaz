@@ -22,7 +22,7 @@ import {
   FileText,
   ChevronDown
 } from 'lucide-react'
-import { useDoctors, toDoctorProfile, checkIsShahzad, checkIsShivani } from '../useDoctors'
+import { useDoctors, toDoctorProfile, checkIsShahzad, checkIsShivani, checkIsSalik } from '../useDoctors'
 
 // Doctor slug from ?id=... (or /doctor-profile/<slug>)
 const getDoctorIdFromUrl = () => {
@@ -70,6 +70,9 @@ export default function DoctorProfileView({ doctorId = '' }) {
       }
       if (normalized === 'dr-shahzad' || normalized === 'shahzad') {
         return checkIsShahzad(d)
+      }
+      if (normalized === 'dr-salik' || normalized === 'salik' || normalized === 'dr-abdul-salik' || normalized === 'dr-internal-med' || normalized === 'abdul-salik') {
+        return checkIsSalik(d)
       }
       return false
     })
@@ -177,7 +180,8 @@ export default function DoctorProfileView({ doctorId = '' }) {
         if (!doctor) return true
         const isCurrentShahzad = (doctor.isShahzad || doctor.id === 'dr-shahzad') && checkIsShahzad(d)
         const isCurrentShivani = (doctor.isShivani || doctor.id === 'dr-ortho-specialist' || doctor.id === 'dr-shivani') && checkIsShivani(d)
-        return !isCurrentShahzad && !isCurrentShivani && d.slug !== doctor.id && d._id !== doctor.id
+        const isCurrentSalik = (doctor.isSalik || doctor.id === 'dr-internal-med' || doctor.id === 'dr-salik' || doctor.id === 'dr-abdul-salik') && checkIsSalik(d)
+        return !isCurrentShahzad && !isCurrentShivani && !isCurrentSalik && d.slug !== doctor.id && d._id !== doctor.id
       })
       .map(toDoctorProfile)
   }, [doctors, doctor])

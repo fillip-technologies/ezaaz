@@ -50,6 +50,7 @@ export function formatExperience(years, isHindi) {
 
 import { DR_SHAHZAD_DETAILS } from './drShahzadDetails'
 import { DR_SHIVANI_DETAILS } from './drShivaniDetails'
+import { DR_SALIK_DETAILS } from './drSalikDetails'
 
 export const checkIsShahzad = (doctor) =>
   doctor.slug === 'dr-shahzad' ||
@@ -64,11 +65,22 @@ export const checkIsShivani = (doctor) =>
   (typeof doctor.name === 'string' && doctor.name.toLowerCase().includes('shivani')) ||
   doctor.name?.en?.toLowerCase().includes('shivani')
 
+export const checkIsSalik = (doctor) =>
+  doctor.slug === 'dr-internal-med' ||
+  doctor.slug === 'dr-salik' ||
+  doctor.slug === 'dr-abdul-salik' ||
+  doctor._id === '6ad0c4fb70227250537648f6' ||
+  (typeof doctor.name === 'string' && (doctor.name.toLowerCase().includes('salik') || doctor.name.toLowerCase().includes('abdul'))) ||
+  doctor.name?.en?.toLowerCase().includes('salik') ||
+  doctor.name?.en?.toLowerCase().includes('abdul') ||
+  doctor.name?.hi?.includes('सालिक')
+
 // Flat, single-language shape used by the doctor cards and the booking form
 export function toDoctorCard(doctor, isHindi) {
   if (!doctor) return null
   const isShahzad = checkIsShahzad(doctor)
   const isShivani = checkIsShivani(doctor)
+  const isSalik = checkIsSalik(doctor)
 
   if (isShahzad) {
     return {
@@ -106,6 +118,24 @@ export function toDoctorCard(doctor, isHindi) {
     }
   }
 
+  if (isSalik) {
+    return {
+      id: doctor.slug || 'dr-internal-med',
+      name: isHindi ? DR_SALIK_DETAILS.nameHi : DR_SALIK_DETAILS.name,
+      photo: doctorPhoto(doctor),
+      specialty: isHindi ? DR_SALIK_DETAILS.specialtyHi : DR_SALIK_DETAILS.specialty,
+      subSpecialty: isHindi ? DR_SALIK_DETAILS.subSpecialtyHi : DR_SALIK_DETAILS.subSpecialty,
+      department: isHindi ? DR_SALIK_DETAILS.departmentHi : DR_SALIK_DETAILS.department,
+      departmentId: 'medicine',
+      specialtyTags: DR_SALIK_DETAILS.specialtyTags,
+      degrees: isHindi ? DR_SALIK_DETAILS.degreesHi : DR_SALIK_DETAILS.degrees,
+      experience: isHindi ? DR_SALIK_DETAILS.experienceHi : DR_SALIK_DETAILS.experience,
+      gender: isHindi ? 'पुरुष' : 'Male',
+      timing: isHindi ? DR_SALIK_DETAILS.timingHi : DR_SALIK_DETAILS.timing,
+      bio: DR_SALIK_DETAILS.aboutEn?.slice(0, 160) + '...',
+    }
+  }
+
   return {
     id: doctor.slug || doctor._id,
     name: pick(doctor.name, isHindi),
@@ -131,6 +161,7 @@ export function findBlogAuthor(doctors, authorDoctorId, isHindi) {
   if (!doctor) return null
   const isShahzad = checkIsShahzad(doctor)
   const isShivani = checkIsShivani(doctor)
+  const isSalik = checkIsSalik(doctor)
 
   return {
     id: doctor.slug || doctor._id,
@@ -138,12 +169,16 @@ export function findBlogAuthor(doctors, authorDoctorId, isHindi) {
       ? (isHindi ? DR_SHAHZAD_DETAILS.nameHi : DR_SHAHZAD_DETAILS.name)
       : isShivani
         ? (isHindi ? DR_SHIVANI_DETAILS.nameHi : DR_SHIVANI_DETAILS.name)
-        : pick(doctor.name, isHindi),
+        : isSalik
+          ? (isHindi ? DR_SALIK_DETAILS.nameHi : DR_SALIK_DETAILS.name)
+          : pick(doctor.name, isHindi),
     role: isShahzad
       ? (isHindi ? DR_SHAHZAD_DETAILS.specialtyHi : DR_SHAHZAD_DETAILS.specialty)
       : isShivani
         ? (isHindi ? DR_SHIVANI_DETAILS.specialtyHi : DR_SHIVANI_DETAILS.specialty)
-        : pick(doctor.specialty, isHindi),
+        : isSalik
+          ? (isHindi ? DR_SALIK_DETAILS.specialtyHi : DR_SALIK_DETAILS.specialty)
+          : pick(doctor.specialty, isHindi),
     photo: doctorPhoto(doctor),
   }
 }
@@ -153,6 +188,7 @@ export function toDoctorProfile(doctor) {
   if (!doctor) return null
   const isShahzad = checkIsShahzad(doctor)
   const isShivani = checkIsShivani(doctor)
+  const isSalik = checkIsSalik(doctor)
 
   if (isShahzad) {
     return {
@@ -224,6 +260,43 @@ export function toDoctorProfile(doctor) {
       currentPosition: DR_SHIVANI_DETAILS.currentPosition,
       contact: DR_SHIVANI_DETAILS.contact,
       personalInfo: DR_SHIVANI_DETAILS.personalInfo,
+    }
+  }
+
+  if (isSalik) {
+    return {
+      id: doctor.slug || 'dr-internal-med',
+      isSalik: true,
+      name: DR_SALIK_DETAILS.name,
+      nameHi: DR_SALIK_DETAILS.nameHi,
+      regNo: DR_SALIK_DETAILS.regNo,
+      photo: doctorPhoto(doctor),
+      degrees: DR_SALIK_DETAILS.degrees,
+      degreesHi: DR_SALIK_DETAILS.degreesHi,
+      specialty: DR_SALIK_DETAILS.specialty,
+      specialtyHi: DR_SALIK_DETAILS.specialtyHi,
+      subSpecialty: DR_SALIK_DETAILS.subSpecialty,
+      subSpecialtyHi: DR_SALIK_DETAILS.subSpecialtyHi,
+      department: DR_SALIK_DETAILS.department,
+      departmentHi: DR_SALIK_DETAILS.departmentHi,
+      experience: DR_SALIK_DETAILS.experience,
+      experienceHi: DR_SALIK_DETAILS.experienceHi,
+      languages: DR_SALIK_DETAILS.languages,
+      timing: DR_SALIK_DETAILS.timing,
+      timingHi: DR_SALIK_DETAILS.timingHi,
+      hospital: DR_SALIK_DETAILS.hospital,
+      hospitalHi: DR_SALIK_DETAILS.hospitalHi,
+      aboutEn: DR_SALIK_DETAILS.aboutEn,
+      aboutHi: DR_SALIK_DETAILS.aboutHi,
+      specializations: DR_SALIK_DETAILS.specializations,
+      education: DR_SALIK_DETAILS.education,
+      experienceList: DR_SALIK_DETAILS.experienceList,
+      awards: DR_SALIK_DETAILS.awards || [],
+      licensure: DR_SALIK_DETAILS.licensure,
+      publications: DR_SALIK_DETAILS.publications,
+      currentPosition: DR_SALIK_DETAILS.currentPosition,
+      contact: DR_SALIK_DETAILS.contact,
+      personalInfo: DR_SALIK_DETAILS.personalInfo,
     }
   }
 
