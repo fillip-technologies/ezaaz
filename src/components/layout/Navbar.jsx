@@ -205,21 +205,13 @@ export default function Navbar({ currentRoute = 'home' }) {
     },
   ]
 
-  // Services Dropdown items: Book an Appointment, Emergency Care
+  // Services Dropdown items: Book an Appointment
   const servicesList = [
     {
       id: 'book-appointment',
       name: isHindi ? 'अपॉइंटमेंट बुक करें' : 'Book an Appointment',
       href: '/services/book-appointment',
       icon: BookAppointmentIcon,
-      subtitle: isHindi ? 'ऑनलाइन डॉक्टर परामर्श' : 'Schedule doctor consultation',
-    },
-    {
-      id: 'emergency-services',
-      name: isHindi ? '24/7 आपातकालीन सेवा' : 'Emergency & Trauma Care',
-      href: '/facilities/24-7-service',
-      icon: Emergency247Icon,
-      subtitle: isHindi ? 'तत्काल मेडिकल एवं सर्जिकल सहायता' : 'Immediate critical care & response',
     },
   ]
 
@@ -1058,7 +1050,7 @@ export default function Navbar({ currentRoute = 'home' }) {
                       <span className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#ea580c] rounded-full"></span>
                     )}
 
-                    {/* Dropdown Menu */}
+                    {/* Dropdown Menu matching Health Resources & Speciality dropdown */}
                     <div
                       className={`absolute top-full left-0 pt-2 z-50 transition-all duration-200 origin-top-left ${
                         isServicesDropdownOpen
@@ -1066,8 +1058,8 @@ export default function Navbar({ currentRoute = 'home' }) {
                           : 'opacity-0 -translate-y-2 pointer-events-none invisible'
                       }`}
                     >
-                      <div className="w-72 sm:w-80 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.20)] border border-slate-200/80 overflow-hidden text-slate-800 p-2">
-                        <div className="flex flex-col gap-1">
+                      <div className="w-64 sm:w-72 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.20)] border border-slate-200/80 overflow-hidden text-slate-800">
+                        <div className="divide-y divide-slate-100">
                           {servicesList.map((service) => {
                             const IconComp = service.icon
                             return (
@@ -1075,21 +1067,14 @@ export default function Navbar({ currentRoute = 'home' }) {
                                 key={service.id}
                                 href={service.href}
                                 onClick={(e) => handleServiceItemClick(e, service)}
-                                className="group/item flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl hover:bg-orange-50/70 transition-all duration-150 cursor-pointer"
+                                className="group/item flex items-center gap-3 px-4 py-2 hover:bg-slate-50 transition-colors duration-150 cursor-pointer"
                               >
-                                <div className="w-9 h-9 rounded-lg bg-orange-50 border border-orange-200/60 flex items-center justify-center shrink-0 transition-transform duration-150 group-hover/item:scale-105">
+                                <div className="w-6 h-6 flex items-center justify-center shrink-0 transition-transform duration-150 group-hover/item:scale-110">
                                   <IconComp className="w-5 h-5" />
                                 </div>
-                                <div className="flex flex-col">
-                                  <span className="text-[13.5px] font-semibold text-slate-800 group-hover/item:text-[#ea580c] transition-colors leading-tight">
-                                    {service.name}
-                                  </span>
-                                  {service.subtitle && (
-                                    <span className="text-[11px] text-slate-500 font-normal mt-0.5">
-                                      {service.subtitle}
-                                    </span>
-                                  )}
-                                </div>
+                                <span className="text-[13px] sm:text-[13.5px] font-medium text-slate-700 group-hover/item:text-slate-950 transition-colors leading-tight">
+                                  {service.name}
+                                </span>
                               </a>
                             )
                           })}
