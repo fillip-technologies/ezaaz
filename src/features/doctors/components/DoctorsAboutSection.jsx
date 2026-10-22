@@ -87,7 +87,7 @@ export default function DoctorsAboutSection() {
 
   // Doctors managed in the admin panel (only active ones are returned)
   const { doctors, loading } = useDoctors()
-  const allDoctors = useMemo(() => doctors.map((doc) => toDoctorCard(doc, isHindi)), [doctors, isHindi])
+  const allDoctors = useMemo(() => doctors.map((doc) => toDoctorCard(doc, isHindi)).filter(Boolean), [doctors, isHindi])
 
   // First 2 rows (4 doctors: 2 rows x 2 cols) alongside the non-sticky Enquiry Form
   const topDoctors = useMemo(() => allDoctors.slice(0, 4), [allDoctors])

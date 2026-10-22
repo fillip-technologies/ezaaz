@@ -8,14 +8,14 @@ import {
   ArrowRight
 } from 'lucide-react'
 
-// Import facility photos from assets/home/procedures and assets
+// Import facility photos from assets/home/procedures, Laboratory, Nursing, and assets
 import emergencyImg from '../../../assets/home/procedures/emergency-image.png'
 import icuImg from '../../../assets/home/procedures/icu.png'
 import radiologyImg from '../../../assets/home/procedures/radiology-image.png'
-import diagnosisImg from '../../../assets/home/procedures/diagnostic-library.png'
+import diagnosisImg from '../../../assets/Laboratory/27.png'
 import physiotherapyImg from '../../../assets/home/procedures/physioteraphy.jpg'
 import modularOtImg from '../../../assets/home/choose-2.png'
-import generalWardImg from '../../../assets/home/procedures/general-ward.png'
+import generalWardImg from '../../../assets/Nursing/team-portrait.png'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -204,7 +204,8 @@ export default function TopProceduresSection() {
                         src={imageSrc}
                         alt={fac.title}
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-                        loading="lazy"
+                        loading="eager"
+                        decoding="async"
                       />
                     </div>
 

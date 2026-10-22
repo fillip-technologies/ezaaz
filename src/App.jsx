@@ -30,6 +30,8 @@ import BookAppointmentPage from './pages/BookAppointmentPage'
 import AppointmentBookingPage from './pages/AppointmentBookingPage'
 import BlogsPage from './pages/BlogsPage'
 import BlogDetailsPage from './pages/BlogDetailsPage'
+import ResearchPage from './pages/ResearchPage'
+import CaseStudiesPage from './pages/CaseStudiesPage'
 
 // Admin panel is loaded only when visiting /master
 const AdminApp = lazy(() => import('./features/admin/AdminApp'))
@@ -57,6 +59,12 @@ const getRouteFromUrl = () => {
   }
   if (target.includes('blog')) {
     return 'blogs'
+  }
+  if (target.includes('research') || target.includes('article')) {
+    return 'research'
+  }
+  if (target.includes('case-stud') || target.includes('case-studies') || target.includes('casestud')) {
+    return 'case-studies'
   }
   if (
     target.includes('appointment-booking') ||
@@ -210,6 +218,8 @@ export default function App() {
         {currentRoute === 'book-appointment' && <BookAppointmentPage />}
         {currentRoute === 'blogs' && <BlogsPage />}
         {currentRoute === 'blog-details' && <BlogDetailsPage />}
+        {currentRoute === 'research' && <ResearchPage />}
+        {currentRoute === 'case-studies' && <CaseStudiesPage />}
         {currentRoute === 'home' && <HomePage />}
       </main>
 

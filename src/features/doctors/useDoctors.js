@@ -32,7 +32,12 @@ export function useDoctors() {
   return state
 }
 
-const pick = (field, isHindi) => (isHindi && field?.hi ? field.hi : field?.en || '')
+const pick = (field, isHindi) => {
+  if (!field) return ''
+  if (typeof field === 'string') return field
+  if (isHindi && field.hi) return field.hi
+  return field.en || field.hi || ''
+}
 
 export function doctorPhoto(doctor) {
   return doctor?.photo ? assetUrl(doctor.photo) : placeholderPhoto
@@ -43,10 +48,66 @@ export function formatExperience(years, isHindi) {
   return isHindi ? `${years}+ वर्ष` : `${years}+ Years`
 }
 
+import { DR_SHAHZAD_DETAILS } from './drShahzadDetails'
+import { DR_SHIVANI_DETAILS } from './drShivaniDetails'
+
+export const checkIsShahzad = (doctor) =>
+  doctor.slug === 'dr-shahzad' ||
+  doctor._id === '6ad0c4fa70227250537648f3' ||
+  (typeof doctor.name === 'string' && doctor.name.toLowerCase().includes('shahzad')) ||
+  doctor.name?.en?.toLowerCase().includes('shahzad')
+
+export const checkIsShivani = (doctor) =>
+  doctor.slug === 'dr-ortho-specialist' ||
+  doctor.slug === 'dr-shivani' ||
+  doctor._id === '6ad0c4fb70227250537648f5' ||
+  (typeof doctor.name === 'string' && doctor.name.toLowerCase().includes('shivani')) ||
+  doctor.name?.en?.toLowerCase().includes('shivani')
+
 // Flat, single-language shape used by the doctor cards and the booking form
 export function toDoctorCard(doctor, isHindi) {
+  if (!doctor) return null
+  const isShahzad = checkIsShahzad(doctor)
+  const isShivani = checkIsShivani(doctor)
+
+  if (isShahzad) {
+    return {
+      id: doctor.slug || 'dr-shahzad',
+      name: isHindi ? DR_SHAHZAD_DETAILS.nameHi : DR_SHAHZAD_DETAILS.name,
+      photo: doctorPhoto(doctor),
+      specialty: isHindi ? DR_SHAHZAD_DETAILS.specialtyHi : DR_SHAHZAD_DETAILS.specialty,
+      subSpecialty: isHindi ? DR_SHAHZAD_DETAILS.subSpecialtyHi : DR_SHAHZAD_DETAILS.subSpecialty,
+      department: isHindi ? DR_SHAHZAD_DETAILS.departmentHi : DR_SHAHZAD_DETAILS.department,
+      departmentId: doctor.category,
+      specialtyTags: doctor.specialtyTags || [],
+      degrees: isHindi ? DR_SHAHZAD_DETAILS.degreesHi : DR_SHAHZAD_DETAILS.degrees,
+      experience: isHindi ? DR_SHAHZAD_DETAILS.experienceHi : DR_SHAHZAD_DETAILS.experience,
+      gender: isHindi ? 'पुरुष' : 'Male',
+      timing: isHindi ? DR_SHAHZAD_DETAILS.timingHi : DR_SHAHZAD_DETAILS.timing,
+      bio: DR_SHAHZAD_DETAILS.aboutEn?.slice(0, 160) + '...',
+    }
+  }
+
+  if (isShivani) {
+    return {
+      id: doctor.slug || 'dr-ortho-specialist',
+      name: isHindi ? DR_SHIVANI_DETAILS.nameHi : DR_SHIVANI_DETAILS.name,
+      photo: doctorPhoto(doctor),
+      specialty: isHindi ? DR_SHIVANI_DETAILS.specialtyHi : DR_SHIVANI_DETAILS.specialty,
+      subSpecialty: isHindi ? DR_SHIVANI_DETAILS.subSpecialtyHi : DR_SHIVANI_DETAILS.subSpecialty,
+      department: isHindi ? DR_SHIVANI_DETAILS.departmentHi : DR_SHIVANI_DETAILS.department,
+      departmentId: 'gynaecology',
+      specialtyTags: DR_SHIVANI_DETAILS.specialtyTags,
+      degrees: isHindi ? DR_SHIVANI_DETAILS.degreesHi : DR_SHIVANI_DETAILS.degrees,
+      experience: isHindi ? DR_SHIVANI_DETAILS.experienceHi : DR_SHIVANI_DETAILS.experience,
+      gender: isHindi ? 'महिला' : 'Female',
+      timing: isHindi ? DR_SHIVANI_DETAILS.timingHi : DR_SHIVANI_DETAILS.timing,
+      bio: DR_SHIVANI_DETAILS.aboutEn?.slice(0, 160) + '...',
+    }
+  }
+
   return {
-    id: doctor.slug,
+    id: doctor.slug || doctor._id,
     name: pick(doctor.name, isHindi),
     photo: doctorPhoto(doctor),
     specialty: pick(doctor.specialty, isHindi),
@@ -65,39 +126,138 @@ export function toDoctorCard(doctor, isHindi) {
 // Blog posts store the author doctor's id; name, role and photo come from the doctor record.
 // Returns null when that doctor doesn't exist or is hidden.
 export function findBlogAuthor(doctors, authorDoctorId, isHindi) {
-  if (!authorDoctorId) return null
-  const doctor = doctors.find((d) => d._id === authorDoctorId)
+  if (!authorDoctorId || !doctors) return null
+  const doctor = doctors.find((d) => d._id === authorDoctorId || d.slug === authorDoctorId)
   if (!doctor) return null
+  const isShahzad = checkIsShahzad(doctor)
+  const isShivani = checkIsShivani(doctor)
+
   return {
-    id: doctor.slug,
-    name: pick(doctor.name, isHindi),
-    role: pick(doctor.specialty, isHindi),
+    id: doctor.slug || doctor._id,
+    name: isShahzad
+      ? (isHindi ? DR_SHAHZAD_DETAILS.nameHi : DR_SHAHZAD_DETAILS.name)
+      : isShivani
+        ? (isHindi ? DR_SHIVANI_DETAILS.nameHi : DR_SHIVANI_DETAILS.name)
+        : pick(doctor.name, isHindi),
+    role: isShahzad
+      ? (isHindi ? DR_SHAHZAD_DETAILS.specialtyHi : DR_SHAHZAD_DETAILS.specialty)
+      : isShivani
+        ? (isHindi ? DR_SHIVANI_DETAILS.specialtyHi : DR_SHIVANI_DETAILS.specialty)
+        : pick(doctor.specialty, isHindi),
     photo: doctorPhoto(doctor),
   }
 }
 
 // Bilingual shape used by the doctor profile page (keys match the old static profile data)
 export function toDoctorProfile(doctor) {
+  if (!doctor) return null
+  const isShahzad = checkIsShahzad(doctor)
+  const isShivani = checkIsShivani(doctor)
+
+  if (isShahzad) {
+    return {
+      id: doctor.slug || 'dr-shahzad',
+      isShahzad: true,
+      name: DR_SHAHZAD_DETAILS.name,
+      nameHi: DR_SHAHZAD_DETAILS.nameHi,
+      regNo: DR_SHAHZAD_DETAILS.regNo,
+      photo: doctorPhoto(doctor),
+      degrees: DR_SHAHZAD_DETAILS.degrees,
+      degreesHi: DR_SHAHZAD_DETAILS.degreesHi,
+      specialty: DR_SHAHZAD_DETAILS.specialty,
+      specialtyHi: DR_SHAHZAD_DETAILS.specialtyHi,
+      subSpecialty: DR_SHAHZAD_DETAILS.subSpecialty,
+      subSpecialtyHi: DR_SHAHZAD_DETAILS.subSpecialtyHi,
+      department: DR_SHAHZAD_DETAILS.department,
+      departmentHi: DR_SHAHZAD_DETAILS.departmentHi,
+      experience: DR_SHAHZAD_DETAILS.experience,
+      experienceHi: DR_SHAHZAD_DETAILS.experienceHi,
+      languages: DR_SHAHZAD_DETAILS.languages,
+      timing: DR_SHAHZAD_DETAILS.timing,
+      timingHi: DR_SHAHZAD_DETAILS.timingHi,
+      hospital: DR_SHAHZAD_DETAILS.hospital,
+      hospitalHi: DR_SHAHZAD_DETAILS.hospitalHi,
+      aboutEn: DR_SHAHZAD_DETAILS.aboutEn,
+      aboutHi: DR_SHAHZAD_DETAILS.aboutHi,
+      specializations: DR_SHAHZAD_DETAILS.specializations,
+      education: DR_SHAHZAD_DETAILS.education,
+      awards: DR_SHAHZAD_DETAILS.awards,
+      licensure: DR_SHAHZAD_DETAILS.licensure,
+      publications: DR_SHAHZAD_DETAILS.publications,
+      currentPosition: DR_SHAHZAD_DETAILS.currentPosition,
+      contact: DR_SHAHZAD_DETAILS.contact,
+      personalInfo: DR_SHAHZAD_DETAILS.personalInfo,
+    }
+  }
+
+  if (isShivani) {
+    return {
+      id: doctor.slug || 'dr-ortho-specialist',
+      isShivani: true,
+      name: DR_SHIVANI_DETAILS.name,
+      nameHi: DR_SHIVANI_DETAILS.nameHi,
+      regNo: DR_SHIVANI_DETAILS.regNo,
+      photo: doctorPhoto(doctor),
+      degrees: DR_SHIVANI_DETAILS.degrees,
+      degreesHi: DR_SHIVANI_DETAILS.degreesHi,
+      specialty: DR_SHIVANI_DETAILS.specialty,
+      specialtyHi: DR_SHIVANI_DETAILS.specialtyHi,
+      subSpecialty: DR_SHIVANI_DETAILS.subSpecialty,
+      subSpecialtyHi: DR_SHIVANI_DETAILS.subSpecialtyHi,
+      department: DR_SHIVANI_DETAILS.department,
+      departmentHi: DR_SHIVANI_DETAILS.departmentHi,
+      experience: DR_SHIVANI_DETAILS.experience,
+      experienceHi: DR_SHIVANI_DETAILS.experienceHi,
+      languages: DR_SHIVANI_DETAILS.languages,
+      timing: DR_SHIVANI_DETAILS.timing,
+      timingHi: DR_SHIVANI_DETAILS.timingHi,
+      hospital: DR_SHIVANI_DETAILS.hospital,
+      hospitalHi: DR_SHIVANI_DETAILS.hospitalHi,
+      aboutEn: DR_SHIVANI_DETAILS.aboutEn,
+      aboutHi: DR_SHIVANI_DETAILS.aboutHi,
+      specializations: DR_SHIVANI_DETAILS.specializations,
+      education: DR_SHIVANI_DETAILS.education,
+      experienceList: DR_SHIVANI_DETAILS.experienceList,
+      awards: DR_SHIVANI_DETAILS.awards || [],
+      licensure: DR_SHIVANI_DETAILS.licensure,
+      publications: DR_SHIVANI_DETAILS.publications,
+      currentPosition: DR_SHIVANI_DETAILS.currentPosition,
+      contact: DR_SHIVANI_DETAILS.contact,
+      personalInfo: DR_SHIVANI_DETAILS.personalInfo,
+    }
+  }
+
   return {
-    id: doctor.slug,
-    name: doctor.name?.en || '',
+    id: doctor.slug || doctor._id,
+    name: pick(doctor.name, false),
     nameHi: pick(doctor.name, true),
-    regNo: doctor.regNo,
+    regNo: doctor.regNo || '',
     photo: doctorPhoto(doctor),
-    degrees: doctor.degrees?.en || '',
+    degrees: pick(doctor.degrees, false),
     degreesHi: pick(doctor.degrees, true),
-    specialty: doctor.specialty?.en || '',
+    specialty: pick(doctor.specialty, false),
     specialtyHi: pick(doctor.specialty, true),
+    subSpecialty: pick(doctor.subSpecialty, false),
+    subSpecialtyHi: pick(doctor.subSpecialty, true),
+    department: pick(doctor.department, false),
+    departmentHi: pick(doctor.department, true),
     experience: formatExperience(doctor.experienceYears, false),
     experienceHi: formatExperience(doctor.experienceYears, true),
-    languages: doctor.languages,
-    timing: doctor.timing?.en || '',
+    languages: doctor.languages || '',
+    timing: pick(doctor.timing, false),
     timingHi: pick(doctor.timing, true),
-    hospital: doctor.hospital?.en || '',
+    hospital: pick(doctor.hospital, false),
     hospitalHi: pick(doctor.hospital, true),
-    aboutEn: doctor.about?.en || '',
+    aboutEn: pick(doctor.about, false),
     aboutHi: pick(doctor.about, true),
     specializations: doctor.specializations || [],
     education: doctor.education || [],
+    experienceList: doctor.experienceList || [],
+    awards: doctor.awards || [],
+    licensure: doctor.licensure || [],
+    publications: doctor.publications || [],
+    currentPosition: doctor.currentPosition || null,
+    contact: doctor.contact || null,
+    personalInfo: doctor.personalInfo || null,
   }
 }

@@ -1,13 +1,23 @@
 /**
  * Single HTTP client used by every API module in this folder.
- * Base URL: VITE_API_URL in production, otherwise `/api` (proxied to the backend by Vite in dev).
+ * In development (`npm run dev`), we always use `/api` relative URL so requests
+ * go through the Vite proxy. This avoids browser CORS errors when connecting to the backend.
+ * In production (`npm run build`), VITE_API_URL is used directly if specified.
  */
 
-const BASE_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '')
+const rawEnvUrl = (import.meta.env.VITE_API_URL || '').trim()
+const isDev = import.meta.env.DEV
+
+const BASE_URL = (isDev ? '/api' : (rawEnvUrl || '/api')).replace(/\/+$/, '')
 const TOKEN_KEY = 'ejaz_admin_token'
 
-// Server origin for uploaded files (e.g. https://api.example.com when VITE_API_URL=https://api.example.com/api)
-const ASSET_ORIGIN = /^https?:\/\//.test(BASE_URL) ? new URL(BASE_URL).origin : ''
+// In dev, uploaded assets like /uploads/... are proxied by Vite (so ASSET_ORIGIN is empty).
+// In production with a remote VITE_API_URL, ASSET_ORIGIN is the API host origin.
+const ASSET_ORIGIN = isDev
+  ? ''
+  : /^https?:\/\//.test(BASE_URL)
+    ? new URL(BASE_URL).origin
+    : ''
 
 // Turns a stored upload path like /uploads/doctors/x.jpg into a URL the browser can load
 export function assetUrl(path) {

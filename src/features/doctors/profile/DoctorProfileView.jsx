@@ -13,17 +13,28 @@ import {
   Sparkles,
   Check,
   Calendar,
-  Loader2
+  Loader2,
+  Trophy,
+  ShieldCheck,
+  BookOpen,
+  Briefcase,
+  Mail,
+  FileText,
+  ChevronDown
 } from 'lucide-react'
-import { useDoctors, toDoctorProfile } from '../useDoctors'
+import { useDoctors, toDoctorProfile, checkIsShahzad, checkIsShivani } from '../useDoctors'
 
 // Doctor slug from ?id=... (or /doctor-profile/<slug>)
 const getDoctorIdFromUrl = () => {
-  const params = new URLSearchParams(window.location.search)
-  const qId = params.get('id')
-  if (qId) return qId.toLowerCase()
-  const lastPart = window.location.pathname.split('/').pop()
-  return lastPart && lastPart !== 'doctor-profile' ? lastPart.toLowerCase() : ''
+  try {
+    const params = new URLSearchParams(window.location.search)
+    const qId = params.get('id')
+    if (qId) return decodeURIComponent(qId).trim().toLowerCase()
+    const lastPart = window.location.pathname.split('/').filter(Boolean).pop()
+    return lastPart && lastPart !== 'doctor-profile' ? decodeURIComponent(lastPart).trim().toLowerCase() : ''
+  } catch {
+    return ''
+  }
 }
 
 export default function DoctorProfileView({ doctorId = '' }) {
@@ -33,6 +44,7 @@ export default function DoctorProfileView({ doctorId = '' }) {
   // Doctors are managed in the admin panel and loaded from the API
   const { doctors, loading, error } = useDoctors()
   const [currentDoctorId, setCurrentDoctorId] = useState(() => getDoctorIdFromUrl() || doctorId)
+  const [showAllPublications, setShowAllPublications] = useState(false)
 
   // Synchronize on browser history popstate
   useEffect(() => {
@@ -44,10 +56,24 @@ export default function DoctorProfileView({ doctorId = '' }) {
     return () => window.removeEventListener('popstate', handleUrlChange)
   }, [])
 
-  // Doctor details object (null while loading or if the doctor doesn't exist / is hidden)
+  // Doctor details object (null while loading or if no doctors exist)
   const doctor = useMemo(() => {
-    const found = currentDoctorId ? doctors.find((d) => d.slug === currentDoctorId) : doctors[0]
-    return found ? toDoctorProfile(found) : null
+    if (!doctors || doctors.length === 0) return null
+    if (!currentDoctorId) return toDoctorProfile(doctors[0])
+    const normalized = currentDoctorId.trim().toLowerCase()
+    const found = doctors.find((d) => {
+      const slug = (d.slug || '').toLowerCase()
+      const id = (d._id || '').toLowerCase()
+      if (slug === normalized || id === normalized) return true
+      if (normalized === 'dr-shivani' || normalized === 'shivani' || normalized === 'dr-ortho-specialist') {
+        return checkIsShivani(d)
+      }
+      if (normalized === 'dr-shahzad' || normalized === 'shahzad') {
+        return checkIsShahzad(d)
+      }
+      return false
+    })
+    return found ? toDoctorProfile(found) : toDoctorProfile(doctors[0])
   }, [doctors, currentDoctorId])
 
   // Booking Form State
@@ -146,8 +172,15 @@ export default function DoctorProfileView({ doctorId = '' }) {
   }
 
   const otherDoctors = useMemo(() => {
-    return doctors.filter((d) => d.slug !== doctor?.id).map(toDoctorProfile)
-  }, [doctors, doctor?.id])
+    return doctors
+      .filter((d) => {
+        if (!doctor) return true
+        const isCurrentShahzad = (doctor.isShahzad || doctor.id === 'dr-shahzad') && checkIsShahzad(d)
+        const isCurrentShivani = (doctor.isShivani || doctor.id === 'dr-ortho-specialist' || doctor.id === 'dr-shivani') && checkIsShivani(d)
+        return !isCurrentShahzad && !isCurrentShivani && d.slug !== doctor.id && d._id !== doctor.id
+      })
+      .map(toDoctorProfile)
+  }, [doctors, doctor])
 
   if (loading || !doctor) {
     return (
@@ -264,6 +297,36 @@ export default function DoctorProfileView({ doctorId = '' }) {
                       <span className="text-white font-semibold">{doctor.regNo}</span>
                     </p>
 
+                    {(doctor.id === 'dr-shahzad' || doctor.isShahzad) && (
+                      <div className="flex flex-wrap items-center gap-1 pt-0.5">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/30 text-[9.5px] font-bold">
+                          <Award className="w-2.5 h-2.5 text-amber-300" />
+                          <span>Mayo Clinic Trained</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-200 border border-blue-300/30 text-[9.5px] font-bold">
+                          <GraduationCap className="w-2.5 h-2.5 text-blue-300" />
+                          <span>Summa Cum Laude</span>
+                        </span>
+                      </div>
+                    )}
+
+                    {(doctor.id === 'dr-ortho-specialist' || doctor.id === 'dr-shivani' || doctor.isShivani) && (
+                      <div className="flex flex-wrap items-center gap-1 pt-0.5">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-400/20 text-pink-200 border border-pink-300/30 text-[9.5px] font-bold">
+                          <GraduationCap className="w-2.5 h-2.5 text-pink-300" />
+                          <span>MD (Obs & Gynae) — RIMS</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-200 border border-blue-300/30 text-[9.5px] font-bold">
+                          <Award className="w-2.5 h-2.5 text-blue-300" />
+                          <span>Ex-Senior Resident</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 text-[9.5px] font-bold">
+                          <ShieldCheck className="w-2.5 h-2.5 text-emerald-300" />
+                          <span>NMC Recognized</span>
+                        </span>
+                      </div>
+                    )}
+
                     {/* Doctor Name + Share */}
                     <div className="flex items-start justify-between gap-1.5">
                       <h1 className="text-lg xs:text-xl font-bold text-white tracking-tight leading-tight">
@@ -341,6 +404,40 @@ export default function DoctorProfileView({ doctorId = '' }) {
                     {isHindi ? 'पंजीकरण सं. : ' : 'Reg. No : '}
                     <span className="text-white font-semibold">{doctor.regNo}</span>
                   </p>
+
+                  {(doctor.id === 'dr-shahzad' || doctor.isShahzad) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <Award className="w-3.5 h-3.5 text-amber-300" />
+                        <span>Mayo Clinic (USA) Trained</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-400/20 text-blue-200 border border-blue-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <GraduationCap className="w-3.5 h-3.5 text-blue-300" />
+                        <span>Charles University (Summa Cum Laude, Rank 1)</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
+                        <span>ECFMG Certified (USA)</span>
+                      </span>
+                    </div>
+                  )}
+
+                  {(doctor.id === 'dr-ortho-specialist' || doctor.id === 'dr-shivani' || doctor.isShivani) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-400/20 text-pink-200 border border-pink-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <GraduationCap className="w-3.5 h-3.5 text-pink-300" />
+                        <span>MD (Obstetrics & Gynaecology) — RIMS Ranchi (First Class)</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-400/20 text-blue-200 border border-blue-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <Award className="w-3.5 h-3.5 text-blue-300" />
+                        <span>Senior Resident — SNMMCH (PMCH) Dhanbad & RIMS Ranchi</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
+                        <span>NMC Recognized Specialist</span>
+                      </span>
+                    </div>
+                  )}
 
                   {/* Doctor Name + Share Button */}
                   <div className="flex items-center gap-3">
@@ -545,7 +642,7 @@ export default function DoctorProfileView({ doctorId = '' }) {
 
                         {/* Navy Button: Call Now */}
                         <a
-                          href="tel:+918002003000"
+                          href={`tel:${doctor.contact?.phone ? doctor.contact.phone.replace(/[\s-]/g, '') : '+916203770070'}`}
                           className="w-full sm:w-auto py-2.5 sm:py-3 px-4 rounded-xl bg-[#003a70] hover:bg-[#00284d] text-white font-bold text-xs sm:text-[13px] shadow-sm hover:shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap"
                         >
                           <Phone className="w-3.5 h-3.5 fill-current" />
@@ -576,6 +673,42 @@ export default function DoctorProfileView({ doctorId = '' }) {
             {/* LEFT COLUMN: About Doctor narrative & credentials (Clean flow, no cards) */}
             <div className="lg:col-span-8 space-y-10">
               
+              {/* Current Clinical Appointment Callout Banner */}
+              {doctor.currentPosition && (
+                <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-50/90 via-slate-50 to-amber-50/40 border border-slate-200/90 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5">
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-11 h-11 rounded-xl bg-[#003a70] text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <Briefcase className="w-5 h-5 text-amber-300" />
+                    </div>
+                    <div>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#ea580c] block">
+                        {isHindi ? 'वर्तमान पदभार' : 'Current Clinical Appointment'}
+                      </span>
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 mt-0.5">
+                        {isHindi && doctor.currentPosition.roleHi ? doctor.currentPosition.roleHi : doctor.currentPosition.role}
+                      </h3>
+                      <p className="text-xs text-slate-600 mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                        <span className="font-semibold text-slate-800">
+                          {isHindi && doctor.currentPosition.organizationHi ? doctor.currentPosition.organizationHi : doctor.currentPosition.organization}
+                        </span>
+                        <span>•</span>
+                        <span className="text-[#003a70] font-semibold">
+                          {isHindi && doctor.currentPosition.periodHi ? doctor.currentPosition.periodHi : doctor.currentPosition.period}
+                        </span>
+                        {doctor.currentPosition.chief && (
+                          <>
+                            <span>•</span>
+                            <span className="text-slate-700">
+                              {isHindi ? `चीफ: ${doctor.currentPosition.chiefHi || doctor.currentPosition.chief}` : `Chief: ${doctor.currentPosition.chief}`}
+                            </span>
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* About Section Heading & Story */}
               <div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-4">
@@ -613,6 +746,52 @@ export default function DoctorProfileView({ doctorId = '' }) {
                 </div>
               </div>
 
+              {/* Clinical Experience & Hospital Appointments (if available) */}
+              {doctor.experienceList && doctor.experienceList.length > 0 && (
+                <>
+                  <div className="w-full h-px bg-slate-200/80" />
+                  <div>
+                    <div className="flex items-center gap-2.5 mb-5">
+                      <Briefcase className="w-5 h-5 text-[#ea580c]" />
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                        {isHindi ? 'क्लिनिकल अनुभव एवं अस्पताल पदभार' : 'Clinical Experience & Hospital Appointments'}
+                      </h3>
+                    </div>
+
+                    <div className="space-y-3">
+                      {doctor.experienceList.map((exp, idx) => (
+                        <div
+                          key={idx}
+                          className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition-colors"
+                        >
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4 mb-1">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-2 h-2 rounded-full bg-[#ea580c] shrink-0" />
+                              <span className="text-xs sm:text-sm font-bold text-slate-900">
+                                {isHindi && exp.roleHi ? exp.roleHi : exp.role}
+                              </span>
+                            </div>
+                            {exp.period && (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-orange-50 border border-orange-200 text-[#ea580c] text-[11px] font-bold w-fit">
+                                {exp.period}
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-xs sm:text-[13px] text-slate-700 font-semibold pl-4.5 block">
+                            {isHindi && exp.organizationHi ? exp.organizationHi : exp.organization}
+                          </span>
+                          {exp.details && (
+                            <p className="text-xs text-slate-500 mt-1 pl-4.5 leading-relaxed">
+                              {exp.details}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+
               <div className="w-full h-px bg-slate-200/80" />
 
               {/* Educational Qualifications & Fellowships */}
@@ -628,21 +807,188 @@ export default function DoctorProfileView({ doctorId = '' }) {
                   {doctor.education?.map((edu, idx) => (
                     <div
                       key={idx}
-                      className="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4"
+                      className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition-colors"
                     >
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-2 h-2 rounded-full bg-[#ea580c] shrink-0" />
-                        <span className="text-xs sm:text-sm font-bold text-slate-900">
-                          {edu.degree}
-                        </span>
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4 mb-1">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-2 h-2 rounded-full bg-[#ea580c] shrink-0" />
+                          <span className="text-xs sm:text-sm font-bold text-slate-900">
+                            {isHindi && edu.degreeHi ? edu.degreeHi : edu.degree}
+                          </span>
+                        </div>
+                        {edu.period && (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-[#003a70] text-[11px] font-bold w-fit">
+                            {edu.period}
+                          </span>
+                        )}
                       </div>
-                      <span className="text-xs text-slate-500 font-medium pl-4.5 sm:pl-0">
-                        {edu.institution}
+                      <span className="text-xs sm:text-[13px] text-slate-700 font-medium pl-4.5 block">
+                        {isHindi && edu.institutionHi ? edu.institutionHi : edu.institution}
                       </span>
+                      {edu.details && (
+                        <p className="text-xs text-slate-500 mt-1 pl-4.5 leading-relaxed">
+                          {edu.details}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
               </div>
+
+              {/* Licensure, USMLE & Accreditations (if available) */}
+              {doctor.licensure && doctor.licensure.length > 0 && (
+                <>
+                  <div className="w-full h-px bg-slate-200/80" />
+                  <div>
+                    <div className="flex items-center gap-2.5 mb-5">
+                      <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                        {isHindi
+                          ? ((doctor.isShahzad || doctor.id === 'dr-shahzad') ? 'लाइसेंस, USMLE एवं मान्यताएं' : 'लाइसेंस, NMC रजिस्ट्रेशन एवं मान्यताएं')
+                          : ((doctor.isShahzad || doctor.id === 'dr-shahzad') ? 'Licensure, USMLE & Clinical Accreditations' : 'Medical Registration & Clinical Accreditations')}
+                      </h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {doctor.licensure.map((lic, idx) => (
+                        <div
+                          key={idx}
+                          className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-start justify-between gap-3 hover:border-emerald-500/30 transition-colors"
+                        >
+                          <div className="space-y-0.5 min-w-0">
+                            <h4 className="text-xs sm:text-[13px] font-bold text-slate-900">
+                              {lic.name}
+                            </h4>
+                            <p className="text-[11.5px] text-slate-600 leading-snug">
+                              {lic.authority}
+                            </p>
+                            <span className="text-[11px] text-slate-400 block pt-0.5">
+                              {lic.issued}
+                            </span>
+                          </div>
+                          {lic.badge && (
+                            <span className="shrink-0 px-2 py-0.5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">
+                              {lic.badge}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Awards & Academic Distinctions (if available) */}
+              {doctor.awards && doctor.awards.length > 0 && (
+                <>
+                  <div className="w-full h-px bg-slate-200/80" />
+                  <div>
+                    <div className="flex items-center gap-2.5 mb-5">
+                      <Trophy className="w-5 h-5 text-amber-500" />
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                        {isHindi ? 'शैक्षणिक पुरस्कार एवं सम्मान' : 'Awards & Academic Honors'}
+                      </h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {doctor.awards.map((award, idx) => (
+                        <div
+                          key={idx}
+                          className="p-4 rounded-xl bg-amber-50/40 border border-amber-200/70 hover:border-amber-300 transition-colors flex flex-col justify-between"
+                        >
+                          <div>
+                            <div className="flex items-start justify-between gap-2 mb-1">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-900">
+                                {isHindi && award.titleHi ? award.titleHi : award.title}
+                              </h4>
+                              {award.badge && (
+                                <span className="shrink-0 px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-bold uppercase tracking-wide">
+                                  {award.badge}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs font-semibold text-[#003a70]">
+                              {award.organization}
+                            </p>
+                            {award.description && (
+                              <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                                {award.description}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Peer-Reviewed Publications & Research (if available) */}
+              {doctor.publications && doctor.publications.length > 0 && (
+                <>
+                  <div className="w-full h-px bg-slate-200/80" />
+                  <div>
+                    <div className="flex items-center justify-between gap-3 mb-5">
+                      <div className="flex items-center gap-2.5">
+                        <BookOpen className="w-5 h-5 text-[#003a70]" />
+                        <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                          {isHindi ? 'शोध पत्र एवं प्रकाशन' : 'Selected Peer-Reviewed Publications'}
+                        </h3>
+                      </div>
+                      <span className="px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold shrink-0">
+                        {doctor.publications.length} {isHindi ? 'शोध पत्र' : 'Publications'}
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {(showAllPublications ? doctor.publications : doctor.publications.slice(0, 6)).map((pub, idx) => (
+                        <div
+                          key={idx}
+                          className="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-[#003a70]/40 transition-all text-xs sm:text-sm"
+                        >
+                          <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                            <span className="px-2 py-0.5 rounded-md bg-[#003a70]/10 text-[#003a70] text-[10.5px] font-bold">
+                              {pub.journal}
+                            </span>
+                            <span className="text-slate-400 text-xs">•</span>
+                            <span className="text-slate-500 font-semibold text-xs">{pub.year}</span>
+                            {pub.tag && (
+                              <span className="text-[10px] font-semibold text-slate-500 bg-slate-200/60 px-1.5 py-0.5 rounded ml-auto">
+                                {pub.tag}
+                              </span>
+                            )}
+                          </div>
+
+                          <h4 className="font-bold text-slate-900 text-xs sm:text-[13.5px] leading-snug">
+                            {pub.title}
+                          </h4>
+
+                          <p className="text-slate-500 text-[11.5px] mt-1 leading-relaxed">
+                            {pub.citation || pub.authors}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {doctor.publications.length > 6 && (
+                      <div className="mt-4 text-center">
+                        <button
+                          type="button"
+                          onClick={() => setShowAllPublications((prev) => !prev)}
+                          className="px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 text-[#003a70] border border-slate-300 hover:border-[#003a70] text-xs font-bold shadow-xs hover:shadow transition-all cursor-pointer inline-flex items-center gap-1.5"
+                        >
+                          <span>
+                            {showAllPublications
+                              ? (isHindi ? 'कम शोध पत्र दिखाएं' : 'Show Less')
+                              : (isHindi ? `सभी ${doctor.publications.length} शोध पत्र देखें` : `View All ${doctor.publications.length} Publications`)}
+                          </span>
+                          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAllPublications ? 'rotate-180' : ''}`} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
 
             </div>
 
@@ -673,25 +1019,37 @@ export default function DoctorProfileView({ doctorId = '' }) {
                       {isHindi ? 'क्लिनिक पता' : 'Clinic Location'}
                     </span>
                     <p className="font-semibold text-slate-800 mt-0.5">
-                      {isHindi ? doctor.hospitalHi : doctor.hospital}
-                    </p>
-                    <p className="text-slate-500 text-xs mt-0.5">
-                      {isHindi ? 'अशोक राजपथ, पटना (पीएमसीएच के पास)' : 'Ashok Rajpath, Patna (Near PMCH)'}
+                      {isHindi ? (doctor.contact?.addressHi || doctor.hospitalHi || doctor.hospital) : (doctor.contact?.address || doctor.hospital)}
                     </p>
                   </div>
 
-                  <div>
+                  <div className="pb-2.5 border-b border-slate-200/80">
                     <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-                      {isHindi ? 'सीधा संपर्क / सहायता' : 'Direct OPD Helpline'}
+                      {isHindi ? 'सीधा संपर्क / अपॉइंटमेंट' : 'Direct Doctor Line'}
                     </span>
                     <a
-                      href="tel:+916203770070"
+                      href={`tel:${doctor.contact?.phone || '+919431494555'}`}
                       className="font-bold text-[#003a70] hover:text-[#ea580c] transition-colors mt-0.5 inline-flex items-center gap-1.5"
                     >
-                      <Phone className="w-3.5 h-3.5" />
-                      <span>+91 6203 770 070</span>
+                      <Phone className="w-3.5 h-3.5 text-[#ea580c]" />
+                      <span>{doctor.contact?.phoneDisplay || doctor.contact?.phone || '+91 94314 94555'}</span>
                     </a>
                   </div>
+
+                  {doctor.contact?.email && (
+                    <div>
+                      <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                        {isHindi ? 'ईमेल' : 'Official Email'}
+                      </span>
+                      <a
+                        href={`mailto:${doctor.contact.email}`}
+                        className="font-semibold text-[#003a70] hover:text-[#ea580c] transition-colors mt-0.5 inline-flex items-center gap-1.5 truncate max-w-full"
+                      >
+                        <Mail className="w-3.5 h-3.5 text-[#ea580c] shrink-0" />
+                        <span className="truncate">{doctor.contact.email}</span>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
 

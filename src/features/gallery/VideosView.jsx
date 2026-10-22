@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import {
   Play,
   X,
-  Clock
+  Clock,
+  ArrowLeft
 } from 'lucide-react'
 import ejazVideo from '../../assets/home/ejaz-home.mp4'
 
@@ -71,8 +72,38 @@ export default function VideosView() {
   }, [selectedVideo])
 
   return (
-    <div className="w-full bg-slate-950 text-white min-h-screen pt-24 sm:pt-28 pb-16 sm:pb-24">
-      
+    <div className="w-full bg-[#f8fafc] text-slate-800 min-h-screen pt-24 sm:pt-28 pb-16 sm:pb-24">
+      {/* Top Header & Navigation */}
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 mb-8 sm:mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <a
+                href="/"
+                className="text-xs sm:text-sm font-semibold text-[#003a70] hover:text-[#00284d] flex items-center gap-1.5 transition-colors"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                Back to Home
+              </a>
+              <span className="text-slate-300 text-xs">/</span>
+              <span className="text-xs sm:text-sm text-slate-500 font-medium">Video Gallery</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+              Hospital Video Gallery
+            </h1>
+            <p className="mt-2 text-sm sm:text-base text-slate-600 max-w-2xl font-normal leading-relaxed">
+              Watch insightful clinical overviews, facility walk-throughs, and surgical procedures at Ejaz Hospital.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className="px-3.5 py-1.5 rounded-full bg-white text-slate-700 text-xs font-semibold border border-slate-200 shadow-xs">
+              {GALLERY_VIDEOS.length} Videos
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* Pure Videos Grid */}
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
@@ -80,12 +111,13 @@ export default function VideosView() {
             <div
               key={video.id}
               onClick={() => setSelectedVideo(video)}
-              className="group relative aspect-[16/10] rounded-2xl overflow-hidden bg-slate-900 border border-white/10 shadow-lg hover:shadow-2xl hover:border-orange-500/40 transition-all duration-300 cursor-pointer hover:scale-[1.02]"
+              className="group relative aspect-[16/10] rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-xl hover:border-orange-500/40 transition-all duration-300 cursor-pointer hover:scale-[1.02]"
             >
               <img
                 src={video.thumbnail}
                 alt=""
-                loading="lazy"
+                loading="eager"
+                decoding="async"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108 opacity-90 group-hover:opacity-100"
               />
 

@@ -96,6 +96,35 @@ function BlogIcon({ className = 'w-6 h-6' }) {
   )
 }
 
+function ResearchArticleIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg viewBox="0 0 64 64" fill="none" stroke="#334155" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M14 10h24a4 4 0 0 1 4 4v38a2 2 0 0 1-2 2H14a4 4 0 0 1-4-4V14a4 4 0 0 1 4-4z" strokeWidth="2.5" />
+      <path d="M42 20h8a4 4 0 0 1 4 4v26a4 4 0 0 1-4 4H20" strokeWidth="2" />
+      <line x1="18" y1="22" x2="34" y2="22" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" />
+      <line x1="18" y1="30" x2="34" y2="30" strokeWidth="2" strokeLinecap="round" />
+      <line x1="18" y1="38" x2="28" y2="38" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="38" cy="42" r="7" stroke="#ea580c" strokeWidth="2" fill="white" />
+      <line x1="43" y1="47" x2="49" y2="53" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function CaseStudiesIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg viewBox="0 0 64 64" fill="none" stroke="#334155" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <rect x="12" y="14" width="40" height="42" rx="5" strokeWidth="2.5" />
+      <path d="M24 14V10a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" strokeWidth="2.5" />
+      <circle cx="32" cy="11" r="2" fill="#ea580c" stroke="#ea580c" />
+      <path d="M20 26h24" strokeWidth="2" stroke="#ea580c" />
+      <path d="M20 34h16" strokeWidth="2" />
+      <path d="M20 42h14" strokeWidth="2" />
+      <circle cx="43" cy="41" r="7" stroke="#ea580c" strokeWidth="2" fill="white" />
+      <path d="M40 41l2 2 4-4" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 export default function Navbar({ currentRoute = 'home' }) {
   const { t, i18n } = useTranslation('common')
   const { t: tHome } = useTranslation('home')
@@ -110,6 +139,8 @@ export default function Navbar({ currentRoute = 'home' }) {
   const [isMobileFacilitiesOpen, setIsMobileFacilitiesOpen] = useState(false)
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false)
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false)
+  const [isHealthResourcesDropdownOpen, setIsHealthResourcesDropdownOpen] = useState(false)
+  const [isMobileHealthResourcesOpen, setIsMobileHealthResourcesOpen] = useState(false)
 
   const navContainerRef = useRef(null)
   const dropdownRef = useRef(null)
@@ -120,6 +151,8 @@ export default function Navbar({ currentRoute = 'home' }) {
   const facilitiesDropdownTimeoutRef = useRef(null)
   const servicesDropdownRef = useRef(null)
   const servicesDropdownTimeoutRef = useRef(null)
+  const healthResourcesDropdownRef = useRef(null)
+  const healthResourcesDropdownTimeoutRef = useRef(null)
 
   // Load all homepage specialties for the dropdown
   const rawSpecialties = tHome('specialtiesSection.items', { returnObjects: true })
@@ -172,7 +205,7 @@ export default function Navbar({ currentRoute = 'home' }) {
     },
   ]
 
-  // Services Dropdown items: Book an Appointment, Health Blogs
+  // Services Dropdown items: Book an Appointment, Emergency Care
   const servicesList = [
     {
       id: 'book-appointment',
@@ -182,11 +215,33 @@ export default function Navbar({ currentRoute = 'home' }) {
       subtitle: isHindi ? 'ऑनलाइन डॉक्टर परामर्श' : 'Schedule doctor consultation',
     },
     {
+      id: 'emergency-services',
+      name: isHindi ? '24/7 आपातकालीन सेवा' : 'Emergency & Trauma Care',
+      href: '/facilities/24-7-service',
+      icon: Emergency247Icon,
+      subtitle: isHindi ? 'तत्काल मेडिकल एवं सर्जिकल सहायता' : 'Immediate critical care & response',
+    },
+  ]
+
+  // Health Resources Dropdown items: Research & Articles, Case Studies, Blogs
+  const healthResourcesList = [
+    {
+      id: 'research-articles',
+      name: isHindi ? 'रिसर्च एवं आर्टिकल्स' : 'Research & Articles',
+      href: '/research',
+      icon: ResearchArticleIcon,
+    },
+    {
+      id: 'case-studies',
+      name: isHindi ? 'केस स्टडीज' : 'Case Studies',
+      href: '/case-studies',
+      icon: CaseStudiesIcon,
+    },
+    {
       id: 'blogs',
-      name: isHindi ? 'स्वास्थ्य ब्लॉग एवं लेख' : 'Health Blogs & Articles',
+      name: isHindi ? 'स्वास्थ्य ब्लॉग एवं लेख' : 'Blogs',
       href: '/services/blogs',
       icon: BlogIcon,
-      subtitle: isHindi ? 'विशेषज्ञ डॉक्टरों की स्वास्थ्य सलाह' : 'Medical tips & clinical guides',
     },
   ]
 
@@ -217,7 +272,9 @@ export default function Navbar({ currentRoute = 'home' }) {
       setActiveItem('about')
     } else if (currentRoute === 'facilities' || currentRoute.startsWith('facilities') || ['24-7-service', 'radiology', 'diagnosis', 'icu', 'physiotherapy', 'physiotherapist'].includes(currentRoute)) {
       setActiveItem('facilities')
-    } else if (['book-appointment', 'appointment-booking', 'blogs', 'blog-details', 'services'].includes(currentRoute) || currentRoute.startsWith('services')) {
+    } else if (['blogs', 'blog-details', 'research', 'case-studies', 'case-study', 'health-resources'].includes(currentRoute) || currentRoute.startsWith('health-resources')) {
+      setActiveItem('health-resources')
+    } else if (['book-appointment', 'appointment-booking', 'services'].includes(currentRoute) || currentRoute.startsWith('services')) {
       setActiveItem('services')
     } else if (currentRoute === 'home') {
       setActiveItem('home')
@@ -239,6 +296,9 @@ export default function Navbar({ currentRoute = 'home' }) {
       if (servicesDropdownRef.current && !servicesDropdownRef.current.contains(e.target)) {
         setIsServicesDropdownOpen(false)
       }
+      if (healthResourcesDropdownRef.current && !healthResourcesDropdownRef.current.contains(e.target)) {
+        setIsHealthResourcesDropdownOpen(false)
+      }
     }
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
@@ -246,6 +306,7 @@ export default function Navbar({ currentRoute = 'home' }) {
         setIsGalleryDropdownOpen(false)
         setIsFacilitiesDropdownOpen(false)
         setIsServicesDropdownOpen(false)
+        setIsHealthResourcesDropdownOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -257,6 +318,7 @@ export default function Navbar({ currentRoute = 'home' }) {
       if (galleryDropdownTimeoutRef.current) clearTimeout(galleryDropdownTimeoutRef.current)
       if (facilitiesDropdownTimeoutRef.current) clearTimeout(facilitiesDropdownTimeoutRef.current)
       if (servicesDropdownTimeoutRef.current) clearTimeout(servicesDropdownTimeoutRef.current)
+      if (healthResourcesDropdownTimeoutRef.current) clearTimeout(healthResourcesDropdownTimeoutRef.current)
     }
   }, [])
 
@@ -302,6 +364,35 @@ export default function Navbar({ currentRoute = 'home' }) {
     servicesDropdownTimeoutRef.current = setTimeout(() => {
       setIsServicesDropdownOpen(false)
     }, 150)
+  }
+
+  const handleHealthResourcesMouseEnter = () => {
+    if (healthResourcesDropdownTimeoutRef.current) clearTimeout(healthResourcesDropdownTimeoutRef.current)
+    setIsHealthResourcesDropdownOpen(true)
+  }
+
+  const handleHealthResourcesMouseLeave = () => {
+    healthResourcesDropdownTimeoutRef.current = setTimeout(() => {
+      setIsHealthResourcesDropdownOpen(false)
+    }, 150)
+  }
+
+  const handleHealthResourceItemClick = (e, resource) => {
+    if (e) e.preventDefault()
+    setIsHealthResourcesDropdownOpen(false)
+    setIsMobileMenuOpen(false)
+    setIsMobileHealthResourcesOpen(false)
+
+    const targetUrl = resource.href || '/services/blogs'
+    if (window.history?.pushState) {
+      window.history.pushState(null, '', targetUrl)
+      window.dispatchEvent(new PopStateEvent('popstate', { state: null }))
+      window.dispatchEvent(new CustomEvent('app-route-change', { detail: targetUrl }))
+    } else {
+      window.location.href = targetUrl
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+    setActiveItem('health-resources')
   }
 
   const handleServiceItemClick = (e, service) => {
@@ -394,6 +485,7 @@ export default function Navbar({ currentRoute = 'home' }) {
     { id: 'doctors', label: t('nav.doctors') || 'Doctors', href: '/doctors' },
     { id: 'facilities', label: t('nav.facilities') || 'Facilities', href: '#facilities', hasDropdown: true, dropdownType: 'facilities' },
     { id: 'services', label: t('nav.services') || 'Services', href: '/services/book-appointment', hasDropdown: true, dropdownType: 'services' },
+    { id: 'health-resources', label: t('nav.healthResources') || (isHindi ? 'स्वास्थ्य संसाधन' : 'Health Resources'), href: '#health-resources', hasDropdown: true, dropdownType: 'health-resources' },
     { id: 'gallery', label: t('nav.gallery') || 'Gallery', href: '/gallery/photos', hasDropdown: true, dropdownType: 'gallery' },
     { id: 'contact', label: t('nav.contact') || 'Contact', href: '/contact' },
   ]
@@ -405,6 +497,7 @@ export default function Navbar({ currentRoute = 'home' }) {
     setIsGalleryDropdownOpen(false)
     setIsFacilitiesDropdownOpen(false)
     setIsServicesDropdownOpen(false)
+    setIsHealthResourcesDropdownOpen(false)
 
     const isSubpage = currentRoute !== 'home' || (window.location.pathname !== '/' && window.location.pathname !== '')
 
@@ -418,6 +511,20 @@ export default function Navbar({ currentRoute = 'home' }) {
       }
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
       setActiveItem('services')
+      return
+    }
+
+    if (id === 'health-resources') {
+      const targetUrl = '/services/blogs'
+      if (window.history?.pushState) {
+        window.history.pushState(null, '', targetUrl)
+        window.dispatchEvent(new PopStateEvent('popstate', { state: null }))
+        window.dispatchEvent(new CustomEvent('app-route-change', { detail: targetUrl }))
+      } else {
+        window.location.href = targetUrl
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+      setActiveItem('health-resources')
       return
     }
 
@@ -667,7 +774,7 @@ export default function Navbar({ currentRoute = 'home' }) {
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center gap-6 2xl:gap-8">
+          <nav className="hidden xl:flex items-center gap-4.5 2xl:gap-7">
             {navLinks.map((item) => {
               const isActive = activeItem === item.id
 
@@ -983,6 +1090,83 @@ export default function Navbar({ currentRoute = 'home' }) {
                                     </span>
                                   )}
                                 </div>
+                              </a>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+
+              // Health Resources item with dropdown: Research & Articles, Blogs
+              if (item.dropdownType === 'health-resources') {
+                return (
+                  <div
+                    key={item.id}
+                    ref={healthResourcesDropdownRef}
+                    onMouseEnter={handleHealthResourcesMouseEnter}
+                    onMouseLeave={handleHealthResourcesMouseLeave}
+                    className="nav-link-item relative py-2"
+                  >
+                    <a
+                      href={item.href}
+                      onClick={(e) => handleNavClick(e, item.href, item.id)}
+                      className={`text-[13px] font-medium transition-all duration-200 tracking-wide flex items-center gap-1.5 cursor-pointer focus:outline-none ${
+                        isActive || isHealthResourcesDropdownOpen
+                          ? isLightMode
+                            ? 'text-[#ea580c] font-bold'
+                            : 'text-white font-semibold'
+                          : isLightMode
+                          ? 'text-slate-700 hover:text-slate-950'
+                          : 'text-slate-200/90 hover:text-white'
+                      }`}
+                      aria-expanded={isHealthResourcesDropdownOpen}
+                      aria-haspopup="true"
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                          isHealthResourcesDropdownOpen
+                            ? 'rotate-180 text-orange-500'
+                            : isLightMode
+                            ? 'text-slate-500'
+                            : 'text-slate-400'
+                        }`}
+                      />
+                    </a>
+
+                    {/* Orange accent underline matching UI reference */}
+                    {(isActive || isHealthResourcesDropdownOpen) && (
+                      <span className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#ea580c] rounded-full"></span>
+                    )}
+
+                    {/* Dropdown Menu matching Speciality dropdown - Compact Single Column with divide-y */}
+                    <div
+                      className={`absolute top-full left-0 pt-2 z-50 transition-all duration-200 origin-top-left ${
+                        isHealthResourcesDropdownOpen
+                          ? 'opacity-100 translate-y-0 pointer-events-auto visible'
+                          : 'opacity-0 -translate-y-2 pointer-events-none invisible'
+                      }`}
+                    >
+                      <div className="w-64 sm:w-72 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.20)] border border-slate-200/80 overflow-hidden text-slate-800">
+                        <div className="divide-y divide-slate-100">
+                          {healthResourcesList.map((resource) => {
+                            const IconComp = resource.icon
+                            return (
+                              <a
+                                key={resource.id}
+                                href={resource.href}
+                                onClick={(e) => handleHealthResourceItemClick(e, resource)}
+                                className="group/item flex items-center gap-3 px-4 py-2 hover:bg-slate-50 transition-colors duration-150 cursor-pointer"
+                              >
+                                <div className="w-6 h-6 flex items-center justify-center shrink-0 transition-transform duration-150 group-hover/item:scale-110">
+                                  <IconComp className="w-5 h-5" />
+                                </div>
+                                <span className="text-[13px] sm:text-[13.5px] font-medium text-slate-700 group-hover/item:text-slate-950 transition-colors leading-tight">
+                                  {resource.name}
+                                </span>
                               </a>
                             )
                           })}
@@ -1352,6 +1536,77 @@ export default function Navbar({ currentRoute = 'home' }) {
                                   <IconComp className="w-full h-full" />
                                 </div>
                                 <span className="truncate">{service.name}</span>
+                              </a>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
+
+                // Health Resources mobile accordion
+                if (item.dropdownType === 'health-resources') {
+                  return (
+                    <div key={item.id} className="flex flex-col">
+                      <div
+                        className={`flex items-center justify-between rounded-xl transition-colors ${
+                          isLightMode ? 'hover:bg-slate-100' : 'hover:bg-white/5'
+                        }`}
+                      >
+                        <a
+                          href={item.href}
+                          onClick={(e) => handleNavClick(e, item.href, item.id)}
+                          className={`flex-1 px-4 py-3 text-sm font-medium transition-colors cursor-pointer ${
+                            isActive
+                              ? 'text-[#ea580c] font-bold'
+                              : isLightMode
+                              ? 'text-slate-800 hover:text-black'
+                              : 'text-slate-200 hover:text-white'
+                          }`}
+                        >
+                          {item.label}
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => setIsMobileHealthResourcesOpen(!isMobileHealthResourcesOpen)}
+                          className={`p-3 focus:outline-none ${
+                            isLightMode ? 'text-slate-500 hover:text-black' : 'text-slate-400 hover:text-white'
+                          }`}
+                          aria-label="Toggle health resources list"
+                        >
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform duration-200 ${
+                              isMobileHealthResourcesOpen ? 'rotate-180 text-orange-500' : ''
+                            }`}
+                          />
+                        </button>
+                      </div>
+
+                      {/* Mobile Accordion Submenu */}
+                      {isMobileHealthResourcesOpen && (
+                        <div
+                          className={`ml-3 my-1 pl-3 border-l-2 border-orange-500/40 rounded-xl p-2 flex flex-col gap-1 ${
+                            isLightMode ? 'bg-slate-50' : 'bg-white/5'
+                          }`}
+                        >
+                          {healthResourcesList.map((resource) => {
+                            const IconComp = resource.icon
+                            return (
+                              <a
+                                key={resource.id}
+                                href={resource.href}
+                                onClick={(e) => handleHealthResourceItemClick(e, resource)}
+                                className={`px-3 py-2.5 rounded-lg text-xs font-medium flex items-center gap-3 transition-colors cursor-pointer ${
+                                  isLightMode
+                                    ? 'text-slate-700 hover:text-black hover:bg-slate-100'
+                                    : 'text-slate-200 hover:text-white hover:bg-white/10'
+                                }`}
+                              >
+                                <div className="w-5 h-5 flex items-center justify-center shrink-0">
+                                  <IconComp className="w-full h-full" />
+                                </div>
+                                <span className="truncate">{resource.name}</span>
                               </a>
                             )
                           })}

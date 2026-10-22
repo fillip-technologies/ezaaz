@@ -1,111 +1,190 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Maximize2, X, Camera, Video, ArrowRight } from 'lucide-react'
+import { Maximize2, X, ChevronLeft, ChevronRight, Camera, Video, ArrowRight } from 'lucide-react'
 import galleryBg from '../../../assets/home/gallery-bg.jpg'
-// Gallery background texture
+
+// Real Laboratory Images
+import labImg27 from '../../../assets/Laboratory/27.png'
+import labImg33 from '../../../assets/Laboratory/33.jpg'
+import labImg34 from '../../../assets/Laboratory/34.jpg'
+import labImg35 from '../../../assets/Laboratory/35.jpg'
+import labImg36 from '../../../assets/Laboratory/36.jpg'
+import labImg37 from '../../../assets/Laboratory/37.jpg'
+
+// Real Nursing Images
+import nursingTeam from '../../../assets/Nursing/team-portrait.png'
+import nursingImg14 from '../../../assets/Nursing/14.jpg'
+import nursingImg16 from '../../../assets/Nursing/16.jpg'
+import nursingImg44 from '../../../assets/Nursing/44.jpg'
+import nursingImg45 from '../../../assets/Nursing/45.jpg'
+import nursingImg46 from '../../../assets/Nursing/46.jpg'
+import nursingImg47 from '../../../assets/Nursing/47.jpg'
+
+// Local Facility Images
+import modularOtImg from '../../../assets/home/choose-2.png'
+import icuImg from '../../../assets/home/procedures/icu.png'
+import radiologyImg from '../../../assets/home/procedures/radiology-image.png'
 
 const ROW_1_IMAGES = [
+  {
+    id: 'nurse-team',
+    title: 'Hospital Care & Clinical Nursing Team',
+    category: 'Clinical Care Team',
+    image: nursingTeam,
+    position: 'center center'
+  },
+  {
+    id: 'lab-27',
+    title: 'Mindray Immunoassay Diagnostics',
+    category: 'Laboratory Pathology',
+    image: labImg27,
+    position: 'center 20%'
+  },
   {
     id: 'ot-1',
     title: 'Modular Operation Theatre',
     category: 'Surgical Suite',
-    image: 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=800&q=80'
+    image: modularOtImg,
+    position: 'center center'
   },
   {
-    id: 'icu-1',
-    title: 'Advanced Critical Care (ICU)',
-    category: 'Intensive Care',
-    image: 'https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&w=800&q=80'
+    id: 'nurse-14',
+    title: 'Inpatient Clinical Records Review',
+    category: 'Nursing Care',
+    image: nursingImg14,
+    position: 'center 20%'
   },
   {
-    id: 'consult-1',
-    title: 'Specialist Consultation Clinic',
-    category: 'Outpatient OPD',
-    image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80'
+    id: 'lab-33',
+    title: 'Biochemical Diagnostics Pipetting',
+    category: 'Diagnostic Lab',
+    image: labImg33,
+    position: 'center 25%'
   },
   {
-    id: 'emergency-1',
-    title: '24×7 Emergency & Trauma',
-    category: 'Emergency Care',
-    image: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=800&q=80'
+    id: 'nurse-44',
+    title: 'Specialized Hand Bandaging & Wound Care',
+    category: 'Patient Care',
+    image: nursingImg44,
+    position: 'center 25%'
   },
   {
-    id: 'lab-1',
-    title: 'Diagnostic Pathology Lab',
-    category: 'Laboratory',
-    image: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80'
+    id: 'lab-35',
+    title: 'Microscopic Cellular Pathology Analysis',
+    category: 'Diagnostic Lab',
+    image: labImg35,
+    position: 'center 25%'
   },
   {
-    id: 'ward-1',
-    title: 'Deluxe Patient Recovery Room',
-    category: 'Inpatient Care',
-    image: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=800&q=80'
+    id: 'nurse-46',
+    title: 'Multi-Para Vital Sign Telemetry',
+    category: 'Critical Nursing',
+    image: nursingImg46,
+    position: 'center 25%'
   }
 ]
 
 const ROW_2_IMAGES = [
   {
+    id: 'nurse-45',
+    title: 'Intravenous (IV) Infusion Therapy',
+    category: 'Nursing Care',
+    image: nursingImg45,
+    position: 'center 20%'
+  },
+  {
+    id: 'lab-34',
+    title: 'Automated Chemistry Analyzer Station',
+    category: 'Laboratory Pathology',
+    image: labImg34,
+    position: 'center 25%'
+  },
+  {
+    id: 'icu-1',
+    title: 'Advanced Critical Care (ICU)',
+    category: 'Intensive Care',
+    image: icuImg,
+    position: 'center center'
+  },
+  {
+    id: 'nurse-16',
+    title: 'Compassionate Bedside Patient Nursing',
+    category: 'Patient Support',
+    image: nursingImg16,
+    position: 'center 20%'
+  },
+  {
+    id: 'lab-36',
+    title: 'Precision Micro-Pipette Hematology',
+    category: 'Diagnostic Lab',
+    image: labImg36,
+    position: 'center 25%'
+  },
+  {
     id: 'mri-1',
     title: 'Advanced 128-Slice CT & MRI',
     category: 'Radiology & Imaging',
-    image: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=80'
+    image: radiologyImg,
+    position: 'center center'
   },
   {
-    id: 'nurse-1',
-    title: 'Dedicated Nursing & Patient Care',
-    category: 'Patient Support',
-    image: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80'
+    id: 'nurse-47',
+    title: 'Post-Operative Recovery Patient Monitoring',
+    category: 'Nursing Care',
+    image: nursingImg47,
+    position: 'center 25%'
   },
   {
-    id: 'laparo-1',
-    title: 'Minimally Invasive Laparoscopy',
-    category: 'Surgical Precision',
-    image: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=80'
-  },
-  {
-    id: 'hospital-1',
-    title: 'Hospital Central Architecture',
-    category: 'Infrastructure',
-    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80'
-  },
-  {
-    id: 'monitor-1',
-    title: 'Digital High-Precision Telemetry',
-    category: 'Medical Technology',
-    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80'
-  },
-  {
-    id: 'doctor-meet-1',
-    title: 'Senior Clinical Consultation',
-    category: 'Clinical Care',
-    image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80'
+    id: 'lab-37',
+    title: 'Blood Specimen Verification & Testing',
+    category: 'Clinical Pathology',
+    image: labImg37,
+    position: 'center 25%'
   }
 ]
 
+const ALL_GALLERY_PHOTOS = [...ROW_1_IMAGES, ...ROW_2_IMAGES]
+
 export default function GallerySection() {
   const { t, i18n } = useTranslation('home')
-  const [selectedPhoto, setSelectedPhoto] = useState(null)
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null)
 
-  // Close lightbox on Escape key
+  // Keyboard navigation for Lightbox modal
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') setSelectedPhoto(null)
+      if (selectedPhotoIndex === null) return
+      if (e.key === 'Escape') setSelectedPhotoIndex(null)
+      if (e.key === 'ArrowRight') {
+        setSelectedPhotoIndex((prev) => (prev + 1) % ALL_GALLERY_PHOTOS.length)
+      }
+      if (e.key === 'ArrowLeft') {
+        setSelectedPhotoIndex((prev) => (prev - 1 + ALL_GALLERY_PHOTOS.length) % ALL_GALLERY_PHOTOS.length)
+      }
     }
-    if (selectedPhoto) {
+
+    if (selectedPhotoIndex !== null) {
       document.body.style.overflow = 'hidden'
       window.addEventListener('keydown', handleKeyDown)
     } else {
       document.body.style.overflow = 'unset'
     }
+
     return () => {
       document.body.style.overflow = 'unset'
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [selectedPhoto])
+  }, [selectedPhotoIndex])
 
   // Duplicated arrays for seamless continuous infinite marquee
   const trackRow1 = [...ROW_1_IMAGES, ...ROW_1_IMAGES]
   const trackRow2 = [...ROW_2_IMAGES, ...ROW_2_IMAGES]
+
+  const openLightbox = (item) => {
+    const idx = ALL_GALLERY_PHOTOS.findIndex((p) => p.id === item.id)
+    setSelectedPhotoIndex(idx !== -1 ? idx : 0)
+  }
+
+  const selectedPhoto = selectedPhotoIndex !== null ? ALL_GALLERY_PHOTOS[selectedPhotoIndex] : null
 
   return (
     <section
@@ -138,13 +217,15 @@ export default function GallerySection() {
             {trackRow1.map((item, index) => (
               <div
                 key={`r1-${item.id}-${index}`}
-                onClick={() => setSelectedPhoto(item)}
+                onClick={() => openLightbox(item)}
                 className="group relative shrink-0 w-[240px] sm:w-[300px] md:w-[340px] h-[170px] sm:h-[210px] md:h-[230px] rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-200 border border-slate-200/80 shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-xl hover:shadow-blue-900/15 cursor-pointer transition-all duration-300 hover:-translate-y-1"
               >
                 <img
                   src={item.image}
                   alt={item.title}
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
+                  style={{ objectPosition: item.position || 'center' }}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                 />
 
@@ -176,13 +257,15 @@ export default function GallerySection() {
             {trackRow2.map((item, index) => (
               <div
                 key={`r2-${item.id}-${index}`}
-                onClick={() => setSelectedPhoto(item)}
+                onClick={() => openLightbox(item)}
                 className="group relative shrink-0 w-[240px] sm:w-[300px] md:w-[340px] h-[170px] sm:h-[210px] md:h-[230px] rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-200 border border-slate-200/80 shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-xl hover:shadow-blue-900/15 cursor-pointer transition-all duration-300 hover:-translate-y-1"
               >
                 <img
                   src={item.image}
                   alt={item.title}
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
+                  style={{ objectPosition: item.position || 'center' }}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                 />
 
@@ -251,27 +334,53 @@ export default function GallerySection() {
       </div>
 
       {/* Lightbox Modal */}
-      {selectedPhoto && (
+      {selectedPhotoIndex !== null && selectedPhoto && (
         <div
           role="dialog"
           aria-modal="true"
-          onClick={() => setSelectedPhoto(null)}
-          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 transition-all duration-300"
+          onClick={() => setSelectedPhotoIndex(null)}
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 transition-all duration-300"
         >
+          {/* Close Button */}
+          <button
+            type="button"
+            onClick={() => setSelectedPhotoIndex(null)}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-60 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20"
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          {/* Left Arrow */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              setSelectedPhotoIndex((prev) => (prev - 1 + ALL_GALLERY_PHOTOS.length) % ALL_GALLERY_PHOTOS.length)
+            }}
+            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-60 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
+            aria-label="Previous photo"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+
+          {/* Right Arrow */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              setSelectedPhotoIndex((prev) => (prev + 1) % ALL_GALLERY_PHOTOS.length)
+            }}
+            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-60 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
+            aria-label="Next photo"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-4xl w-full bg-slate-900 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10"
+            className="relative max-w-4xl w-full bg-slate-900 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col"
           >
-            {/* Close Button */}
-            <button
-              type="button"
-              onClick={() => setSelectedPhoto(null)}
-              className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20"
-              aria-label="Close"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
             {/* Modal Image */}
             <div className="relative w-full max-h-[75vh] overflow-hidden bg-black flex items-center justify-center">
               <img
@@ -282,14 +391,17 @@ export default function GallerySection() {
             </div>
 
             {/* Modal Footer Caption */}
-            <div className="p-4 sm:p-6 bg-slate-900 text-white flex items-center justify-between border-t border-white/10">
+            <div className="p-4 sm:p-5 bg-slate-900 text-white flex items-center justify-between border-t border-white/10">
               <div>
                 <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider">
                   {selectedPhoto.category}
                 </span>
-                <h3 className="text-lg sm:text-xl font-bold tracking-tight mt-0.5">
+                <h3 className="text-base sm:text-lg font-bold tracking-tight mt-0.5">
                   {selectedPhoto.title}
                 </h3>
+              </div>
+              <div className="text-white/60 text-xs font-medium px-3 py-1 rounded-full bg-white/10">
+                {selectedPhotoIndex + 1} / {ALL_GALLERY_PHOTOS.length}
               </div>
             </div>
           </div>

@@ -60,7 +60,7 @@ export default function DoctorsSection({
     window.scrollTo({ top: 0, behavior: 'instant' })
   }
 
-  const activeDoctors = useMemo(() => doctors.map((doc) => toDoctorCard(doc, isHindi)), [doctors, isHindi])
+  const activeDoctors = useMemo(() => doctors.map((doc) => toDoctorCard(doc, isHindi)).filter(Boolean), [doctors, isHindi])
 
   const filteredDoctors = useMemo(() => {
     let list = activeDoctors
