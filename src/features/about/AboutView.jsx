@@ -14,7 +14,7 @@ export default function AboutView() {
       {/* 2. About Us Narrative & Hospital Statistics */}
       <AboutUsSection />
 
-      {/* 3. Founder & Chairman Section (Left Image, Right Narrative) */}
+      {/* 3. Director & Leadership Section (Dr. Shahzad Marghoob Ali, MD - Left Image, Right Narrative) */}
       <FounderSection />
 
       {/* 4. Mission, Vision & Values (3-Tier Reference Layout) */}

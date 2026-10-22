@@ -4,9 +4,11 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import {
-  Quote
+  Quote,
+  Calendar,
+  ArrowUpRight
 } from 'lucide-react'
-import founderImg from '../../../assets/home/doctor-4.jpg'
+import directorImg from '../../../assets/about/dr-shazad.jpg'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -16,6 +18,17 @@ export default function FounderSection() {
   const sectionRef = useRef(null)
   const leftColRef = useRef(null)
   const rightColRef = useRef(null)
+
+  const navigateTo = (url) => {
+    if (window.history?.pushState) {
+      window.history.pushState(null, '', url)
+      window.dispatchEvent(new PopStateEvent('popstate', { state: null }))
+      window.dispatchEvent(new CustomEvent('app-route-change', { detail: url }))
+    } else {
+      window.location.href = url
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }
 
   // Smooth GSAP Entrance
   useGSAP(
@@ -55,17 +68,17 @@ export default function FounderSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-center">
           
           {/* ======================================================== */}
-          {/* LEFT COLUMN: Presidential Executive Portrait Card (5 cols)*/}
+          {/* LEFT COLUMN: Director Executive Portrait Card (5 cols)   */}
           {/* ======================================================== */}
           <div ref={leftColRef} className="lg:col-span-5 flex justify-center lg:justify-start">
             <div className="w-full max-w-[480px] bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-xl transition-all duration-300 hover:shadow-2xl">
               
-              {/* Doctor Photo - Clean, unshaded natural aspect ratio (4/3) */}
-              <div className="relative w-full aspect-[4/3] bg-slate-100 overflow-hidden">
+              {/* Doctor Photo - Natural portrait aspect ratio displaying scrub cap, logo & scrubs */}
+              <div className="relative w-full aspect-[4/5] bg-slate-100 overflow-hidden">
                 <img
-                  src={founderImg}
-                  alt={isHindi ? 'डॉ. एजाज अली - संस्थापक एवं चेयरमैन' : 'Dr. Ejaz Ali - Founder & Chairman'}
-                  className="w-full h-full object-cover object-center block"
+                  src={directorImg}
+                  alt={isHindi ? 'डॉ. शहज़ाद मरग़ूब अली, MD - निदेशक' : 'Dr. Shahzad Marghoob Ali, MD - Director'}
+                  className="w-full h-full object-cover object-top block"
                 />
               </div>
 
@@ -73,19 +86,19 @@ export default function FounderSection() {
               <div className="p-5 sm:p-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-4">
                 <div>
                   <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 leading-tight">
-                    {isHindi ? 'डॉ. एजाज अली' : 'Dr. Ejaz Ali'}
+                    {isHindi ? 'डॉ. शहज़ाद मरग़ूब अली, MD' : 'Dr. Shahzad Marghoob Ali, MD'}
                   </h3>
                   <div className="text-xs sm:text-sm font-bold text-[#ea580c] mt-0.5">
-                    {isHindi ? 'संस्थापक एवं चेयरमैन' : 'Founder & Chairman'}
+                    {isHindi ? 'निदेशक (Director)' : 'Director'}
                   </div>
                   <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
-                    MBBS, MS • {isHindi ? 'वरिष्ठ सलाहकार सर्जन' : 'Senior Consultant Surgeon'}
+                    MD (Summa Cum Laude) • {isHindi ? 'मेयो क्लिनिक (USA) प्रशिक्षित' : 'Mayo Clinic (USA) Trained'}
                   </p>
                 </div>
 
                 <div className="text-right shrink-0 pl-3 border-l border-slate-200">
                   <div className="text-2xl sm:text-3xl font-black text-[#ea580c] leading-none">
-                    35+
+                    18+
                   </div>
                   <div className="text-[11px] font-bold text-slate-600 uppercase tracking-wider mt-0.5">
                     {isHindi ? 'वर्ष अनुभव' : 'Years Exp.'}
@@ -97,18 +110,18 @@ export default function FounderSection() {
           </div>
 
           {/* ======================================================== */}
-          {/* RIGHT COLUMN: Executive Message & Philosophy (7 cols)    */}
+          {/* RIGHT COLUMN: Director Message & Clinical Vision (7 cols) */}
           {/* ======================================================== */}
           <div ref={rightColRef} className="lg:col-span-7 flex flex-col justify-start text-left">
 
             {/* Doctor Name & Designation */}
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-extrabold text-slate-900 tracking-tight leading-tight">
-              {isHindi ? 'डॉ. एजाज अली' : 'Dr. Ejaz Ali'}
+              {isHindi ? 'डॉ. शहज़ाद मरग़ूब अली, MD' : 'Dr. Shahzad Marghoob Ali, MD'}
             </h2>
             <p className="text-sm sm:text-base text-[#003a70] font-semibold mt-1">
               {isHindi
-                ? 'संस्थापक एवं मुख्य चिकित्सा सलाहकार • एजाज क्लिनिक एवं एडवांस्ड सर्जिकल हॉस्पिटल'
-                : 'Founder & Chief Medical Advisor • Ejaz Clinic & Advanced Surgical Hospital'}
+                ? 'निदेशक एवं वरिष्ठ सलाहकार सर्जन • एजाज क्लिनिक एवं एडवांस्ड सर्जिकल हॉस्पिटल'
+                : 'Director & Senior Consultant Surgeon • Ejaz Clinic & Advanced Surgical Hospital'}
             </p>
 
             {/* Orange Accent Underline */}
@@ -118,28 +131,49 @@ export default function FounderSection() {
             <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed">
               <p>
                 {isHindi
-                  ? 'जब हमने दशकों पहले एजाज क्लिनिक की स्थापना की थी, तब हमारा एक ही ध्येय था—बिहार और पूर्वी भारत के प्रत्येक मरीज तक उच्चस्तरीय, नैतिक और सुलभ सर्जिकल उपचार पहुंचाना। हमने यह अटूट संकल्प लिया कि आर्थिक तंगी के कारण किसी भी व्यक्ति को इलाज से वंचित नहीं रहने दिया जाएगा।'
-                  : 'When we founded Ejaz Clinic decades ago, our singular commitment was to bring dependable, compassionate, and uncompromising surgical healthcare to every family across Bihar and Eastern India. We established an inviolable principle that financial hardship should never stand between a human life and life-saving surgery.'}
+                  ? 'एजाज क्लिनिक एवं एडवांस्ड सर्जिकल हॉस्पिटल, पटना के निदेशक के रूप में, डॉ. शहज़ाद मरग़ूब अली, MD उच्चतम नैदानिक मानकों, आधुनिक सर्जिकल तकनीकों और मानवीय संवेदना के साथ संस्थान का मार्गदर्शन कर रहे हैं। संस्थान की गौरवशाली परंपरा को आगे बढ़ाते हुए, उनका संकल्प है कि बिहार एवं पूर्वी भारत के प्रत्येक मरीज को सुलभ और सुरक्षित अंतरराष्ट्रीय स्तर का उपचार मिले।'
+                  : 'As the Director of Ejaz Clinic & Advanced Surgical Hospital, Patna, Dr. Shahzad Marghoob Ali, MD leads our clinical and surgical institution with a commitment to evidence-based healthcare, precision surgery, and patient-first medical ethics. Carrying forward the institution’s proud heritage, he is dedicated to bringing world-class surgical standards directly to patients across Eastern India.'}
               </p>
 
-              {/* Editorial Callout Quote Box (Clean Icon with Zero Overlap) */}
+              {/* Editorial Callout Quote Box */}
               <div className="my-5 p-5 sm:p-6 bg-orange-50/60 rounded-2xl border-l-4 border-[#ea580c] border-y border-r border-orange-100 shadow-xs">
                 <Quote className="w-6 h-6 text-[#ea580c] mb-2 shrink-0 opacity-80" />
                 <p className="text-slate-800 text-sm sm:text-[15.5px] font-medium leading-relaxed italic">
                   {isHindi
-                    ? '“चिकित्सा सेवा केवल एक पेशा नहीं, बल्कि मानवता के प्रति सबसे बड़ा दायित्व है। एजाज क्लिनिक में हम हर मरीज को अपने परिवार की तरह देखते हैं और आधुनिक तकनीक के साथ उन्हें आत्मीय संबल प्रदान करते हैं।”'
-                    : '“Healthcare is not merely a profession; it is a sacred responsibility to human dignity. At Ejaz Clinic, we view every patient through the lens of family, blending cutting-edge surgical science with heartfelt human empathy.”'}
+                    ? '“एजाज क्लिनिक में हमारा मूल सिद्धांत है: मरीज की सुरक्षा, पूर्ण पारदर्शिता और विश्वस्तरीय सर्जिकल गुणवत्ता। हमारे पास आने वाले प्रत्येक व्यक्ति को अत्याधुनिक चिकित्सा तकनीक के साथ-साथ परिवार जैसा आत्मीय संबल मिलना चाहिए।”'
+                    : '“At Ejaz Clinic, our guiding principle is simple: uncompromising surgical safety, clinical transparency, and patient-centered excellence. Every life entrusted to us deserves world-class medical science delivered with the warmth and care of family.”'}
                 </p>
                 <div className="mt-3 text-xs sm:text-[13px] font-bold text-[#ea580c]">
-                  — {isHindi ? 'डॉ. एजाज अली (संस्थापक एवं चेयरमैन)' : 'Dr. Ejaz Ali (Founder & Chairman)'}
+                  — {isHindi ? 'डॉ. शहज़ाद मरग़ूब अली, MD (निदेशक, एजाज क्लिनिक)' : 'Dr. Shahzad Marghoob Ali, MD (Director, Ejaz Clinic)'}
                 </div>
               </div>
 
               <p>
                 {isHindi
-                  ? 'आज प्रतिष्ठित मेयो क्लिनिक (USA) से प्रशिक्षित डॉ. शहज़ाद और विशेषज्ञों की हमारी टीम इस मिशन को अत्याधुनिक ऊंचाइयों तक ले जा रही है। 4K मॉड्यूलर ऑपरेशन थिएटर, समर्पित क्रिटिकल केयर आईसीयू और पारदर्शी चिकित्सा मानकों के साथ हमारा संस्थान निरंतर आपकी सेवा में समर्पित है।'
-                  : 'Today, with Dr. Shahzad bringing his Mayo Clinic (USA) fellowship training and our team of super-specialists pioneering complex laparoscopic and oncological interventions, that same foundational soul beats at the heart of our institution.'}
+                  ? 'चार्ल्स यूनिवर्सिटी, प्राग से सर्वोच्च स्थान (रैंक 1 - सुम्मा कम लाउड) प्राप्त करने और विश्व-प्रसिद्ध मेयो क्लिनिक (रोचेस्टर, मिनेसोटा, यूएसए) से 5-वर्षीय जनरल सर्जरी रेजीडेंसी व उन्नत फेलोशिप पूरी करने के उपरांत, डॉ. शहज़ाद अंतरराष्ट्रीय सर्जिकल विशेषज्ञता के साथ सेवाएं दे रहे हैं। उनके निर्देशन में, अस्पताल 4K अल्ट्रा-एचडी लैप्रोस्कोपिक थिएटर, आधुनिक आईसीयू और जटिल गैस्ट्रोइंटेस्टाइनल व ऑन्कोलॉजिकल सर्जरी के अत्याधुनिक मानकों से सुसज्जित है।'
+                  : 'A graduate Ranked 1st (Summa Cum Laude, Red Diploma) from Charles University, Prague, followed by a rigorous 5-year General Surgery Residency and advanced Surgical Fellowships at the world-renowned Mayo Clinic in Rochester, Minnesota, USA, Dr. Shahzad brings unmatched global expertise to the region. Under his leadership, Ejaz Clinic is equipped with 4K ultra-high-definition laparoscopic suites, advanced intensive care units, and specialized protocols for minimally invasive gastrointestinal, hernia, and oncological procedures.'}
               </p>
+            </div>
+
+            {/* Interactive Actions */}
+            <div className="mt-7 flex flex-wrap items-center gap-3.5">
+              <button
+                type="button"
+                onClick={() => navigateTo('/appointment-booking?doctorId=dr-shahzad')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#d9532f] hover:bg-[#c44322] text-white font-bold text-xs sm:text-sm tracking-wide shadow-sm hover:shadow-md hover:shadow-[#d9532f]/25 active:scale-95 transition-all cursor-pointer"
+              >
+                <Calendar className="w-4 h-4" />
+                <span>{isHindi ? 'परामर्श बुक करें' : 'Book Consultation'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => navigateTo('/doctor-profile?id=dr-shahzad')}
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm tracking-wide active:scale-95 transition-all cursor-pointer"
+              >
+                <span>{isHindi ? 'विस्तृत प्रोफाइल देखें' : 'View Full Profile'}</span>
+                <ArrowUpRight className="w-4 h-4 text-slate-600" />
+              </button>
             </div>
 
           </div>
