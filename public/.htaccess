@@ -1,0 +1,29 @@
+# ----------------------------------------------------------------------
+# Single Page Application (SPA) Routing & Configuration for Apache / cPanel
+# ----------------------------------------------------------------------
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Don't rewrite if request is already index.html
+  RewriteRule ^index\.html$ - [L]
+
+  # 2. Allow direct access to existing files (css, js, images, pdfs, fonts)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # 3. Rewrite all other requests to index.html for React SPA client-side routing
+  RewriteRule ^ /index.html [L]
+</IfModule>
+
+# Disable directory indexing
+Options -Indexes
+
+# Set proper MIME types
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+  AddType text/css .css
+  AddType image/svg+xml .svg
+  AddType application/pdf .pdf
+</IfModule>
