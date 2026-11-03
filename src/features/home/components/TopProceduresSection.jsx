@@ -10,12 +10,12 @@ import {
 
 // Import facility photos from assets/home/procedures, Laboratory, Nursing, and assets
 import emergencyImg from '../../../assets/home/procedures/emergency-image.png'
-import icuImg from '../../../assets/home/procedures/icu.png'
+import icuImg from '../../../assets/dumps-images/DSC00535.JPG'
 import radiologyImg from '../../../assets/home/procedures/radiology-image.png'
 import diagnosisImg from '../../../assets/Laboratory/27.png'
 import physiotherapyImg from '../../../assets/home/procedures/physioteraphy.jpg'
 import modularOtImg from '../../../assets/OT-PHOTOS/DSC00453.JPG'
-import generalWardImg from '../../../assets/Nursing/team-portrait.png'
+import generalWardImg from '../../../assets/dumps-images/DSC00476.JPG'
 
 gsap.registerPlugin(ScrollTrigger)
 

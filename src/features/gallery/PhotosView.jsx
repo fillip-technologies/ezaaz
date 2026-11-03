@@ -1,49 +1,377 @@
-import { useState, useEffect, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useState, useEffect } from 'react'
 import {
   Maximize2,
   X,
   ChevronLeft,
   ChevronRight,
   Filter,
-  ArrowLeft,
-  Loader2,
-  ImageOff
+  ArrowLeft
 } from 'lucide-react'
-import { toPhotoCard, useGallery } from './useGallery'
+
+// Real Laboratory Images
+import labImg27 from '../../assets/Laboratory/27.png'
+import labImg33 from '../../assets/Laboratory/33.jpg'
+import labImg34 from '../../assets/Laboratory/34.jpg'
+import labImg35 from '../../assets/Laboratory/35.jpg'
+import labImg36 from '../../assets/Laboratory/36.jpg'
+import labImg37 from '../../assets/Laboratory/37.jpg'
+
+// Real Nursing Images
+import nursingTeam from '../../assets/Nursing/team-portrait.png'
+import nursingImg14 from '../../assets/Nursing/14.jpg'
+import nursingImg16 from '../../assets/Nursing/16.jpg'
+import nursingImg44 from '../../assets/Nursing/44.jpg'
+import nursingImg45 from '../../assets/Nursing/45.jpg'
+import nursingImg46 from '../../assets/Nursing/46.jpg'
+import nursingImg47 from '../../assets/Nursing/47.jpg'
+
+// Local Facility Images
+// Real Modular OT Images
+import otImg48 from '../../assets/OT-PHOTOS/48.jpg'
+import otImg453 from '../../assets/OT-PHOTOS/DSC00453.JPG'
+import otImg761 from '../../assets/OT-PHOTOS/DSC00761.JPG'
+import otImg762 from '../../assets/OT-PHOTOS/DSC00762.JPG'
+import otImg1 from '../../assets/OT-PHOTOS/image-1.jpeg'
+import modularOtImg from '../../assets/OT-PHOTOS/DSC00453.JPG'
+
+// Real Orthopedic Images
+import orthoImg1 from '../../assets/Orthopaedic-images/DSC00001.JPG'
+import orthoImg33 from '../../assets/Orthopaedic-images/DSC00033.JPG'
+import orthoImg34 from '../../assets/Orthopaedic-images/DSC00034.JPG'
+import orthoImg35 from '../../assets/Orthopaedic-images/DSC00035.JPG'
+import orthoImg36 from '../../assets/Orthopaedic-images/DSC00036.JPG'
+import orthoImg37 from '../../assets/Orthopaedic-images/DSC00037.JPG'
+import orthoImg38 from '../../assets/Orthopaedic-images/DSC00038.JPG'
+import orthoImg39 from '../../assets/Orthopaedic-images/DSC00039.JPG'
+import orthoImg47 from '../../assets/Orthopaedic-images/DSC00047.JPG'
+import orthoImg48 from '../../assets/Orthopaedic-images/DSC00048.JPG'
+import orthoImg75 from '../../assets/Orthopaedic-images/DSC00075.JPG'
+import icuImg from '../../assets/home/procedures/icu.png'
+import radiologyImg from '../../assets/home/procedures/radiology-image.png'
+import emergencyImg from '../../assets/home/procedures/emergency-image.png'
+import generalWardImg from '../../assets/home/procedures/general-ward.png'
+import whyChooseImg from '../../assets/home/why-choose-ejaz.jpg'
+import { DUMP_GALLERY_PHOTOS } from './dumpImagesData'
+
+const CATEGORIES = [
+  { id: 'all', label: 'All Photos' },
+  { id: 'surgical', label: 'Modular OT & Surgical' },
+
+  { id: 'consultation', label: 'Doctor OPD & Consultation' },
+  { id: 'orthopedic', label: 'Orthopedic & Joint Care' },
+
+
+  { id: 'laboratory', label: 'Laboratory & Diagnostics' },
+  { id: 'nursing', label: 'Nursing & Patient Care' },
+  { id: 'icu', label: 'ICU & Critical Care' },
+  { id: 'facilities', label: 'Facilities & Wards' }
+]
+
+// High-resolution hospital photography collection
+const GALLERY_PHOTOS = [
+  // Orthopedic Surgery & Joint Care
+  {
+    id: 'ortho-1',
+    category: 'orthopedic',
+    categoryLabel: 'Orthopedic Specialist',
+    title: 'Dr. I. Akram — Senior Orthopaedic Surgeon',
+    image: orthoImg1,
+    position: 'center 20%'
+  },
+  {
+    id: 'ortho-2',
+    category: 'orthopedic',
+    categoryLabel: 'Joint Replacement',
+    title: 'Advanced Total Knee Replacement Surgery in Modular OT',
+    image: orthoImg33,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-3',
+    category: 'orthopedic',
+    categoryLabel: 'Orthopedic Surgery',
+    title: 'Orthopedic Surgical Team Performing Knee Joint Reconstruction',
+    image: orthoImg34,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-4',
+    category: 'orthopedic',
+    categoryLabel: 'Joint Reconstruction',
+    title: 'Sub-Millimeter Precision Joint & Ligament Reconstruction',
+    image: orthoImg35,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-5',
+    category: 'orthopedic',
+    categoryLabel: 'Arthroscopy & Sports',
+    title: 'Surgical Site Incision & Minimally Invasive Joint Navigation',
+    image: orthoImg36,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-6',
+    category: 'orthopedic',
+    categoryLabel: 'Orthopedic Surgery',
+    title: 'Real-Time Surgical Guidance for Complex Limb Interventions',
+    image: orthoImg37,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-7',
+    category: 'orthopedic',
+    categoryLabel: 'Joint Replacement',
+    title: 'Micro-Focused Orthopedic Incision & Bone Realignment',
+    image: orthoImg38,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-8',
+    category: 'orthopedic',
+    categoryLabel: 'Trauma & Reconstruction',
+    title: 'Dual Orthopedic Surgeons Performing Lower Limb Reconstruction',
+    image: orthoImg39,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-9',
+    category: 'orthopedic',
+    categoryLabel: 'Limb Stabilization',
+    title: 'Sterile Lower Limb Alignment & Tendon Fixation under OT Light',
+    image: orthoImg47,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-10',
+    category: 'orthopedic',
+    categoryLabel: 'Orthopedic Surgery',
+    title: 'Precision Limb Maneuvering & Sterile Orthopedic Draping',
+    image: orthoImg48,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-11',
+    category: 'orthopedic',
+    categoryLabel: 'Surgical Team',
+    title: 'High-Precision Bone & Joint Intervention under Shadowless Lamps',
+    image: orthoImg75,
+    position: 'center 20%'
+  },
+
+  // Care Team & Nursing
+  {
+    id: 'nurse-team',
+    category: 'nursing',
+    categoryLabel: 'Care Team',
+    title: 'Ejaz Hospital Care Team & Clinical Staff',
+    image: nursingTeam,
+    position: 'center center'
+  },
+  {
+    id: 'nurse-14',
+    category: 'nursing',
+    categoryLabel: 'Nursing Care',
+    title: 'Ward Nurse Reviewing Inpatient Chart & Medication',
+    image: nursingImg14,
+    position: 'center 20%'
+  },
+  {
+    id: 'nurse-16',
+    category: 'nursing',
+    categoryLabel: 'Nursing Care',
+    title: 'Compassionate Bedside Patient Care & Monitoring',
+    image: nursingImg16,
+    position: 'center 20%'
+  },
+  {
+    id: 'nurse-44',
+    category: 'nursing',
+    categoryLabel: 'Nursing Care',
+    title: 'Specialized Hand Bandaging & Wound Dressing Care',
+    image: nursingImg44,
+    position: 'center 25%'
+  },
+  {
+    id: 'nurse-45',
+    category: 'nursing',
+    categoryLabel: 'Nursing Care',
+    title: 'Intravenous (IV) Infusion Therapy Administration',
+    image: nursingImg45,
+    position: 'center 20%'
+  },
+  {
+    id: 'nurse-46',
+    category: 'nursing',
+    categoryLabel: 'Critical Nursing',
+    title: 'Continuous Multi-Para Vital Signs Telemetry',
+    image: nursingImg46,
+    position: 'center 25%'
+  },
+  {
+    id: 'nurse-47',
+    category: 'nursing',
+    categoryLabel: 'Nursing Care',
+    title: 'Post-Operative Recovery Patient Comfort Care',
+    image: nursingImg47,
+    position: 'center 25%'
+  },
+
+  // Diagnostic Laboratory
+  {
+    id: 'lab-27',
+    category: 'laboratory',
+    categoryLabel: 'Laboratory',
+    title: 'Mindray Immunoassay Automated Diagnostics Analyzer',
+    image: labImg27,
+    position: 'center 20%'
+  },
+  {
+    id: 'lab-33',
+    category: 'laboratory',
+    categoryLabel: 'Laboratory',
+    title: 'Biochemical Diagnostics & Precision Sample Pipetting',
+    image: labImg33,
+    position: 'center 25%'
+  },
+  {
+    id: 'lab-34',
+    category: 'laboratory',
+    categoryLabel: 'Laboratory',
+    title: 'Automated Chemistry Analyzer Workstation',
+    image: labImg34,
+    position: 'center 25%'
+  },
+  {
+    id: 'lab-35',
+    category: 'laboratory',
+    categoryLabel: 'Laboratory',
+    title: 'High-Power Microscopic Cellular Pathology Examination',
+    image: labImg35,
+    position: 'center 25%'
+  },
+  {
+    id: 'lab-36',
+    category: 'laboratory',
+    categoryLabel: 'Laboratory',
+    title: 'Micro-Pipetting for Precision Hematology Testing',
+    image: labImg36,
+    position: 'center 25%'
+  },
+  {
+    id: 'lab-37',
+    category: 'laboratory',
+    categoryLabel: 'Laboratory',
+    title: 'Blood Specimen Verification & Diagnostic Testing',
+    image: labImg37,
+    position: 'center 25%'
+  },
+
+  // Surgical Suite & Modular OT
+  {
+    id: 'ot-1',
+    category: 'surgical',
+    categoryLabel: 'Operation Theatre',
+    title: 'Advanced Modular Operation Theatre Suite',
+    image: otImg453,
+    position: 'center center'
+  },
+  {
+    id: 'ot-2',
+    category: 'surgical',
+    categoryLabel: 'Operation Theatre',
+    title: 'State-of-the-Art Surgical Suite & Operating Table',
+    image: otImg761,
+    position: 'center center'
+  },
+  {
+    id: 'ot-3',
+    category: 'surgical',
+    categoryLabel: 'Operation Theatre',
+    title: 'Sterile Surgical Environment & Shadowless LED OT Lights',
+    image: otImg762,
+    position: 'center center'
+  },
+  {
+    id: 'ot-4',
+    category: 'surgical',
+    categoryLabel: 'Operation Theatre',
+    title: 'High-Tech Anesthesia Workstation & Vital Monitoring',
+    image: otImg48,
+    position: 'center center'
+  },
+  {
+    id: 'ot-5',
+    category: 'surgical',
+    categoryLabel: 'Operation Theatre',
+    title: 'Precision Surgical Infrastructure & Laparoscopic Tower',
+    image: otImg1,
+    position: 'center center'
+  },
+  {
+    id: 'icu-1',
+    category: 'icu',
+    categoryLabel: 'Intensive Care',
+    title: 'Critical Care ICU Multi-Bed Setup',
+    image: icuImg,
+    position: 'center center'
+  },
+  {
+    id: 'icu-2',
+    category: 'icu',
+    categoryLabel: 'Intensive Care',
+    title: 'High-Precision ICU Patient Telemetry',
+    image: icuImg,
+    position: 'center center'
+  },
+
+  // Infrastructure & Diagnostic Facilities
+  {
+    id: 'diag-1',
+    category: 'facilities',
+    categoryLabel: 'Radiology',
+    title: 'Advanced 128-Slice CT & MRI Diagnostic Suite',
+    image: radiologyImg,
+    position: 'center center'
+  },
+  {
+    id: 'inpatient-1',
+    category: 'facilities',
+    categoryLabel: 'Inpatient Care',
+    title: 'Deluxe Patient Recovery Room & Private Ward',
+    image: generalWardImg,
+    position: 'center center'
+  },
+  {
+    id: 'infra-1',
+    category: 'facilities',
+    categoryLabel: 'Infrastructure',
+    title: 'Hospital Central Facilities & Patient Care',
+    image: whyChooseImg,
+    position: 'center center'
+  },
+  {
+    id: 'infra-2',
+    category: 'facilities',
+    categoryLabel: 'Emergency Care',
+    title: '24×7 Emergency & Trauma Resuscitation Bay',
+    image: emergencyImg,
+    position: 'center center'
+  }
+]
+
+const ALL_PHOTOS = [...DUMP_GALLERY_PHOTOS, ...GALLERY_PHOTOS]
 
 const ITEMS_PER_PAGE = 16 // 4 rows × 4 columns
 
 export default function PhotosView() {
-  const { i18n } = useTranslation('home')
-  const isHindi = i18n?.language === 'hi'
-  // Photos and categories are managed in the admin panel (/master/gallery)
-  const { photos, categories: galleryCategories, loading, error } = useGallery()
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null)
   const [activeCategory, setActiveCategory] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
 
-  const allPhotos = useMemo(() => photos.map((p) => toPhotoCard(p, isHindi)), [photos, isHindi])
-
-  // Only categories that have photos get a filter pill
-  const categories = useMemo(
-    () => [
-      { id: 'all', label: isHindi ? 'सभी फोटो' : 'All Photos', count: allPhotos.length },
-      ...galleryCategories
-        .map((c) => ({
-          id: c.slug,
-          label: (isHindi && c.name.hi) || c.name.en,
-          count: allPhotos.filter((p) => p.category === c.slug).length,
-        }))
-        .filter((c) => c.count > 0),
-    ],
-    [galleryCategories, allPhotos, isHindi],
-  )
-
-  const filteredPhotos = useMemo(
-    () => (activeCategory === 'all' ? allPhotos : allPhotos.filter((photo) => photo.category === activeCategory)),
-    [allPhotos, activeCategory],
-  )
+  const filteredPhotos = activeCategory === 'all'
+    ? ALL_PHOTOS
+    : ALL_PHOTOS.filter((photo) => photo.category === activeCategory)
 
   const totalPages = Math.ceil(filteredPhotos.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
@@ -66,24 +394,29 @@ export default function PhotosView() {
     }
   }
 
-  // Lightbox navigation wraps around and keeps the grid on the page of the photo being viewed
-  const showPhoto = (index) => {
-    const next = (index + filteredPhotos.length) % filteredPhotos.length
-    setSelectedPhotoIndex(next)
-    setCurrentPage(Math.floor(next / ITEMS_PER_PAGE) + 1)
-  }
-
   // Keyboard navigation for Lightbox modal
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (selectedPhotoIndex === null) return
       if (e.key === 'Escape') setSelectedPhotoIndex(null)
-      if (e.key === 'ArrowRight') showPhoto(selectedPhotoIndex + 1)
-      if (e.key === 'ArrowLeft') showPhoto(selectedPhotoIndex - 1)
+      if (e.key === 'ArrowRight') {
+        setSelectedPhotoIndex((prev) => {
+          const nextIdx = (prev + 1) % filteredPhotos.length
+          setCurrentPage(Math.floor(nextIdx / ITEMS_PER_PAGE) + 1)
+          return nextIdx
+        })
+      }
+      if (e.key === 'ArrowLeft') {
+        setSelectedPhotoIndex((prev) => {
+          const prevIdx = (prev - 1 + filteredPhotos.length) % filteredPhotos.length
+          setCurrentPage(Math.floor(prevIdx / ITEMS_PER_PAGE) + 1)
+          return prevIdx
+        })
+      }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  })
+  }, [selectedPhotoIndex, filteredPhotos])
 
   // Lock scroll when lightbox is open
   useEffect(() => {
@@ -134,26 +467,26 @@ export default function PhotosView() {
         {/* Filter Pills */}
         <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto py-4 scrollbar-none no-scrollbar">
           <Filter className="w-4 h-4 text-slate-400 shrink-0 mr-1 hidden sm:block" />
-          {categories.length > 1 && categories.map((cat) => {
+          {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat.id
-            const count = cat.count
+            const count = cat.id === 'all'
+              ? ALL_PHOTOS.length
+              : ALL_PHOTOS.filter((p) => p.category === cat.id).length
 
             return (
               <button
                 key={cat.id}
                 type="button"
                 onClick={() => handleCategoryChange(cat.id)}
-                className={`shrink-0 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-                  isActive
+                className={`shrink-0 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${isActive
                     ? 'bg-[#003a70] text-white shadow-md shadow-blue-900/20 ring-2 ring-blue-500/20'
                     : 'bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 shadow-xs'
-                }`}
+                  }`}
               >
                 <span>{cat.label}</span>
                 <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-medium ${
-                    isActive ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
-                  }`}
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-medium ${isActive ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+                    }`}
                 >
                   {count}
                 </span>
@@ -165,19 +498,6 @@ export default function PhotosView() {
 
       {/* Pure Photos Grid with Anchor for Smooth Page Navigation */}
       <div id="photos-grid-top" className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 scroll-mt-28">
-        {loading ? (
-          <div className="flex items-center justify-center gap-2 py-24 text-sm text-slate-500">
-            <Loader2 className="w-5 h-5 animate-spin" />
-            Loading photos…
-          </div>
-        ) : filteredPhotos.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-3 py-24 text-center">
-            <ImageOff className="w-10 h-10 text-slate-300" />
-            <p className="text-sm sm:text-base text-slate-500">
-              {error ? 'The photo gallery could not be loaded. Please try again later.' : 'Photos will be added here soon.'}
-            </p>
-          </div>
-        ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {currentPhotos.map((photo, index) => {
             const actualIndex = startIndex + index
@@ -190,21 +510,19 @@ export default function PhotosView() {
               >
                 <img
                   src={photo.image}
-                  alt={photo.alt}
-                  loading="lazy"
+                  alt={photo.title || 'Ejaz Hospital'}
+                  loading="eager"
                   decoding="async"
                   style={{ objectPosition: photo.position || 'center' }}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
                 />
 
                 {/* Badges & Overlay */}
-                {photo.categoryLabel && (
                 <div className="absolute top-3 left-3 z-10 pointer-events-none">
                   <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/95 text-slate-800 backdrop-blur-md border border-slate-200/80 shadow-xs">
                     {photo.categoryLabel}
                   </span>
                 </div>
-                )}
 
                 {/* Hover Overlay with Title and Expand Icon */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
@@ -227,7 +545,6 @@ export default function PhotosView() {
             )
           })}
         </div>
-        )}
 
         {/* Pagination Controls directly after the 4th row */}
         {totalPages > 1 && (
@@ -246,11 +563,10 @@ export default function PhotosView() {
                 type="button"
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all duration-200 ${
-                  currentPage === 1
+                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all duration-200 ${currentPage === 1
                     ? 'text-slate-300 bg-slate-100/60 cursor-not-allowed border border-slate-200/50'
                     : 'text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 shadow-xs cursor-pointer hover:scale-102'
-                }`}
+                  }`}
                 aria-label="Previous page"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -265,11 +581,10 @@ export default function PhotosView() {
                     key={pageNum}
                     type="button"
                     onClick={() => handlePageChange(pageNum)}
-                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer flex items-center justify-center ${
-                      isActive
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer flex items-center justify-center ${isActive
                         ? 'bg-[#003a70] text-white shadow-md shadow-blue-900/20 ring-2 ring-blue-500/25'
                         : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-xs hover:text-slate-900'
-                    }`}
+                      }`}
                   >
                     {pageNum}
                   </button>
@@ -281,11 +596,10 @@ export default function PhotosView() {
                 type="button"
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all duration-200 ${
-                  currentPage === totalPages
+                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all duration-200 ${currentPage === totalPages
                     ? 'text-slate-300 bg-slate-100/60 cursor-not-allowed border border-slate-200/50'
                     : 'text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 shadow-xs cursor-pointer hover:scale-102'
-                }`}
+                  }`}
                 aria-label="Next page"
               >
                 <span className="hidden sm:inline">Next</span>
@@ -319,7 +633,7 @@ export default function PhotosView() {
             type="button"
             onClick={(e) => {
               e.stopPropagation()
-              showPhoto(selectedPhotoIndex - 1)
+              setSelectedPhotoIndex((prev) => (prev - 1 + filteredPhotos.length) % filteredPhotos.length)
             }}
             className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-60 p-2.5 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer border border-white/20"
             aria-label="Previous photo"
@@ -332,7 +646,7 @@ export default function PhotosView() {
             type="button"
             onClick={(e) => {
               e.stopPropagation()
-              showPhoto(selectedPhotoIndex + 1)
+              setSelectedPhotoIndex((prev) => (prev + 1) % filteredPhotos.length)
             }}
             className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-60 p-2.5 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer border border-white/20"
             aria-label="Next photo"
@@ -348,11 +662,11 @@ export default function PhotosView() {
             <div className="relative flex-1 flex items-center justify-center max-h-[78vh] bg-black">
               <img
                 src={selectedPhoto.image}
-                alt={selectedPhoto.alt}
+                alt={selectedPhoto.title || ''}
                 className="w-full h-auto max-h-[78vh] object-contain rounded-t-2xl shadow-2xl"
               />
             </div>
-            
+
             <div className="p-4 sm:p-5 bg-slate-900 text-white flex items-center justify-between border-t border-white/10">
               <div>
                 <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider">

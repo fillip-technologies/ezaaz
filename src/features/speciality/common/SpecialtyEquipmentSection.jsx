@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react'
 
-import machine1 from '../../../assets/speciality/laproscopic/machine-1.jpg'
-import machine2 from '../../../assets/speciality/laproscopic/machine-2.png'
-import machine3 from '../../../assets/speciality/laproscopic/machine-3.webp'
-import machine4 from '../../../assets/speciality/laproscopic/machine-4.webp'
+import realOtSuite from '../../../assets/OT-PHOTOS/DSC00453.JPG'
+import realCArm from '../../../assets/OT-PHOTOS/DSC00761.JPG'
+import realLapTower from '../../../assets/dumps-images/DSC00784.JPG'
+import realAnesthesiaStation from '../../../assets/dumps-images/DSC00455.JPG'
 
 export default function SpecialtyEquipmentSection({
   titlePrefixEn = 'Advanced Technology &',
@@ -23,7 +23,7 @@ export default function SpecialtyEquipmentSection({
   const defaultMachines = [
     {
       id: 'machine-1',
-      image: machine1,
+      image: realOtSuite,
       num: '01',
       tagEn: 'Surgical Suite',
       tagHi: 'सर्जिकल सुइट',
@@ -46,7 +46,7 @@ export default function SpecialtyEquipmentSection({
     },
     {
       id: 'machine-2',
-      image: machine2,
+      image: realCArm,
       num: '02',
       tagEn: 'Live Imaging',
       tagHi: 'लाइव इमेजिंग',
@@ -69,12 +69,12 @@ export default function SpecialtyEquipmentSection({
     },
     {
       id: 'machine-3',
-      image: machine3,
+      image: realLapTower,
       num: '03',
-      tagEn: 'Mobile Fluoroscopy',
-      tagHi: 'मोबाइल फ्लोरोस्कोपी',
-      nameEn: 'Mobile Intraoperative Fluoroscopy Unit',
-      nameHi: 'मोबाइल इंट्राऑपरेटिव फ्लोरोस्कोपी यूनिट',
+      tagEn: 'Optical Towers',
+      tagHi: 'ऑप्टिकल टावर्स',
+      nameEn: '4K Ultra-HD Endoscopic Optical Tower',
+      nameHi: '4K अल्ट्रा-एचडी एंडोस्कोपिक ऑप्टिकल टावर',
       descEn: 'Agile dual-monitor workstation designed for prompt, distortion-free intraoperative radiologic evaluation directly inside the sterile operating field.',
       descHi: 'स्टेरिल ऑपरेटिंग क्षेत्र के भीतर त्वरित और सटीक इंट्राऑपरेटिव रेडियोलॉजिकल मूल्यांकन के लिए डुअल-मॉनिटर वर्कस्टेशन।',
       specsEn: [
@@ -92,14 +92,14 @@ export default function SpecialtyEquipmentSection({
     },
     {
       id: 'machine-4',
-      image: machine4,
+      image: realAnesthesiaStation,
       num: '04',
-      tagEn: 'Interventional Station',
-      tagHi: 'इंटरवेंशन स्टेशन',
-      nameEn: 'Precision Radiography & Surgical Workstation',
-      nameHi: 'प्रिसिजन रेडियोग्राफी एवं सर्जिकल वर्कस्टेशन',
-      descEn: 'Motorized multi-axis examination and interventional surgical table ensuring ergonomic patient positioning and precision multi-angle diagnostic scans.',
-      descHi: 'मोटराइज्ड मल्टी-एक्सिस एग्जामिनेशन और इंटरवेंशनल सर्जिकल टेबल, जो सटीक मल्टी-एंगल डायग्नोस्टिक स्कैन और आरामदायक स्थिति सुनिश्चित करती है।',
+      tagEn: 'Anesthesia Station',
+      tagHi: 'एनेस्थीसिया स्टेशन',
+      nameEn: 'Precision Anesthesia & Patient Vital Workstation',
+      nameHi: 'प्रिसिजन एनेस्थीसिया एवं वाइटल वर्कस्टेशन',
+      descEn: 'State-of-the-art computerized anesthetic workstation with continuous multi-parameter hemodynamic telemetry and precision life-support ventilation.',
+      descHi: 'अत्याधुनिक कम्प्यूटरीकृत एनेस्थेटिक वर्कस्टेशन, जो निरंतर हेमोडायनामिक टेलीमेट्री और जीवन रक्षक वेंटिलेशन सुनिश्चित करता है।',
       specsEn: [
         'Motorized multi-axis table positioning',
         'Computerized ergonomic joystick controls',

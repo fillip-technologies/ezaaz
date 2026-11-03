@@ -246,7 +246,7 @@
       },
       {
         "id": "emergency",
-        "title": "24×7 Emergency & Critical Care",
+        "title": "Emergency & Critical Care",
         "description": "Round-the-clock emergency support with dedicated critical-care facilities for patients who need immediate attention.",
         "icon": "emergency"
       },
@@ -278,7 +278,7 @@
     "items": [
       {
         "id": "emergency",
-        "title": "24×7 Emergency & Critical Care",
+        "title": "Emergency & Critical Care",
         "category": "Immediate Trauma Response",
         "desc": "Round-the-clock emergency triage, trauma care, advanced life support, and rapid surgical interventions.",
         "href": "/facilities/24-7-service"
