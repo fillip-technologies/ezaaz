@@ -24,6 +24,9 @@ export default function SpecialtiesSection() {
     if (!id) return '#departments'
     const cleanId = String(id).toLowerCase().trim()
     switch (cleanId) {
+      case 'robotic':
+      case 'robotic-surgery':
+        return '/speciality/robotic-surgery'
       case 'laparoscopic':
       case 'laparoscopic-surgery':
         return '/speciality/laparoscopic'

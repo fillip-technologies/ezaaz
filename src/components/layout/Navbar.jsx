@@ -254,7 +254,7 @@ export default function Navbar({ currentRoute = 'home' }) {
   useEffect(() => {
     if (currentRoute === 'doctors' || currentRoute === 'doctor-profile') {
       setActiveItem('doctors')
-    } else if (['laparoscopic', 'cancer', 'cancer-surgery', 'hernia', 'orthopaedics', 'orthopedic', 'general-surgery', 'gastrointestinal', 'anaesthesia', 'anesthesia', 'plastic-surgery', 'plastic', 'urology', 'general-internal', 'internal-medicine', 'gynaecology', 'gynecology', 'gyanecology'].includes(currentRoute)) {
+    } else if (['laparoscopic', 'robotic', 'robotic-surgery', 'cancer', 'cancer-surgery', 'hernia', 'orthopaedics', 'orthopedic', 'general-surgery', 'gastrointestinal', 'anaesthesia', 'anesthesia', 'plastic-surgery', 'plastic', 'urology', 'general-internal', 'internal-medicine', 'gynaecology', 'gynecology', 'gyanecology'].includes(currentRoute)) {
       setActiveItem('speciality')
     } else if (currentRoute === 'gallery-photos' || currentRoute === 'gallery-videos' || currentRoute === 'gallery' || currentRoute.startsWith('gallery')) {
       setActiveItem('gallery')
@@ -677,6 +677,9 @@ export default function Navbar({ currentRoute = 'home' }) {
 
   const getSpecialtyUrl = (specId) => {
     switch (specId) {
+      case 'robotic':
+      case 'robotic-surgery':
+        return '/speciality/robotic-surgery'
       case 'laparoscopic':
         return '/speciality/laparoscopic'
       case 'cancer-surgery':

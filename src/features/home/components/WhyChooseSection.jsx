@@ -35,7 +35,7 @@ const WHY_CHOOSE_CARDS = [
     subtitleHi: 'अत्याधुनिक रोबोटिक तकनीक एवं सटीकता',
     descriptionEn: 'Sub-millimeter surgical precision with 3D high-magnification visualization for complex, delicate interventions.',
     descriptionHi: 'जटिल और संवेदनशील ऑपरेशनों में 3D विज़ुअलाइज़ेशन और मिलीमीटर स्तर के नियंत्रण के साथ रोबोटिक सटीकता।',
-    href: '#specialties'
+    href: '/speciality/robotic-surgery'
   },
   {
     id: 'general-surgery',

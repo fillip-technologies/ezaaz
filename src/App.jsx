@@ -5,6 +5,7 @@ import WhatsAppButton from './components/layout/WhatsAppButton'
 import WelcomeVideoIntro from './components/welcome/WelcomeVideoIntro'
 import HomePage from './pages/HomePage'
 import LaparoscopicPage from './pages/LaparoscopicPage'
+import RoboticSurgeryPage from './pages/RoboticSurgeryPage'
 import CancerPage from './pages/CancerPage'
 import HerniaPage from './pages/HerniaPage'
 import OrthopedicsPage from './pages/OrthopedicsPage'
@@ -137,6 +138,7 @@ const getRouteFromUrl = () => {
   ) {
     return 'gynaecology'
   }
+  if (target.includes('robotic')) return 'robotic-surgery'
   if (target.includes('laparoscopic')) return 'laparoscopic'
   return 'home'
 }
@@ -192,6 +194,7 @@ export default function App() {
 
       {/* Main Page Area */}
       <main className="flex-1 w-full">
+        {currentRoute === 'robotic-surgery' && <RoboticSurgeryPage />}
         {currentRoute === 'laparoscopic' && <LaparoscopicPage />}
         {currentRoute === 'cancer' && <CancerPage />}
         {currentRoute === 'hernia' && <HerniaPage />}

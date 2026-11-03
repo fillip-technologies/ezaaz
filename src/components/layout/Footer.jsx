@@ -186,11 +186,22 @@ export default function Footer() {
             </div>
 
             {/* Copyright matching screenshot bottom-left position */}
-            <div className="mt-8 sm:mt-12 lg:mt-16">
+            <div className="mt-8 sm:mt-12 lg:mt-16 space-y-1">
               <p className="text-slate-500 text-xs sm:text-[13px] font-normal tracking-normal">
                 {isHindi
                   ? `कॉपीराइट © ${currentYear} एजाज क्लिनिक। सर्वाधिकार सुरक्षित`
                   : `Copyright © ${currentYear} Ejaz Clinic. All Rights Reserved`}
+              </p>
+              <p className="text-slate-500 text-xs sm:text-[13px] font-normal tracking-normal">
+                {isHindi ? 'डिज़ाइन एवं विकसित: ' : 'Designed & Developed by '}
+                <a
+                  href="https://filliptechnologies.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-[#003a70] hover:text-[#ea580c] hover:underline transition-colors"
+                >
+                  Fillip Technologies
+                </a>
               </p>
             </div>
           </div>
