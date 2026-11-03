@@ -5,11 +5,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 
 // Images from assets/home/top-prcodecures
-import laparoscopicSurgeryImg from '../../../assets/home/top-prcodecures/laproscopic-surgery.jpg'
-import roboticSurgeryImg from '../../../assets/home/top-prcodecures/robitc-surgery.jpg'
+import laparoscopicSurgeryImg from '../../../assets/DSC00771.JPG'
+import roboticSurgeryImg from '../../../assets/robotic-surgery.JPG'
 import generalSurgeryImg from '../../../assets/home/top-prcodecures/general-surgery.jpg'
-import orthopedicSurgeryImg from '../../../assets/home/top-prcodecures/orthopedic-surgery.jpg'
-import endoscopicSurgeryImg from '../../../assets/home/top-prcodecures/endroscopic-surgery.jpg'
+import orthopedicSurgeryImg from '../../../assets/Orthopaedic-images/DSC00038.JPG'
+import gastrointestinalSurgeryImg from '../../../assets/gasterolistic.JPG'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -60,14 +60,14 @@ const WHY_CHOOSE_CARDS = [
     href: '/speciality/orthopaedics'
   },
   {
-    id: 'endoscopic',
-    image: endoscopicSurgeryImg,
-    titleEn: 'Endoscopic Surgery',
-    titleHi: 'एंडोस्कोपिक सर्जरी',
-    subtitleEn: 'Advanced Diagnostic & Therapeutic Interventions',
-    subtitleHi: 'उन्नत डायग्नोस्टिक एवं इंटरवेंशनल प्रक्रियाएं',
-    descriptionEn: 'Incision-free diagnostic and therapeutic digestive procedures ensuring gentle interventions and swift healing.',
-    descriptionHi: 'बिना किसी बाहरी चीरे के पेट एवं पाचन तंत्र से जुड़े रोगों की त्वरित जांच और लेजर व एंडोस्कोपिक उपचार।',
+    id: 'gastrointestinal',
+    image: gastrointestinalSurgeryImg,
+    titleEn: 'Gastrointestinal Surgery',
+    titleHi: 'गैस्ट्रोइंटेस्टाइनल सर्जरी',
+    subtitleEn: 'Advanced Digestive & GI Surgical Care',
+    subtitleHi: 'उन्नत पाचन एवं जीआई सर्जिकल देखभाल',
+    descriptionEn: 'Comprehensive surgical care for complex digestive tract, liver, gallbladder, pancreatic, and abdominal disorders.',
+    descriptionHi: 'पाचन तंत्र, लिवर, पित्ताशय, अग्न्याशय और आंतों से जुड़े जटिल रोगों का अनुभवी जीआई सर्जनों द्वारा सुरक्षित उपचार।',
     href: '/speciality/gastrointestinal'
   }
 ]

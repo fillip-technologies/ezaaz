@@ -22,7 +22,7 @@ import {
   FileText,
   ChevronDown
 } from 'lucide-react'
-import { useDoctors, toDoctorProfile, checkIsShahzad, checkIsShivani, checkIsSalik } from '../useDoctors'
+import { useDoctors, toDoctorProfile, checkIsShahzad, checkIsShivani, checkIsSalik, checkIsSamanWasi } from '../useDoctors'
 
 // Doctor slug from ?id=... (or /doctor-profile/<slug>)
 const getDoctorIdFromUrl = () => {
@@ -73,6 +73,9 @@ export default function DoctorProfileView({ doctorId = '' }) {
       }
       if (normalized === 'dr-salik' || normalized === 'salik' || normalized === 'dr-abdul-salik' || normalized === 'dr-internal-med' || normalized === 'abdul-salik') {
         return checkIsSalik(d)
+      }
+      if (normalized === 'dr-saman-wasi' || normalized === 'dr-saman' || normalized === 'saman-wasi' || normalized === 'saman') {
+        return checkIsSamanWasi(d)
       }
       return false
     })
@@ -181,7 +184,8 @@ export default function DoctorProfileView({ doctorId = '' }) {
         const isCurrentShahzad = (doctor.isShahzad || doctor.id === 'dr-shahzad') && checkIsShahzad(d)
         const isCurrentShivani = (doctor.isShivani || doctor.id === 'dr-ortho-specialist' || doctor.id === 'dr-shivani') && checkIsShivani(d)
         const isCurrentSalik = (doctor.isSalik || doctor.id === 'dr-internal-med' || doctor.id === 'dr-salik' || doctor.id === 'dr-abdul-salik') && checkIsSalik(d)
-        return !isCurrentShahzad && !isCurrentShivani && !isCurrentSalik && d.slug !== doctor.id && d._id !== doctor.id
+        const isCurrentSamanWasi = (doctor.isSamanWasi || doctor.id === 'dr-saman-wasi' || doctor.id === 'saman-wasi') && checkIsSamanWasi(d)
+        return !isCurrentShahzad && !isCurrentShivani && !isCurrentSalik && !isCurrentSamanWasi && d.slug !== doctor.id && d._id !== doctor.id
       })
       .map(toDoctorProfile)
   }, [doctors, doctor])
@@ -331,6 +335,32 @@ export default function DoctorProfileView({ doctorId = '' }) {
                       </div>
                     )}
 
+                    {(doctor.id === 'dr-internal-med' || doctor.id === 'dr-salik' || doctor.isSalik) && (
+                      <div className="flex flex-wrap items-center gap-1 pt-0.5">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-200 border border-blue-300/30 text-[9.5px] font-bold">
+                          <GraduationCap className="w-2.5 h-2.5 text-blue-300" />
+                          <span>MD (PMCH) • Ex-AIIMS SR</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/30 text-[9.5px] font-bold">
+                          <Award className="w-2.5 h-2.5 text-amber-300" />
+                          <span>Assoc. Prof RDJM</span>
+                        </span>
+                      </div>
+                    )}
+
+                    {(doctor.id === 'dr-saman-wasi' || doctor.isSamanWasi) && (
+                      <div className="flex flex-wrap items-center gap-1 pt-0.5">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 text-[9.5px] font-bold">
+                          <Award className="w-2.5 h-2.5 text-emerald-300" />
+                          <span>NBEMS Award 2025</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-200 border border-blue-300/30 text-[9.5px] font-bold">
+                          <GraduationCap className="w-2.5 h-2.5 text-blue-300" />
+                          <span>Medanta Trained</span>
+                        </span>
+                      </div>
+                    )}
+
                     {/* Doctor Name + Share */}
                     <div className="flex items-start justify-between gap-1.5">
                       <h1 className="text-lg xs:text-xl font-bold text-white tracking-tight leading-tight">
@@ -439,6 +469,40 @@ export default function DoctorProfileView({ doctorId = '' }) {
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 text-xs font-bold tracking-wide shadow-xs">
                         <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
                         <span>NMC Recognized Specialist</span>
+                      </span>
+                    </div>
+                  )}
+
+                  {(doctor.id === 'dr-internal-med' || doctor.id === 'dr-salik' || doctor.isSalik) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-400/20 text-blue-200 border border-blue-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <GraduationCap className="w-3.5 h-3.5 text-blue-300" />
+                        <span>MD (Internal Medicine) — PMCH</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <Award className="w-3.5 h-3.5 text-amber-300" />
+                        <span>Ex Senior Resident — AIIMS</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
+                        <span>Associate Professor — RDJM Medical College</span>
+                      </span>
+                    </div>
+                  )}
+
+                  {(doctor.id === 'dr-saman-wasi' || doctor.isSamanWasi) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <Award className="w-3.5 h-3.5 text-emerald-300" />
+                        <span>NBEMS Outstanding Research Award (2025)</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-400/20 text-blue-200 border border-blue-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <GraduationCap className="w-3.5 h-3.5 text-blue-300" />
+                        <span>Fellowship & DrNB (Medanta – The Medicity)</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/30 text-xs font-bold tracking-wide shadow-xs">
+                        <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
+                        <span>Ex Senior Resident (ILBS, New Delhi)</span>
                       </span>
                     </div>
                   )}
@@ -1057,21 +1121,27 @@ export default function DoctorProfileView({ doctorId = '' }) {
                 </div>
               </div>
 
-              {/* 24/7 Emergency & Critical Surgical Care Callout */}
+              {/* Emergency & Critical Care Callout */}
               <div className="bg-gradient-to-br from-[#00284d] to-[#003a70] text-white rounded-2xl p-5 sm:p-6 shadow-sm">
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/20 border border-red-400/30 text-red-200 text-[10.5px] font-bold uppercase tracking-wider mb-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
-                  <span>{isHindi ? '24/7 आपातकालीन सेवा' : '24/7 Surgical Emergency'}</span>
+                  <span>
+                    {isHindi
+                      ? (doctor.emergency?.badgeHi || doctor.emergency?.badge || '24/7 आपातकालीन सेवा')
+                      : (doctor.emergency?.badge || '24/7 Surgical Emergency')}
+                  </span>
                 </div>
 
                 <h4 className="text-base font-bold text-white tracking-tight mb-2">
-                  {isHindi ? 'तत्काल सर्जिकल सहायता चाहिए?' : 'Need Urgent Surgical Care?'}
+                  {isHindi
+                    ? (doctor.emergency?.headingHi || doctor.emergency?.heading || 'तत्काल सर्जिकल सहायता चाहिए?')
+                    : (doctor.emergency?.heading || 'Need Urgent Surgical Care?')}
                 </h4>
                 
                 <p className="text-xs text-white/80 leading-relaxed mb-4">
                   {isHindi
-                    ? 'हमारी आपातकालीन एवं गहन चिकित्सा इकाई 24 घंटे सक्रिय है।'
-                    : 'Our critical care and emergency surgical team is available round the clock.'}
+                    ? (doctor.emergency?.textHi || doctor.emergency?.text || 'हमारी आपातकालीन एवं गहन चिकित्सा इकाई 24 घंटे सक्रिय है।')
+                    : (doctor.emergency?.text || 'Our critical care and emergency surgical team is available round the clock.')}
                 </p>
 
                 <a

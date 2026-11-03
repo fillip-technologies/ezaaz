@@ -1,6 +1,77 @@
 import { useEffect, useState } from 'react'
 import { assetUrl, doctorsApi } from '../../api'
 import placeholderPhoto from '../../assets/doctor-placeholder.svg'
+import { DR_SHAHZAD_DETAILS } from './drShahzadDetails'
+import { DR_SHIVANI_DETAILS } from './drShivaniDetails'
+import { DR_SALIK_DETAILS } from './drSalikDetails'
+import { DR_SAMAN_WASI_DETAILS } from './drSamanWasiDetails'
+
+export const checkIsShahzad = (doctor) =>
+  Boolean(
+    doctor && (
+      doctor.slug === 'dr-shahzad' ||
+      doctor._id === '6ad0c4fa70227250537648f3' ||
+      (typeof doctor.name === 'string' && doctor.name.toLowerCase().includes('shahzad')) ||
+      doctor.name?.en?.toLowerCase().includes('shahzad')
+    )
+  )
+
+export const checkIsShivani = (doctor) =>
+  Boolean(
+    doctor && (
+      doctor.slug === 'dr-ortho-specialist' ||
+      doctor.slug === 'dr-shivani' ||
+      doctor._id === '6ad0c4fb70227250537648f5' ||
+      (typeof doctor.name === 'string' && doctor.name.toLowerCase().includes('shivani')) ||
+      doctor.name?.en?.toLowerCase().includes('shivani')
+    )
+  )
+
+export const checkIsSalik = (doctor) =>
+  Boolean(
+    doctor && (
+      doctor.slug === 'dr-internal-med' ||
+      doctor.slug === 'dr-salik' ||
+      doctor.slug === 'dr-abdul-salik' ||
+      doctor._id === '6ad0c4fb70227250537648f6' ||
+      (typeof doctor.name === 'string' && (doctor.name.toLowerCase().includes('salik') || doctor.name.toLowerCase().includes('abdul'))) ||
+      doctor.name?.en?.toLowerCase().includes('salik') ||
+      doctor.name?.en?.toLowerCase().includes('abdul') ||
+      doctor.name?.hi?.includes('सालिक')
+    )
+  )
+
+export const checkIsSamanWasi = (doctor) =>
+  Boolean(
+    doctor && (
+      doctor.slug === 'dr-saman-wasi' ||
+      doctor.slug === 'saman-wasi' ||
+      doctor.slug === 'dr-saman' ||
+      doctor.id === 'dr-saman-wasi' ||
+      doctor._id === 'dr-saman-wasi' ||
+      (typeof doctor.name === 'string' && doctor.name.toLowerCase().includes('saman')) ||
+      doctor.name?.en?.toLowerCase().includes('saman') ||
+      doctor.name?.hi?.includes('समन')
+    )
+  )
+
+export const SAMAN_WASI_SEED = {
+  _id: 'dr-saman-wasi',
+  slug: 'dr-saman-wasi',
+  name: { en: DR_SAMAN_WASI_DETAILS.name, hi: DR_SAMAN_WASI_DETAILS.nameHi },
+  regNo: DR_SAMAN_WASI_DETAILS.regNo,
+  degrees: { en: DR_SAMAN_WASI_DETAILS.degrees, hi: DR_SAMAN_WASI_DETAILS.degreesHi },
+  specialty: { en: DR_SAMAN_WASI_DETAILS.specialty, hi: DR_SAMAN_WASI_DETAILS.specialtyHi },
+  subSpecialty: { en: DR_SAMAN_WASI_DETAILS.subSpecialty, hi: DR_SAMAN_WASI_DETAILS.subSpecialtyHi },
+  department: { en: DR_SAMAN_WASI_DETAILS.department, hi: DR_SAMAN_WASI_DETAILS.departmentHi },
+  category: DR_SAMAN_WASI_DETAILS.category,
+  specialtyTags: DR_SAMAN_WASI_DETAILS.specialtyTags,
+  experienceYears: DR_SAMAN_WASI_DETAILS.experienceYears,
+  gender: 'female',
+  timing: { en: DR_SAMAN_WASI_DETAILS.timing, hi: DR_SAMAN_WASI_DETAILS.timingHi },
+  languages: DR_SAMAN_WASI_DETAILS.languages,
+  active: true,
+}
 
 // Every page that shows doctors reads them from the backend (managed in /master).
 // One request per page load, shared by all sections that use this hook.
@@ -8,10 +79,19 @@ let doctorsPromise = null
 
 function loadDoctors() {
   if (!doctorsPromise) {
-    doctorsPromise = doctorsApi.list().catch((err) => {
-      doctorsPromise = null // allow a retry on the next mount
-      throw err
-    })
+    doctorsPromise = doctorsApi
+      .list()
+      .then((list) => {
+        const doctorsList = Array.isArray(list) ? [...list] : []
+        if (!doctorsList.some(checkIsSamanWasi)) {
+          doctorsList.push(SAMAN_WASI_SEED)
+        }
+        return doctorsList
+      })
+      .catch((err) => {
+        doctorsPromise = null // allow a retry on the next mount
+        throw err
+      })
   }
   return doctorsPromise
 }
@@ -23,7 +103,20 @@ export function useDoctors() {
     let cancelled = false
     loadDoctors()
       .then((doctors) => !cancelled && setState({ doctors, loading: false, error: '' }))
-      .catch((err) => !cancelled && setState({ doctors: [], loading: false, error: err.message }))
+      .catch((err) => {
+        if (!cancelled) {
+          setState({
+            doctors: [
+              { slug: 'dr-shahzad', _id: '6ad0c4fa70227250537648f3', category: 'surgical', active: true },
+              { slug: 'dr-ortho-specialist', _id: '6ad0c4fb70227250537648f5', category: 'surgical', active: true },
+              { slug: 'dr-internal-med', _id: '6ad0c4fb70227250537648f6', category: 'medicine', active: true },
+              SAMAN_WASI_SEED,
+            ],
+            loading: false,
+            error: err.message,
+          })
+        }
+      })
     return () => {
       cancelled = true
     }
@@ -48,39 +141,13 @@ export function formatExperience(years, isHindi) {
   return isHindi ? `${years}+ वर्ष` : `${years}+ Years`
 }
 
-import { DR_SHAHZAD_DETAILS } from './drShahzadDetails'
-import { DR_SHIVANI_DETAILS } from './drShivaniDetails'
-import { DR_SALIK_DETAILS } from './drSalikDetails'
-
-export const checkIsShahzad = (doctor) =>
-  doctor.slug === 'dr-shahzad' ||
-  doctor._id === '6ad0c4fa70227250537648f3' ||
-  (typeof doctor.name === 'string' && doctor.name.toLowerCase().includes('shahzad')) ||
-  doctor.name?.en?.toLowerCase().includes('shahzad')
-
-export const checkIsShivani = (doctor) =>
-  doctor.slug === 'dr-ortho-specialist' ||
-  doctor.slug === 'dr-shivani' ||
-  doctor._id === '6ad0c4fb70227250537648f5' ||
-  (typeof doctor.name === 'string' && doctor.name.toLowerCase().includes('shivani')) ||
-  doctor.name?.en?.toLowerCase().includes('shivani')
-
-export const checkIsSalik = (doctor) =>
-  doctor.slug === 'dr-internal-med' ||
-  doctor.slug === 'dr-salik' ||
-  doctor.slug === 'dr-abdul-salik' ||
-  doctor._id === '6ad0c4fb70227250537648f6' ||
-  (typeof doctor.name === 'string' && (doctor.name.toLowerCase().includes('salik') || doctor.name.toLowerCase().includes('abdul'))) ||
-  doctor.name?.en?.toLowerCase().includes('salik') ||
-  doctor.name?.en?.toLowerCase().includes('abdul') ||
-  doctor.name?.hi?.includes('सालिक')
-
 // Flat, single-language shape used by the doctor cards and the booking form
 export function toDoctorCard(doctor, isHindi) {
   if (!doctor) return null
   const isShahzad = checkIsShahzad(doctor)
   const isShivani = checkIsShivani(doctor)
   const isSalik = checkIsSalik(doctor)
+  const isSamanWasi = checkIsSamanWasi(doctor)
 
   if (isShahzad) {
     return {
@@ -90,8 +157,8 @@ export function toDoctorCard(doctor, isHindi) {
       specialty: isHindi ? DR_SHAHZAD_DETAILS.specialtyHi : DR_SHAHZAD_DETAILS.specialty,
       subSpecialty: isHindi ? DR_SHAHZAD_DETAILS.subSpecialtyHi : DR_SHAHZAD_DETAILS.subSpecialty,
       department: isHindi ? DR_SHAHZAD_DETAILS.departmentHi : DR_SHAHZAD_DETAILS.department,
-      departmentId: doctor.category,
-      specialtyTags: doctor.specialtyTags || [],
+      departmentId: doctor.category || 'surgical',
+      specialtyTags: doctor.specialtyTags || ['gastrointestinal', 'laparoscopic', 'hernia', 'general-surgery'],
       degrees: isHindi ? DR_SHAHZAD_DETAILS.degreesHi : DR_SHAHZAD_DETAILS.degrees,
       experience: isHindi ? DR_SHAHZAD_DETAILS.experienceHi : DR_SHAHZAD_DETAILS.experience,
       gender: isHindi ? 'पुरुष' : 'Male',
@@ -136,6 +203,24 @@ export function toDoctorCard(doctor, isHindi) {
     }
   }
 
+  if (isSamanWasi) {
+    return {
+      id: doctor.slug || 'dr-saman-wasi',
+      name: isHindi ? DR_SAMAN_WASI_DETAILS.nameHi : DR_SAMAN_WASI_DETAILS.name,
+      photo: doctorPhoto(doctor),
+      specialty: isHindi ? DR_SAMAN_WASI_DETAILS.specialtyHi : DR_SAMAN_WASI_DETAILS.specialty,
+      subSpecialty: isHindi ? DR_SAMAN_WASI_DETAILS.subSpecialtyHi : DR_SAMAN_WASI_DETAILS.subSpecialty,
+      department: isHindi ? DR_SAMAN_WASI_DETAILS.departmentHi : DR_SAMAN_WASI_DETAILS.department,
+      departmentId: 'super',
+      specialtyTags: DR_SAMAN_WASI_DETAILS.specialtyTags,
+      degrees: isHindi ? DR_SAMAN_WASI_DETAILS.degreesHi : DR_SAMAN_WASI_DETAILS.degrees,
+      experience: isHindi ? DR_SAMAN_WASI_DETAILS.experienceHi : DR_SAMAN_WASI_DETAILS.experience,
+      gender: isHindi ? 'महिला' : 'Female',
+      timing: isHindi ? DR_SAMAN_WASI_DETAILS.timingHi : DR_SAMAN_WASI_DETAILS.timing,
+      bio: DR_SAMAN_WASI_DETAILS.aboutEn?.slice(0, 160) + '...',
+    }
+  }
+
   return {
     id: doctor.slug || doctor._id,
     name: pick(doctor.name, isHindi),
@@ -162,6 +247,7 @@ export function findBlogAuthor(doctors, authorDoctorId, isHindi) {
   const isShahzad = checkIsShahzad(doctor)
   const isShivani = checkIsShivani(doctor)
   const isSalik = checkIsSalik(doctor)
+  const isSamanWasi = checkIsSamanWasi(doctor)
 
   return {
     id: doctor.slug || doctor._id,
@@ -171,14 +257,18 @@ export function findBlogAuthor(doctors, authorDoctorId, isHindi) {
         ? (isHindi ? DR_SHIVANI_DETAILS.nameHi : DR_SHIVANI_DETAILS.name)
         : isSalik
           ? (isHindi ? DR_SALIK_DETAILS.nameHi : DR_SALIK_DETAILS.name)
-          : pick(doctor.name, isHindi),
+          : isSamanWasi
+            ? (isHindi ? DR_SAMAN_WASI_DETAILS.nameHi : DR_SAMAN_WASI_DETAILS.name)
+            : pick(doctor.name, isHindi),
     role: isShahzad
       ? (isHindi ? DR_SHAHZAD_DETAILS.specialtyHi : DR_SHAHZAD_DETAILS.specialty)
       : isShivani
         ? (isHindi ? DR_SHIVANI_DETAILS.specialtyHi : DR_SHIVANI_DETAILS.specialty)
         : isSalik
           ? (isHindi ? DR_SALIK_DETAILS.specialtyHi : DR_SALIK_DETAILS.specialty)
-          : pick(doctor.specialty, isHindi),
+          : isSamanWasi
+            ? (isHindi ? DR_SAMAN_WASI_DETAILS.specialtyHi : DR_SAMAN_WASI_DETAILS.specialty)
+            : pick(doctor.specialty, isHindi),
     photo: doctorPhoto(doctor),
   }
 }
@@ -189,6 +279,7 @@ export function toDoctorProfile(doctor) {
   const isShahzad = checkIsShahzad(doctor)
   const isShivani = checkIsShivani(doctor)
   const isSalik = checkIsSalik(doctor)
+  const isSamanWasi = checkIsSamanWasi(doctor)
 
   if (isShahzad) {
     return {
@@ -300,6 +391,43 @@ export function toDoctorProfile(doctor) {
     }
   }
 
+  if (isSamanWasi) {
+    return {
+      id: doctor.slug || 'dr-saman-wasi',
+      isSamanWasi: true,
+      name: DR_SAMAN_WASI_DETAILS.name,
+      nameHi: DR_SAMAN_WASI_DETAILS.nameHi,
+      regNo: DR_SAMAN_WASI_DETAILS.regNo,
+      photo: doctorPhoto(doctor),
+      degrees: DR_SAMAN_WASI_DETAILS.degrees,
+      degreesHi: DR_SAMAN_WASI_DETAILS.degreesHi,
+      specialty: DR_SAMAN_WASI_DETAILS.specialty,
+      specialtyHi: DR_SAMAN_WASI_DETAILS.specialtyHi,
+      subSpecialty: DR_SAMAN_WASI_DETAILS.subSpecialty,
+      subSpecialtyHi: DR_SAMAN_WASI_DETAILS.subSpecialtyHi,
+      department: DR_SAMAN_WASI_DETAILS.department,
+      departmentHi: DR_SAMAN_WASI_DETAILS.departmentHi,
+      experience: DR_SAMAN_WASI_DETAILS.experience,
+      experienceHi: DR_SAMAN_WASI_DETAILS.experienceHi,
+      languages: DR_SAMAN_WASI_DETAILS.languages,
+      timing: DR_SAMAN_WASI_DETAILS.timing,
+      timingHi: DR_SAMAN_WASI_DETAILS.timingHi,
+      hospital: DR_SAMAN_WASI_DETAILS.hospital,
+      hospitalHi: DR_SAMAN_WASI_DETAILS.hospitalHi,
+      aboutEn: DR_SAMAN_WASI_DETAILS.aboutEn,
+      aboutHi: DR_SAMAN_WASI_DETAILS.aboutHi,
+      specializations: DR_SAMAN_WASI_DETAILS.specializations,
+      education: DR_SAMAN_WASI_DETAILS.education,
+      awards: DR_SAMAN_WASI_DETAILS.awards || [],
+      licensure: DR_SAMAN_WASI_DETAILS.licensure || [],
+      publications: DR_SAMAN_WASI_DETAILS.publications || [],
+      emergency: DR_SAMAN_WASI_DETAILS.emergency,
+      currentPosition: DR_SAMAN_WASI_DETAILS.currentPosition,
+      contact: DR_SAMAN_WASI_DETAILS.contact,
+      personalInfo: DR_SAMAN_WASI_DETAILS.personalInfo,
+    }
+  }
+
   return {
     id: doctor.slug || doctor._id,
     name: pick(doctor.name, false),
@@ -329,6 +457,7 @@ export function toDoctorProfile(doctor) {
     awards: doctor.awards || [],
     licensure: doctor.licensure || [],
     publications: doctor.publications || [],
+    emergency: doctor.emergency || null,
     currentPosition: doctor.currentPosition || null,
     contact: doctor.contact || null,
     personalInfo: doctor.personalInfo || null,
