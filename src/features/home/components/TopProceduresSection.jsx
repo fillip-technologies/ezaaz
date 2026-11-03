@@ -14,7 +14,7 @@ import icuImg from '../../../assets/home/procedures/icu.png'
 import radiologyImg from '../../../assets/home/procedures/radiology-image.png'
 import diagnosisImg from '../../../assets/Laboratory/27.png'
 import physiotherapyImg from '../../../assets/home/procedures/physioteraphy.jpg'
-import modularOtImg from '../../../assets/home/choose-2.png'
+import modularOtImg from '../../../assets/OT-PHOTOS/DSC00453.JPG'
 import generalWardImg from '../../../assets/Nursing/team-portrait.png'
 
 gsap.registerPlugin(ScrollTrigger)

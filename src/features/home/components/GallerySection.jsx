@@ -21,9 +21,16 @@ import nursingImg46 from '../../../assets/Nursing/46.jpg'
 import nursingImg47 from '../../../assets/Nursing/47.jpg'
 
 // Local Facility Images
-import modularOtImg from '../../../assets/home/choose-2.png'
+import modularOtImg from '../../../assets/OT-PHOTOS/DSC00453.JPG'
+import otImg761 from '../../../assets/OT-PHOTOS/DSC00761.JPG'
 import icuImg from '../../../assets/home/procedures/icu.png'
 import radiologyImg from '../../../assets/home/procedures/radiology-image.png'
+
+// Real Orthopedic Images
+import orthoImg1 from '../../../assets/Orthopaedic-images/DSC00001.JPG'
+import orthoImg33 from '../../../assets/Orthopaedic-images/DSC00033.JPG'
+import orthoImg37 from '../../../assets/Orthopaedic-images/DSC00037.JPG'
+import orthoImg47 from '../../../assets/Orthopaedic-images/DSC00047.JPG'
 
 const ROW_1_IMAGES = [
   {
@@ -42,10 +49,24 @@ const ROW_1_IMAGES = [
   },
   {
     id: 'ot-1',
-    title: 'Modular Operation Theatre',
+    title: 'Modular Operation Theatre Suite',
     category: 'Surgical Suite',
     image: modularOtImg,
     position: 'center center'
+  },
+  {
+    id: 'ortho-33',
+    title: 'Advanced Total Knee Replacement Surgery',
+    category: 'Orthopedic Surgery',
+    image: orthoImg33,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-1',
+    title: 'Dr. I. Akram — Senior Orthopaedic Surgeon',
+    category: 'Orthopedic Specialist',
+    image: orthoImg1,
+    position: 'center 20%'
   },
   {
     id: 'nurse-14',
@@ -121,10 +142,24 @@ const ROW_2_IMAGES = [
     position: 'center 25%'
   },
   {
-    id: 'mri-1',
-    title: 'Advanced 128-Slice CT & MRI',
-    category: 'Radiology & Imaging',
-    image: radiologyImg,
+    id: 'ot-2',
+    title: 'Sterile Surgical OT Environment',
+    category: 'Operation Theatre',
+    image: otImg761,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-37',
+    title: 'Joint Reconstruction in Modular OT',
+    category: 'Orthopedic Surgery',
+    image: orthoImg37,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-47',
+    title: 'Precision Lower Limb Alignment & Surgery',
+    category: 'Orthopedic Surgery',
+    image: orthoImg47,
     position: 'center center'
   },
   {

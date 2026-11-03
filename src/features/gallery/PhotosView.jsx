@@ -26,7 +26,26 @@ import nursingImg46 from '../../assets/Nursing/46.jpg'
 import nursingImg47 from '../../assets/Nursing/47.jpg'
 
 // Local Facility Images
-import modularOtImg from '../../assets/home/choose-2.png'
+// Real Modular OT Images
+import otImg48 from '../../assets/OT-PHOTOS/48.jpg'
+import otImg453 from '../../assets/OT-PHOTOS/DSC00453.JPG'
+import otImg761 from '../../assets/OT-PHOTOS/DSC00761.JPG'
+import otImg762 from '../../assets/OT-PHOTOS/DSC00762.JPG'
+import otImg1 from '../../assets/OT-PHOTOS/image-1.jpeg'
+import modularOtImg from '../../assets/OT-PHOTOS/DSC00453.JPG'
+
+// Real Orthopedic Images
+import orthoImg1 from '../../assets/Orthopaedic-images/DSC00001.JPG'
+import orthoImg33 from '../../assets/Orthopaedic-images/DSC00033.JPG'
+import orthoImg34 from '../../assets/Orthopaedic-images/DSC00034.JPG'
+import orthoImg35 from '../../assets/Orthopaedic-images/DSC00035.JPG'
+import orthoImg36 from '../../assets/Orthopaedic-images/DSC00036.JPG'
+import orthoImg37 from '../../assets/Orthopaedic-images/DSC00037.JPG'
+import orthoImg38 from '../../assets/Orthopaedic-images/DSC00038.JPG'
+import orthoImg39 from '../../assets/Orthopaedic-images/DSC00039.JPG'
+import orthoImg47 from '../../assets/Orthopaedic-images/DSC00047.JPG'
+import orthoImg48 from '../../assets/Orthopaedic-images/DSC00048.JPG'
+import orthoImg75 from '../../assets/Orthopaedic-images/DSC00075.JPG'
 import icuImg from '../../assets/home/procedures/icu.png'
 import radiologyImg from '../../assets/home/procedures/radiology-image.png'
 import emergencyImg from '../../assets/home/procedures/emergency-image.png'
@@ -35,15 +54,106 @@ import whyChooseImg from '../../assets/home/why-choose-ejaz.jpg'
 
 const CATEGORIES = [
   { id: 'all', label: 'All Photos' },
+  { id: 'orthopedic', label: 'Orthopedic & Joint Care' },
+  { id: 'surgical', label: 'Modular OT & Surgical' },
   { id: 'laboratory', label: 'Laboratory & Diagnostics' },
   { id: 'nursing', label: 'Nursing & Patient Care' },
-  { id: 'surgical', label: 'Modular OT & Surgical' },
   { id: 'icu', label: 'ICU & Critical Care' },
   { id: 'facilities', label: 'Facilities & Imaging' }
 ]
 
 // High-resolution hospital photography collection
 const GALLERY_PHOTOS = [
+  // Orthopedic Surgery & Joint Care
+  {
+    id: 'ortho-1',
+    category: 'orthopedic',
+    categoryLabel: 'Orthopedic Specialist',
+    title: 'Dr. I. Akram — Senior Orthopaedic Surgeon',
+    image: orthoImg1,
+    position: 'center 20%'
+  },
+  {
+    id: 'ortho-2',
+    category: 'orthopedic',
+    categoryLabel: 'Joint Replacement',
+    title: 'Advanced Total Knee Replacement Surgery in Modular OT',
+    image: orthoImg33,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-3',
+    category: 'orthopedic',
+    categoryLabel: 'Orthopedic Surgery',
+    title: 'Orthopedic Surgical Team Performing Knee Joint Reconstruction',
+    image: orthoImg34,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-4',
+    category: 'orthopedic',
+    categoryLabel: 'Joint Reconstruction',
+    title: 'Sub-Millimeter Precision Joint & Ligament Reconstruction',
+    image: orthoImg35,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-5',
+    category: 'orthopedic',
+    categoryLabel: 'Arthroscopy & Sports',
+    title: 'Surgical Site Incision & Minimally Invasive Joint Navigation',
+    image: orthoImg36,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-6',
+    category: 'orthopedic',
+    categoryLabel: 'Orthopedic Surgery',
+    title: 'Real-Time Surgical Guidance for Complex Limb Interventions',
+    image: orthoImg37,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-7',
+    category: 'orthopedic',
+    categoryLabel: 'Joint Replacement',
+    title: 'Micro-Focused Orthopedic Incision & Bone Realignment',
+    image: orthoImg38,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-8',
+    category: 'orthopedic',
+    categoryLabel: 'Trauma & Reconstruction',
+    title: 'Dual Orthopedic Surgeons Performing Lower Limb Reconstruction',
+    image: orthoImg39,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-9',
+    category: 'orthopedic',
+    categoryLabel: 'Limb Stabilization',
+    title: 'Sterile Lower Limb Alignment & Tendon Fixation under OT Light',
+    image: orthoImg47,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-10',
+    category: 'orthopedic',
+    categoryLabel: 'Orthopedic Surgery',
+    title: 'Precision Limb Maneuvering & Sterile Orthopedic Draping',
+    image: orthoImg48,
+    position: 'center center'
+  },
+  {
+    id: 'ortho-11',
+    category: 'orthopedic',
+    categoryLabel: 'Surgical Team',
+    title: 'High-Precision Bone & Joint Intervention under Shadowless Lamps',
+    image: orthoImg75,
+    position: 'center 20%'
+  },
+
   // Care Team & Nursing
   {
     id: 'nurse-team',
@@ -152,21 +262,45 @@ const GALLERY_PHOTOS = [
     position: 'center 25%'
   },
 
-  // Surgical Suite & ICU
+  // Surgical Suite & Modular OT
   {
     id: 'ot-1',
     category: 'surgical',
     categoryLabel: 'Operation Theatre',
-    title: 'Advanced Modular Operation Theatre',
-    image: modularOtImg,
+    title: 'Advanced Modular Operation Theatre Suite',
+    image: otImg453,
     position: 'center center'
   },
   {
     id: 'ot-2',
     category: 'surgical',
     categoryLabel: 'Operation Theatre',
-    title: 'Modern Sterile Surgical Facility',
-    image: modularOtImg,
+    title: 'State-of-the-Art Surgical Suite & Operating Table',
+    image: otImg761,
+    position: 'center center'
+  },
+  {
+    id: 'ot-3',
+    category: 'surgical',
+    categoryLabel: 'Operation Theatre',
+    title: 'Sterile Surgical Environment & Shadowless LED OT Lights',
+    image: otImg762,
+    position: 'center center'
+  },
+  {
+    id: 'ot-4',
+    category: 'surgical',
+    categoryLabel: 'Operation Theatre',
+    title: 'High-Tech Anesthesia Workstation & Vital Monitoring',
+    image: otImg48,
+    position: 'center center'
+  },
+  {
+    id: 'ot-5',
+    category: 'surgical',
+    categoryLabel: 'Operation Theatre',
+    title: 'Precision Surgical Infrastructure & Laparoscopic Tower',
+    image: otImg1,
     position: 'center center'
   },
   {
@@ -312,7 +446,7 @@ export default function PhotosView() {
               Hospital Photo Gallery
             </h1>
             <p className="mt-2 text-sm sm:text-base text-slate-600 max-w-2xl font-normal leading-relaxed">
-              Authentic glimpses of Ejaz Hospital's diagnostic laboratory, dedicated nursing team, modern ICU, and state-of-the-art facilities.
+              Authentic glimpses of Ejaz Hospital's advanced orthopedic surgeries, modular operation theatre, diagnostic laboratory, and dedicated nursing care.
             </p>
           </div>
 

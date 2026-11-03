@@ -292,25 +292,22 @@ export default function DoctorsSection({
                       </h3>
 
                       {/* Designation / Role */}
-                      <p className="text-[11.5px] sm:text-xs xl:text-[12.5px] text-slate-700 font-medium mt-0.5 truncate">
-                        {doctor.specialty}
+                      <p className="text-[11.5px] sm:text-xs xl:text-[12.5px] text-slate-700 font-medium mt-0.5 leading-snug">
+                        {doctor.specialty || doctor.department}
                       </p>
 
                       {/* Thin Horizontal Divider Line */}
                       <div className="w-full h-px bg-slate-200/80 my-2" />
 
-                      {/* Department, Experience, Gender Specs */}
-                      <div className="space-y-0.5 sm:space-y-1 text-[11.5px] sm:text-xs xl:text-[12.5px] leading-snug">
-                        <p className="text-slate-700 font-medium truncate">
-                          {doctor.department || doctor.subSpecialty}
-                        </p>
-                        <p className="text-slate-600 truncate">
+                      {/* Experience & Sub-Specialities Specs */}
+                      <div className="space-y-1 sm:space-y-1.5 text-[11.5px] sm:text-xs xl:text-[12.5px] leading-snug">
+                        <p className="text-slate-600">
                           <strong className="font-bold text-slate-800">{isHindi ? 'अनुभव: ' : 'Experience: '}</strong>
                           <span className="text-slate-700 font-normal">{doctor.experience}</span>
                         </p>
-                        <p className="text-slate-600 truncate">
-                          <strong className="font-bold text-slate-800">{isHindi ? 'लिंग: ' : 'Gender: '}</strong>
-                          <span className="text-slate-700 font-normal">{doctor.gender}</span>
+                        <p className="text-slate-600 leading-snug">
+                          <strong className="font-bold text-slate-800">{isHindi ? 'उप-विशेषज्ञता: ' : 'Sub-Specialities: '}</strong>
+                          <span className="text-slate-700 font-normal">{doctor.subSpecialty || '—'}</span>
                         </p>
                       </div>
                     </div>

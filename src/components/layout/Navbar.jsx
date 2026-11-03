@@ -173,12 +173,12 @@ export default function Navbar({ currentRoute = 'home' }) {
 
   // Facilities Dropdown items: 24*7 service, radiology, diagnostic lab, icu, physiotherapy
   const facilitiesList = [
-    {
-      id: '24-7-service',
-      name: isHindi ? '24*7 आपातकालीन सेवा' : '24*7 Service',
-      href: '/facilities/24-7-service',
-      icon: Emergency247Icon,
-    },
+    // {
+    //   id: '24-7-service',
+    //   name: isHindi ? '24*7 आपातकालीन सेवा' : '24*7 Service',
+    //   href: '/facilities/24-7-service',
+    //   icon: Emergency247Icon,
+    // },
     {
       id: 'radiology',
       name: isHindi ? 'रेडियोलॉजी' : 'Radiology',
@@ -615,11 +615,11 @@ export default function Navbar({ currentRoute = 'home' }) {
 
     if (id === 'facilities' && isSubpage) {
       if (window.history?.pushState) {
-        window.history.pushState(null, '', '/facilities/24-7-service')
+        window.history.pushState(null, '', '/facilities/radiology')
         window.dispatchEvent(new PopStateEvent('popstate', { state: null }))
-        window.dispatchEvent(new CustomEvent('app-route-change', { detail: '/facilities/24-7-service' }))
+        window.dispatchEvent(new CustomEvent('app-route-change', { detail: '/facilities/radiology' }))
       } else {
-        window.location.href = '/facilities/24-7-service'
+        window.location.href = '/facilities/radiology'
       }
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
       setActiveItem('facilities')

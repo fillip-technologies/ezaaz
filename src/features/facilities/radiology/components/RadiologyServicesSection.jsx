@@ -11,11 +11,8 @@ import {
   Sparkles
 } from 'lucide-react'
 
-import mriImg from '../../../../assets/radiology/mri.jpg'
 import ctScanImg from '../../../../assets/radiology/ct-scan.jpg'
 import xrayImg from '../../../../assets/radiology/x-ray.jpg'
-import ultrasoundImg from '../../../../assets/radiology/ultrasound.jpg'
-import colorDopplerImg from '../../../../assets/radiology/color-doopler.jpg'
 
 export default function RadiologyServicesSection() {
   const { i18n } = useTranslation()
@@ -27,45 +24,8 @@ export default function RadiologyServicesSection() {
 
   const services = [
     {
-      id: 'mri',
-      num: '01',
-      titleEn: 'MRI Scan',
-      titleHi: 'एमआरआई स्कैन (MRI Scan)',
-      fullTitleEn: 'High-Field 1.5T Magnetic Resonance Imaging',
-      fullTitleHi: 'उच्च-क्षेत्रीय 1.5T मैग्नेटिक रेजोनेंस इमेजिंग',
-      tagEn: 'Soft-Tissue & Neuro Specialist',
-      tagHi: 'सॉफ्ट-टिशू एवं न्यूरो विशेषज्ञ',
-      descEn:
-        'High-resolution imaging providing exceptional anatomical clarity for brain, spine, joints, and soft tissue structures with zero radiation exposure.',
-      descHi:
-        'शून्य विकिरण जोखिम के साथ मस्तिष्क, रीढ़, जोड़ों और कोमल ऊतकों के लिए अद्वितीय स्पष्टता प्रदान करने वाली उच्च-रिज़ॉल्यूशन इमेजिंग।',
-      image: mriImg,
-      specsEn: [
-        '3D Volumetric Brain & Spine Sequences',
-        'Sub-Millimeter Cartilage & Ligament Clarity',
-        'Silent Scan Acoustic Noise Reduction',
-        '100% Non-Ionizing Radiation Safety'
-      ],
-      specsHi: [
-        '3D वॉल्यूमेट्रिक मस्तिष्क एवं स्पाइन स्कैन',
-        'उप-मिलीमीटर कार्टिलेज एवं लिगामेंट स्पष्टता',
-        'साइलेंट स्कैन ध्वनि में कमी',
-        '100% विकिरण-मुक्त सुरक्षित तकनीक'
-      ],
-      metricsEn: [
-        { label: 'Clarity', val: 'Sub-Millimeter' },
-        { label: 'Radiation', val: '0% (Non-Ionizing)' },
-        { label: 'Speed', val: 'Fast PACS Digital' }
-      ],
-      metricsHi: [
-        { label: 'स्पष्टता', val: 'उप-मिलीमीटर' },
-        { label: 'रेडिएशन', val: '0% (सुरक्षित)' },
-        { label: 'स्पीड', val: 'त्वरित डिजिटल PACS' }
-      ]
-    },
-    {
       id: 'ct-scan',
-      num: '02',
+      num: '01',
       titleEn: 'CT Scan',
       titleHi: 'सीटी स्कैन (CT Scan)',
       fullTitleEn: 'Multi-Slice Computerized Tomography',
@@ -102,7 +62,7 @@ export default function RadiologyServicesSection() {
     },
     {
       id: 'x-ray',
-      num: '03',
+      num: '02',
       titleEn: 'Digital X-Ray',
       titleHi: 'डिजिटल एक्स-रे (Digital X-Ray)',
       fullTitleEn: 'High-Frequency Flat-Panel Radiography',
@@ -135,80 +95,6 @@ export default function RadiologyServicesSection() {
         { label: 'रेडिएशन', val: '75% तक कम' },
         { label: 'कैप्चर', val: 'तत्काल दृश्य' },
         { label: 'सेंसर', val: 'फ्लैट-पैनल डायरेक्ट' }
-      ]
-    },
-    {
-      id: 'ultrasound',
-      num: '04',
-      titleEn: 'Ultrasound',
-      titleHi: 'अल्ट्रासाउंड (Ultrasound)',
-      fullTitleEn: 'High-Resolution 4D Diagnostic Sonography',
-      fullTitleHi: 'हाई-रिज़ॉल्यूशन 4D डायग्नोस्टिक सोनोग्राफी',
-      tagEn: '100% Non-Invasive Soundwave Scan',
-      tagHi: '100% सुरक्षित ध्वनि-तरंग स्कैन',
-      descEn:
-        'Safe, gentle, and non-invasive acoustic imaging for abdominal, pelvic, obstetric, thyroid, and soft tissue assessments evaluated by expert radiologists.',
-      descHi:
-        'विशेषज्ञ रेडियोलॉजिस्टों द्वारा पेट, पेल्विक, प्रसूति और सॉफ्ट टिशू की जांच के लिए पूरी तरह सुरक्षित और गैर-आक्रामक इमेजिंग।',
-      image: ultrasoundImg,
-      specsEn: [
-        'Crystal-Clear 3D/4D Obstetric Scans',
-        'Ergonomic Multi-Frequency Acoustic Probes',
-        'Zero Radiation — Safe for Expectant Mothers',
-        'Real-Time Live Organ Motion Analysis'
-      ],
-      specsHi: [
-        'क्रिस्टल-क्लियर 3D/4D प्रसूति स्कैन',
-        'एर्गोनोमिक मल्टी-फ्रीक्वेंसी प्रोब्स',
-        'शून्य रेडिएशन — गर्भवती माताओं के लिए सुरक्षित',
-        'रीयल-टाइम आंतरिक अंग गति विश्लेषण'
-      ],
-      metricsEn: [
-        { label: 'Safety', val: '100% Safe (0 Rad)' },
-        { label: 'Evaluation', val: 'Live Motion' },
-        { label: 'Comfort', val: 'Gentle & Painless' }
-      ],
-      metricsHi: [
-        { label: 'सुरक्षा', val: '100% सुरक्षित' },
-        { label: 'मूल्यांकन', val: 'लाइव मोशन' },
-        { label: 'सुविधा', val: 'दर्द-रहित एवं सौम्य' }
-      ]
-    },
-    {
-      id: 'color-doppler',
-      num: '05',
-      titleEn: 'Colour Doppler',
-      titleHi: 'कलर डॉपलर (Colour Doppler)',
-      fullTitleEn: 'Hemodynamic Vascular Ultrasound',
-      fullTitleHi: 'हेमोडायनामिक वैस्कुलर अल्ट्रासाउंड',
-      tagEn: 'Real-Time Blood Flow Mapping',
-      tagHi: 'वास्तविक समय रक्त प्रवाह मैपिंग',
-      descEn:
-        'Advanced acoustic color mapping assessing real-time blood velocity, vascular resistance, arterial blockages, and deep vein thrombosis (DVT).',
-      descHi:
-        'वास्तविक समय में रक्त प्रवाह, नसों के अवरोध और डीप वेन थ्रोम्बोसिस (DVT) का सटीक आकलन करने के लिए उन्नत कलर मैपिंग।',
-      image: colorDopplerImg,
-      specsEn: [
-        'Color Hemodynamic Flow Mapping',
-        'Carotid, Renal & Peripheral Arterial Studies',
-        'Accurate DVT & Venous Insufficiency Detection',
-        'High-Fidelity Spectral Waveform Analysis'
-      ],
-      specsHi: [
-        'कलर हेमोडायनामिक फ्लो मैपिंग',
-        'कैरोटिड एवं पेरिफेरल वैस्कुलर अध्ययन',
-        'सटीक DVT और नसों के अवरोध की जांच',
-        'उच्च-सटीक स्पेक्ट्रल वेवफॉर्म विश्लेषण'
-      ],
-      metricsEn: [
-        { label: 'Analysis', val: 'Hemodynamic' },
-        { label: 'Precision', val: 'Sub-Millimeter' },
-        { label: 'Method', val: 'Acoustic Doppler' }
-      ],
-      metricsHi: [
-        { label: 'विश्लेषण', val: 'हेमोडायनामिक' },
-        { label: 'सटीकता', val: 'उप-मिलीमीटर' },
-        { label: 'प्रक्रिया', val: 'ध्वनि डॉप्लर' }
       ]
     }
   ]
@@ -392,7 +278,7 @@ export default function RadiologyServicesSection() {
                     {isHindi ? current.tagHi : current.tagEn}
                   </span>
                   <span className="text-[11px] font-mono font-bold text-slate-400">
-                    #{current.num} / 05
+                    #{current.num} / 02
                   </span>
                 </div>
 
@@ -436,14 +322,14 @@ export default function RadiologyServicesSection() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-[#ea580c]" />
-              <span>{isHindi ? 'सभी 5 प्रमुख इमेजिंग सुविधाएं' : 'All 5 Specialized Imaging Units'}</span>
+              <span>{isHindi ? 'दोनों प्रमुख इमेजिंग सुविधाएं' : 'Specialized Imaging Units'}</span>
             </h3>
             <span className="text-[11px] text-slate-400 hidden sm:inline">
               {isHindi ? 'विस्तार से देखने के लिए किसी भी कार्ड पर क्लिक करें' : 'Click any unit to focus above'}
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto gap-4 sm:gap-6">
             {services.map((item, idx) => {
               const isActive = activeIdx === idx
               return (
