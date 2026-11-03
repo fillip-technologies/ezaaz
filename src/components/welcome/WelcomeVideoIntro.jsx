@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ArrowRight, Volume2, VolumeX } from 'lucide-react'
 import logoImg from '../../assets/Logo_white_text.png'
-import ejazVideo from '../../assets/home/ejaz-home.mp4'
+import ejazVideo from '../../assets/intro-videos.mp4'
 
 export default function WelcomeVideoIntro() {
   const [isOpen, setIsOpen] = useState(false)
