@@ -68,12 +68,11 @@ const getAppointmentBadge = (status) => {
         className: 'bg-slate-100 text-slate-600 border-slate-200',
         dot: 'bg-slate-400',
       }
-    case 'requested':
     default:
       return {
-        label: 'Requested',
-        className: 'bg-amber-50 text-amber-700 border-amber-200/90',
-        dot: 'bg-amber-500',
+        label: status,
+        className: 'bg-slate-100 text-slate-600 border-slate-200',
+        dot: 'bg-slate-400',
       }
   }
 }
@@ -142,7 +141,6 @@ export default function DashboardView({ path }) {
 
   // Calculated metrics
   const stats = useMemo(() => {
-    const pendingAppts = appointments.filter((a) => a.status === 'requested').length
     const todayAppts = appointments.filter((a) => a.date === today).length
     const activeDocs = doctors.filter((d) => d.isActive !== false).length
     const newEnqs = enquiries.filter((e) => e.status === 'new' || !e.status).length
@@ -150,7 +148,6 @@ export default function DashboardView({ path }) {
 
     return {
       totalAppointments: appointments.length,
-      pendingAppts,
       todayAppts,
       totalDoctors: doctors.length,
       activeDocs,
@@ -303,7 +300,7 @@ export default function DashboardView({ path }) {
             <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs">
               <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-0.5 font-bold text-amber-700 border border-amber-200/70">
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                {stats.pendingAppts} Pending
+                {stats.todayAppts} Today
               </span>
               <span className="font-semibold text-blue-600 group-hover:underline inline-flex items-center gap-0.5">
                 Manage <ChevronRight className="h-3 w-3" />
@@ -449,7 +446,7 @@ export default function DashboardView({ path }) {
                     </div>
                     <p className="text-sm font-semibold text-slate-800">No appointments recorded yet</p>
                     <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                      When patients request appointments on the website, their details and requested dates will show up here.
+                      When patients book appointments on the website, their details and booked dates will show up here.
                     </p>
                     <Link
                       to={ADMIN_PATHS.appointments}

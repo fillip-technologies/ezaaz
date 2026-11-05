@@ -13,6 +13,8 @@ import DoctorFormView from './views/DoctorFormView'
 import BlogsAdminView from './views/BlogsAdminView'
 import BlogFormView from './views/BlogFormView'
 import BlogCategoriesView from './views/BlogCategoriesView'
+import GalleryAdminView from './views/GalleryAdminView'
+import GalleryCategoriesView from './views/GalleryCategoriesView'
 import EnquiriesView from './views/EnquiriesView'
 import DepartmentsView from './views/DepartmentsView'
 import SettingsView from './views/SettingsView'
@@ -34,6 +36,8 @@ const PRIVATE_VIEWS = {
   [ADMIN_PATHS.blogs]: BlogsAdminView,
   [ADMIN_PATHS.newBlog]: BlogFormView,
   [ADMIN_PATHS.blogCategories]: BlogCategoriesView,
+  [ADMIN_PATHS.gallery]: GalleryAdminView,
+  [ADMIN_PATHS.galleryCategories]: GalleryCategoriesView,
   [ADMIN_PATHS.enquiries]: EnquiriesView,
   [ADMIN_PATHS.appointments]: AppointmentsView,
   [ADMIN_PATHS.settings]: SettingsView,

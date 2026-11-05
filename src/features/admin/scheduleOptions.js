@@ -50,7 +50,6 @@ export function scheduleToPayload(form) {
 
 const NUMBER_RULES = [
   ['slotMinutes', 'Slot length', 5, 120],
-  ['capacity', 'Patients per slot', 1, 20],
   ['bookingWindowDays', 'Booking window', 1, 180],
   ['minNoticeMinutes', 'Minimum notice', 0, 10080],
 ]
@@ -142,6 +141,5 @@ export function describeSchedule(schedule) {
   }
 
   const days = [...groups.entries()].map(([hours, list]) => `${dayList(list)} ${hours}`).join('; ')
-  const capacity = schedule.capacity || 1
-  return `${days} · ${schedule.slotMinutes || 15} min · ${capacity} per slot`
+  return `${days} · ${schedule.slotMinutes || 15} min`
 }

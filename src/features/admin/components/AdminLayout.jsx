@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CalendarCheck, Inbox, LayoutDashboard, LogOut, Menu, Newspaper, Settings, Stethoscope, UserCog, X } from 'lucide-react'
+import { CalendarCheck, Images, Inbox, LayoutDashboard, LogOut, Menu, Newspaper, Settings, Stethoscope, UserCog, X } from 'lucide-react'
 import logoWhiteImg from '../../../assets/Logo_white_text.png'
 import { useAuth } from '../auth/useAuth'
 import { ADMIN_PATHS, navigate } from '../navigation'
@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { to: ADMIN_PATHS.doctors, label: 'Doctors', icon: Stethoscope },
   { to: ADMIN_PATHS.appointments, label: 'Appointments', icon: CalendarCheck },
   { to: ADMIN_PATHS.blogs, label: 'Blogs', icon: Newspaper },
+  { to: ADMIN_PATHS.gallery, label: 'Gallery', icon: Images },
   { to: ADMIN_PATHS.enquiries, label: 'Contact Forms', icon: Inbox },
   { to: ADMIN_PATHS.settings, label: 'Settings', icon: Settings },
   { to: ADMIN_PATHS.account, label: 'Account', icon: UserCog },

@@ -10,11 +10,12 @@ const STATUS_TEXT = {
   full: 'Every slot on this day is booked.',
 }
 
-// Pick a doctor, date and free slot, then move the appointment there.
-// Uses the admin slot rules: any future date, no minimum-notice limit. The booking's own seat counts as free.
+// Pick a doctor, date and free slot, then postpone the appointment there.
+// Only times later than the current booking can be chosen (no minimum-notice limit for admins).
 export default function RescheduleForm({ appointment, doctors, onDone, onCancel }) {
+  const earliestDate = appointment.date >= clinicToday() ? appointment.date : clinicToday()
   const [doctor, setDoctor] = useState(String(appointment.doctor))
-  const [date, setDate] = useState(appointment.date >= clinicToday() ? appointment.date : clinicToday())
+  const [date, setDate] = useState(earliestDate)
   const [time, setTime] = useState('')
   const [result, setResult] = useState({ key: '', status: '', slots: [], error: '' })
   const [saving, setSaving] = useState(false)
@@ -36,6 +37,7 @@ export default function RescheduleForm({ appointment, doctors, onDone, onCancel 
 
   const loading = result.key !== key
   const isCurrent = (t) => doctor === String(appointment.doctor) && date === appointment.date && t === appointment.time
+  const isEarlier = (t) => `${date} ${t}` < `${appointment.date} ${appointment.time}`
 
   const onSave = async () => {
     setSaving(true)
@@ -74,7 +76,7 @@ export default function RescheduleForm({ appointment, doctors, onDone, onCancel 
         <Field
           label="Date"
           type="date"
-          min={clinicToday()}
+          min={earliestDate}
           value={date}
           onChange={(e) => {
             setDate(e.target.value)
@@ -94,7 +96,7 @@ export default function RescheduleForm({ appointment, doctors, onDone, onCancel 
         ) : (
           <div className="flex flex-wrap gap-1.5">
             {result.slots.map((slot) => {
-              const full = slot.remaining <= 0
+              const full = slot.remaining <= 0 || isEarlier(slot.time)
               const selected = time === slot.time
               const current = isCurrent(slot.time)
               return (
@@ -104,7 +106,7 @@ export default function RescheduleForm({ appointment, doctors, onDone, onCancel 
                   disabled={full || current}
                   onClick={() => setTime(slot.time)}
                   aria-pressed={selected}
-                  title={current ? 'Current time' : full ? 'Booked' : undefined}
+                  title={current ? 'Current time' : isEarlier(slot.time) ? 'Earlier than the current booking' : full ? 'Booked' : undefined}
                   className={`rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-colors ${
                     selected
                       ? 'bg-[#003a70] text-white'
@@ -131,7 +133,7 @@ export default function RescheduleForm({ appointment, doctors, onDone, onCancel 
           Back
         </Button>
         <Button loading={saving} disabled={!time} onClick={onSave}>
-          <CalendarClock className="h-4 w-4" aria-hidden="true" /> Move appointment
+          <CalendarClock className="h-4 w-4" aria-hidden="true" /> Postpone appointment
         </Button>
       </div>
     </div>

@@ -96,7 +96,10 @@ export async function request(path, { method = 'GET', body, params, auth = true 
       tokenStore.clear()
       window.dispatchEvent(new Event(UNAUTHORIZED_EVENT))
     }
-    throw new ApiError(json?.message || `Request failed (${response.status})`, response.status, json?.details)
+    // A proxy in front of the API answers oversized uploads with an HTML 413 page
+    const fallback =
+      response.status === 413 ? 'The upload is too large for the server. Try fewer or smaller files.' : `Request failed (${response.status})`
+    throw new ApiError(json?.message || fallback, response.status, json?.details)
   }
 
   return json

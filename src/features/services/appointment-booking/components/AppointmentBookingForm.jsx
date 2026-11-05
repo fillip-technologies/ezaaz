@@ -193,18 +193,18 @@ export default function AppointmentBookingForm() {
               <CheckCircle2 className="w-10 h-10" />
             </div>
 
-            <span className="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 uppercase tracking-wider mb-2">
-              {isHindi ? 'पुष्टि की प्रतीक्षा' : 'Awaiting Confirmation'}
+            <span className="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 uppercase tracking-wider mb-2">
+              {isHindi ? 'पुष्टि हो गई' : 'Confirmed'}
             </span>
 
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              {isHindi ? 'अपॉइंटमेंट अनुरोध प्राप्त हुआ!' : 'Appointment Requested!'}
+              {isHindi ? 'अपॉइंटमेंट बुक हो गया!' : 'Appointment Booked!'}
             </h2>
 
             <p className="mt-2 text-xs sm:text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
               {isHindi
-                ? 'आपका समय स्लॉट आपके लिए सुरक्षित रखा गया है। हमारी टीम जल्द ही कॉल या ईमेल करके इसकी पुष्टि करेगी।'
-                : 'Your time slot is held for you. Our team will call or email you shortly to confirm it.'}
+                ? 'आपका अपॉइंटमेंट पक्का हो गया है। कृपया 15 मिनट पहले पहुँचें और अपनी पिछली रिपोर्ट या पर्चे साथ लाएँ।'
+                : 'Your appointment is confirmed. Please arrive 15 minutes early and bring any previous reports or prescriptions.'}
             </p>
 
             {/* Receipt Summary Card */}

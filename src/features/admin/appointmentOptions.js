@@ -2,7 +2,6 @@
 export { formatSlotTime as formatTime } from '../services/appointment-booking/useAvailability'
 
 export const APPOINTMENT_STATUS = {
-  requested: { label: 'Requested', className: 'bg-amber-100 text-amber-800' },
   confirmed: { label: 'Confirmed', className: 'bg-emerald-100 text-emerald-800' },
   completed: { label: 'Completed', className: 'bg-sky-100 text-sky-800' },
   cancelled: { label: 'Cancelled', className: 'bg-slate-100 text-slate-600' },
@@ -11,7 +10,6 @@ export const APPOINTMENT_STATUS = {
 
 // Tabs: Cancelled and No-show share one
 export const STATUS_TABS = [
-  { key: 'requested', label: 'Requested', statuses: ['requested'] },
   { key: 'confirmed', label: 'Confirmed', statuses: ['confirmed'] },
   { key: 'completed', label: 'Completed', statuses: ['completed'] },
   { key: 'cancelled', label: 'Cancelled / No-show', statuses: ['cancelled', 'no_show'] },

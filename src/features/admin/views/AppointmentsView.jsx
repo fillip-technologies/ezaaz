@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { CalendarClock, Check, Mail, Phone, Search, Stethoscope, User, X } from 'lucide-react'
+import { CalendarClock, Mail, Phone, Search, Stethoscope, User, X } from 'lucide-react'
 import { adminAppointmentsApi, adminDoctorsApi } from '../../../api'
 import AdminLayout from '../components/AdminLayout'
 import { Alert, Button, Field, Modal, Spinner } from '../components/ui'
@@ -30,7 +30,7 @@ export default function AppointmentsView({ path }) {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
 
-  const [tab, setTab] = useState('requested')
+  const [tab, setTab] = useState('confirmed')
   const [preset, setPreset] = useState('upcoming')
   const [custom, setCustom] = useState({ from: today, to: '' })
   const [doctorFilter, setDoctorFilter] = useState('')
@@ -39,10 +39,9 @@ export default function AppointmentsView({ path }) {
 
   const [open, setOpen] = useState(null)
   const [mode, setMode] = useState('details') // details | cancel | reschedule
-  const [draft, setDraft] = useState({ status: 'requested', adminNote: '', cancelReason: '' })
+  const [draft, setDraft] = useState({ status: 'confirmed', adminNote: '', cancelReason: '', nextVisitDate: '' })
   const [saving, setSaving] = useState(false)
   const [modalError, setModalError] = useState('')
-  const [busyId, setBusyId] = useState('')
 
   const range = useMemo(() => {
     const p = RANGE_PRESETS.find((r) => r.key === preset)
@@ -106,24 +105,11 @@ export default function AppointmentsView({ path }) {
   const openAppointment = (a, nextMode = 'details') => {
     setOpen(a)
     setMode(nextMode)
-    setDraft({ status: a.status, adminNote: a.adminNote || '', cancelReason: a.cancelReason || '' })
+    setDraft({ status: a.status, adminNote: a.adminNote || '', cancelReason: a.cancelReason || '', nextVisitDate: a.nextVisitDate || '' })
     setModalError('')
   }
 
   const closeModal = useCallback(() => setOpen(null), [])
-
-  const quickConfirm = async (a) => {
-    setBusyId(a._id)
-    setError('')
-    try {
-      replace(await adminAppointmentsApi.update(a._id, { status: 'confirmed' }))
-      setNotice(`${a.patientName}'s appointment is confirmed${a.email ? ' and they were emailed' : ''}.`)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setBusyId('')
-    }
-  }
 
   const save = async (changes, message) => {
     setSaving(true)
@@ -145,18 +131,18 @@ export default function AppointmentsView({ path }) {
 
   const onConfirmCancel = () =>
     save(
-      { status: 'cancelled', cancelReason: draft.cancelReason.trim() },
+      { status: 'cancelled', cancelReason: draft.cancelReason.trim(), nextVisitDate: draft.nextVisitDate },
       (u) => `${u.patientName}'s appointment was cancelled${u.email ? ' and they were emailed' : ''}. The slot is free again.`,
     )
 
   const onRescheduled = (updated) => {
     replace(updated)
-    setNotice(`${updated.patientName} moved to ${formatDay(updated.date)} at ${formatTime(updated.time)}.`)
+    setNotice(`${updated.patientName} postponed to ${formatDay(updated.date)} at ${formatTime(updated.time)}.`)
     setOpen(null)
     setReloadKey((k) => k + 1)
   }
 
-  const isActive = (a) => a.status === 'requested' || a.status === 'confirmed'
+  const isActive = (a) => a.status === 'confirmed'
 
   return (
     <AdminLayout path={path} title="Appointments">
@@ -181,9 +167,7 @@ export default function AppointmentsView({ path }) {
                   {t.label}
                   <span
                     className={`rounded-full px-2 py-0.5 text-xs ${
-                      t.key === 'requested' && tabCounts[t.key] > 0
-                        ? 'bg-amber-100 font-semibold text-amber-800'
-                        : active
+                      active
                           ? 'bg-[#0091da]/10 text-[#003a70]'
                           : 'bg-slate-100 text-slate-600'
                     }`}
@@ -297,11 +281,6 @@ export default function AppointmentsView({ path }) {
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
-                          {a.status === 'requested' && (
-                            <Button size="sm" loading={busyId === a._id} onClick={() => quickConfirm(a)}>
-                              <Check className="h-4 w-4" aria-hidden="true" /> Confirm
-                            </Button>
-                          )}
                           {isActive(a) && (
                             <Button variant="dangerGhost" size="sm" onClick={() => openAppointment(a, 'cancel')}>
                               Cancel
@@ -324,7 +303,7 @@ export default function AppointmentsView({ path }) {
       <Modal
         open={Boolean(open)}
         title={
-          !open ? '' : mode === 'cancel' ? `Cancel ${open.patientName}'s appointment` : mode === 'reschedule' ? 'Reschedule appointment' : `Appointment ${open.ref}`
+          !open ? '' : mode === 'cancel' ? `Cancel ${open.patientName}'s appointment` : mode === 'reschedule' ? 'Postpone appointment' : `Appointment ${open.ref}`
         }
         onClose={closeModal}
         footer={
@@ -341,7 +320,7 @@ export default function AppointmentsView({ path }) {
             <>
               {open && isActive(open) && (
                 <Button variant="secondary" className="mr-auto" onClick={() => setMode('reschedule')}>
-                  <CalendarClock className="h-4 w-4" aria-hidden="true" /> Reschedule
+                  <CalendarClock className="h-4 w-4" aria-hidden="true" /> Postpone
                 </Button>
               )}
               <Button variant="ghost" onClick={closeModal}>
@@ -383,6 +362,14 @@ export default function AppointmentsView({ path }) {
                   onChange={(e) => setDraft((d) => ({ ...d, cancelReason: e.target.value }))}
                   placeholder="e.g. Doctor unavailable, patient asked to cancel"
                 />
+                <Field
+                  label="Next visit date (optional)"
+                  type="date"
+                  min={today}
+                  hint={open.email ? 'The email tells the patient to come on this day' : 'Kept with the appointment'}
+                  value={draft.nextVisitDate}
+                  onChange={(e) => setDraft((d) => ({ ...d, nextVisitDate: e.target.value }))}
+                />
               </>
             ) : (
               <>
@@ -409,6 +396,7 @@ export default function AppointmentsView({ path }) {
                   <p className="mt-1.5 text-xs text-slate-400">
                     Booked {formatDateTime(open.createdAt)} · Ref <span className="font-mono">{open.ref}</span>
                     {open.cancelReason && ` · Cancel reason: ${open.cancelReason}`}
+                    {open.nextVisitDate && ` · Next visit: ${formatDay(open.nextVisitDate)}`}
                   </p>
                 </div>
                 <Field as="select" label="Status" value={draft.status} onChange={(e) => setDraft((d) => ({ ...d, status: e.target.value }))}

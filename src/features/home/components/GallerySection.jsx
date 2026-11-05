@@ -1,187 +1,32 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Maximize2, X, ChevronLeft, ChevronRight, Camera, Video, ArrowRight } from 'lucide-react'
 import galleryBg from '../../../assets/home/gallery-bg.jpg'
+import { toPhotoCard, useGallery } from '../../gallery/useGallery'
 
-// Real Laboratory Images
-import labImg27 from '../../../assets/Laboratory/27.png'
-import labImg33 from '../../../assets/Laboratory/33.jpg'
-import labImg34 from '../../../assets/Laboratory/34.jpg'
-import labImg35 from '../../../assets/Laboratory/35.jpg'
-import labImg36 from '../../../assets/Laboratory/36.jpg'
-import labImg37 from '../../../assets/Laboratory/37.jpg'
+// Each marquee row is repeated until it has at least this many tiles, so it never shows a gap
+const MIN_ROW_TILES = 8
 
-// Real Nursing Images
-import nursingTeam from '../../../assets/Nursing/team-portrait.png'
-import nursingImg14 from '../../../assets/Nursing/14.jpg'
-import nursingImg16 from '../../../assets/Nursing/16.jpg'
-import nursingImg44 from '../../../assets/Nursing/44.jpg'
-import nursingImg45 from '../../../assets/Nursing/45.jpg'
-import nursingImg46 from '../../../assets/Nursing/46.jpg'
-import nursingImg47 from '../../../assets/Nursing/47.jpg'
-
-// Local Facility Images
-import modularOtImg from '../../../assets/OT-PHOTOS/DSC00453.JPG'
-import otImg761 from '../../../assets/OT-PHOTOS/DSC00761.JPG'
-import icuImg from '../../../assets/home/procedures/icu.png'
-import radiologyImg from '../../../assets/home/procedures/radiology-image.png'
-
-// Real Orthopedic Images
-import orthoImg1 from '../../../assets/Orthopaedic-images/DSC00001.JPG'
-import orthoImg33 from '../../../assets/Orthopaedic-images/DSC00033.JPG'
-import orthoImg37 from '../../../assets/Orthopaedic-images/DSC00037.JPG'
-import orthoImg47 from '../../../assets/Orthopaedic-images/DSC00047.JPG'
-
-const ROW_1_IMAGES = [
-  {
-    id: 'nurse-team',
-    title: 'Hospital Care & Clinical Nursing Team',
-    category: 'Clinical Care Team',
-    image: nursingTeam,
-    position: 'center center'
-  },
-  {
-    id: 'lab-27',
-    title: 'Mindray Immunoassay Diagnostics',
-    category: 'Laboratory Pathology',
-    image: labImg27,
-    position: 'center 20%'
-  },
-  {
-    id: 'ot-1',
-    title: 'Modular Operation Theatre Suite',
-    category: 'Surgical Suite',
-    image: modularOtImg,
-    position: 'center center'
-  },
-  {
-    id: 'ortho-33',
-    title: 'Advanced Total Knee Replacement Surgery',
-    category: 'Orthopedic Surgery',
-    image: orthoImg33,
-    position: 'center center'
-  },
-  {
-    id: 'ortho-1',
-    title: 'Dr. I. Akram — Senior Orthopaedic Surgeon',
-    category: 'Orthopedic Specialist',
-    image: orthoImg1,
-    position: 'center 20%'
-  },
-  {
-    id: 'nurse-14',
-    title: 'Inpatient Clinical Records Review',
-    category: 'Nursing Care',
-    image: nursingImg14,
-    position: 'center 20%'
-  },
-  {
-    id: 'lab-33',
-    title: 'Biochemical Diagnostics Pipetting',
-    category: 'Diagnostic Lab',
-    image: labImg33,
-    position: 'center 25%'
-  },
-  {
-    id: 'nurse-44',
-    title: 'Specialized Hand Bandaging & Wound Care',
-    category: 'Patient Care',
-    image: nursingImg44,
-    position: 'center 25%'
-  },
-  {
-    id: 'lab-35',
-    title: 'Microscopic Cellular Pathology Analysis',
-    category: 'Diagnostic Lab',
-    image: labImg35,
-    position: 'center 25%'
-  },
-  {
-    id: 'nurse-46',
-    title: 'Multi-Para Vital Sign Telemetry',
-    category: 'Critical Nursing',
-    image: nursingImg46,
-    position: 'center 25%'
-  }
-]
-
-const ROW_2_IMAGES = [
-  {
-    id: 'nurse-45',
-    title: 'Intravenous (IV) Infusion Therapy',
-    category: 'Nursing Care',
-    image: nursingImg45,
-    position: 'center 20%'
-  },
-  {
-    id: 'lab-34',
-    title: 'Automated Chemistry Analyzer Station',
-    category: 'Laboratory Pathology',
-    image: labImg34,
-    position: 'center 25%'
-  },
-  {
-    id: 'icu-1',
-    title: 'Advanced Critical Care (ICU)',
-    category: 'Intensive Care',
-    image: icuImg,
-    position: 'center center'
-  },
-  {
-    id: 'nurse-16',
-    title: 'Compassionate Bedside Patient Nursing',
-    category: 'Patient Support',
-    image: nursingImg16,
-    position: 'center 20%'
-  },
-  {
-    id: 'lab-36',
-    title: 'Precision Micro-Pipette Hematology',
-    category: 'Diagnostic Lab',
-    image: labImg36,
-    position: 'center 25%'
-  },
-  {
-    id: 'ot-2',
-    title: 'Sterile Surgical OT Environment',
-    category: 'Operation Theatre',
-    image: otImg761,
-    position: 'center center'
-  },
-  {
-    id: 'ortho-37',
-    title: 'Joint Reconstruction in Modular OT',
-    category: 'Orthopedic Surgery',
-    image: orthoImg37,
-    position: 'center center'
-  },
-  {
-    id: 'ortho-47',
-    title: 'Precision Lower Limb Alignment & Surgery',
-    category: 'Orthopedic Surgery',
-    image: orthoImg47,
-    position: 'center center'
-  },
-  {
-    id: 'nurse-47',
-    title: 'Post-Operative Recovery Patient Monitoring',
-    category: 'Nursing Care',
-    image: nursingImg47,
-    position: 'center 25%'
-  },
-  {
-    id: 'lab-37',
-    title: 'Blood Specimen Verification & Testing',
-    category: 'Clinical Pathology',
-    image: labImg37,
-    position: 'center 25%'
-  }
-]
-
-const ALL_GALLERY_PHOTOS = [...ROW_1_IMAGES, ...ROW_2_IMAGES]
+function fillRow(items) {
+  if (!items.length) return []
+  const row = []
+  while (row.length < MIN_ROW_TILES) row.push(...items)
+  return row
+}
 
 export default function GallerySection() {
   const { t, i18n } = useTranslation('home')
+  const isHindi = i18n?.language === 'hi'
+  // Photos marked "Show on home page" in the admin panel; all photos if none are marked
+  const { photos } = useGallery()
+  const homePhotos = useMemo(() => {
+    const cards = photos.map((p) => toPhotoCard(p, isHindi))
+    const home = cards.filter((p) => p.showOnHome)
+    return home.length ? home : cards
+  }, [photos, isHindi])
+  const half = Math.ceil(homePhotos.length / 2)
+  const row1Photos = homePhotos.slice(0, half)
+  const row2Photos = homePhotos.length > 1 ? homePhotos.slice(half) : []
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null)
 
   // Keyboard navigation for Lightbox modal
@@ -190,10 +35,10 @@ export default function GallerySection() {
       if (selectedPhotoIndex === null) return
       if (e.key === 'Escape') setSelectedPhotoIndex(null)
       if (e.key === 'ArrowRight') {
-        setSelectedPhotoIndex((prev) => (prev + 1) % ALL_GALLERY_PHOTOS.length)
+        setSelectedPhotoIndex((prev) => (prev + 1) % homePhotos.length)
       }
       if (e.key === 'ArrowLeft') {
-        setSelectedPhotoIndex((prev) => (prev - 1 + ALL_GALLERY_PHOTOS.length) % ALL_GALLERY_PHOTOS.length)
+        setSelectedPhotoIndex((prev) => (prev - 1 + homePhotos.length) % homePhotos.length)
       }
     }
 
@@ -208,18 +53,23 @@ export default function GallerySection() {
       document.body.style.overflow = 'unset'
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [selectedPhotoIndex])
+  }, [selectedPhotoIndex, homePhotos.length])
 
   // Duplicated arrays for seamless continuous infinite marquee
-  const trackRow1 = [...ROW_1_IMAGES, ...ROW_1_IMAGES]
-  const trackRow2 = [...ROW_2_IMAGES, ...ROW_2_IMAGES]
+  const row1 = fillRow(row1Photos)
+  const row2 = fillRow(row2Photos)
+  const trackRow1 = [...row1, ...row1]
+  const trackRow2 = [...row2, ...row2]
 
   const openLightbox = (item) => {
-    const idx = ALL_GALLERY_PHOTOS.findIndex((p) => p.id === item.id)
+    const idx = homePhotos.findIndex((p) => p.id === item.id)
     setSelectedPhotoIndex(idx !== -1 ? idx : 0)
   }
 
-  const selectedPhoto = selectedPhotoIndex !== null ? ALL_GALLERY_PHOTOS[selectedPhotoIndex] : null
+  const selectedPhoto = selectedPhotoIndex !== null ? homePhotos[selectedPhotoIndex] : null
+
+  // Nothing to show until photos are added in the admin panel
+  if (!homePhotos.length) return null
 
   return (
     <section
@@ -257,8 +107,8 @@ export default function GallerySection() {
               >
                 <img
                   src={item.image}
-                  alt={item.title}
-                  loading="eager"
+                  alt={item.alt}
+                  loading="lazy"
                   decoding="async"
                   style={{ objectPosition: item.position || 'center' }}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
@@ -274,7 +124,7 @@ export default function GallerySection() {
 
                   <div>
                     <span className="text-[10px] sm:text-[11px] font-semibold text-blue-200 uppercase tracking-wider">
-                      {item.category}
+                      {item.categoryLabel}
                     </span>
                     <h4 className="text-white text-sm sm:text-base font-bold drop-shadow-sm line-clamp-1 mt-0.5">
                       {item.title}
@@ -287,6 +137,7 @@ export default function GallerySection() {
         </div>
 
         {/* Row 2: Scrolling Right */}
+        {trackRow2.length > 0 && (
         <div className="relative w-full overflow-hidden">
           <div className="gallery-track-right gap-4 sm:gap-6 px-3">
             {trackRow2.map((item, index) => (
@@ -297,8 +148,8 @@ export default function GallerySection() {
               >
                 <img
                   src={item.image}
-                  alt={item.title}
-                  loading="eager"
+                  alt={item.alt}
+                  loading="lazy"
                   decoding="async"
                   style={{ objectPosition: item.position || 'center' }}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
@@ -314,7 +165,7 @@ export default function GallerySection() {
 
                   <div>
                     <span className="text-[10px] sm:text-[11px] font-semibold text-blue-200 uppercase tracking-wider">
-                      {item.category}
+                      {item.categoryLabel}
                     </span>
                     <h4 className="text-white text-sm sm:text-base font-bold drop-shadow-sm line-clamp-1 mt-0.5">
                       {item.title}
@@ -325,6 +176,7 @@ export default function GallerySection() {
             ))}
           </div>
         </div>
+        )}
       </div>
 
       {/* Bottom Actions linking to dedicated Photo & Video Gallery pages */}
@@ -391,7 +243,7 @@ export default function GallerySection() {
             type="button"
             onClick={(e) => {
               e.stopPropagation()
-              setSelectedPhotoIndex((prev) => (prev - 1 + ALL_GALLERY_PHOTOS.length) % ALL_GALLERY_PHOTOS.length)
+              setSelectedPhotoIndex((prev) => (prev - 1 + homePhotos.length) % homePhotos.length)
             }}
             className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-60 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
             aria-label="Previous photo"
@@ -404,7 +256,7 @@ export default function GallerySection() {
             type="button"
             onClick={(e) => {
               e.stopPropagation()
-              setSelectedPhotoIndex((prev) => (prev + 1) % ALL_GALLERY_PHOTOS.length)
+              setSelectedPhotoIndex((prev) => (prev + 1) % homePhotos.length)
             }}
             className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-60 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
             aria-label="Next photo"
@@ -420,7 +272,7 @@ export default function GallerySection() {
             <div className="relative w-full max-h-[75vh] overflow-hidden bg-black flex items-center justify-center">
               <img
                 src={selectedPhoto.image}
-                alt={selectedPhoto.title}
+                alt={selectedPhoto.alt}
                 className="w-full h-auto max-h-[75vh] object-contain"
               />
             </div>
@@ -429,14 +281,14 @@ export default function GallerySection() {
             <div className="p-4 sm:p-5 bg-slate-900 text-white flex items-center justify-between border-t border-white/10">
               <div>
                 <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider">
-                  {selectedPhoto.category}
+                  {selectedPhoto.categoryLabel}
                 </span>
                 <h3 className="text-base sm:text-lg font-bold tracking-tight mt-0.5">
                   {selectedPhoto.title}
                 </h3>
               </div>
               <div className="text-white/60 text-xs font-medium px-3 py-1 rounded-full bg-white/10">
-                {selectedPhotoIndex + 1} / {ALL_GALLERY_PHOTOS.length}
+                {selectedPhotoIndex + 1} / {homePhotos.length}
               </div>
             </div>
           </div>

@@ -118,7 +118,7 @@ export function ReorderButtons({ index, count, onMove, onRemove, label }) {
  * Image chooser whose change is applied when the form is saved.
  * `image` = { current: savedUrl, file: File | null, remove: boolean }; `onChange(nextImage)`; `onError(message)`.
  */
-export function ImagePicker({ image, onChange, onError, maxMb, noun = 'photo', placeholder, previewClassName }) {
+export function ImagePicker({ image, onChange, onError, maxMb, noun = 'photo', placeholder, previewClassName, removable = true }) {
   const previewUrl = useMemo(() => (image.file ? URL.createObjectURL(image.file) : ''), [image.file])
   useEffect(() => () => previewUrl && URL.revokeObjectURL(previewUrl), [previewUrl])
 
@@ -154,7 +154,7 @@ export function ImagePicker({ image, onChange, onError, maxMb, noun = 'photo', p
             <X className="h-4 w-4" aria-hidden="true" /> Undo
           </Button>
         )}
-        {!image.file && image.current && !image.remove && (
+        {removable && !image.file && image.current && !image.remove && (
           <Button variant="dangerGhost" onClick={() => onChange({ ...image, remove: true })}>
             <Trash2 className="h-4 w-4" aria-hidden="true" /> Remove
           </Button>

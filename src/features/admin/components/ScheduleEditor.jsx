@@ -31,11 +31,10 @@ export default function ScheduleEditor({ value, onChange, errors = {} }) {
   }
 
   const totalRanges = WEEKDAYS.reduce((n, { day }) => n + value.days[day].length, 0)
-  const capacity = Number(value.capacity) || 1
 
   return (
     <div className="space-y-5">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Field
           label="Slot length (minutes)"
           type="number"
@@ -46,16 +45,6 @@ export default function ScheduleEditor({ value, onChange, errors = {} }) {
           onChange={(e) => set('slotMinutes', e.target.value)}
           error={errors['schedule.slotMinutes']}
           hint="Time per appointment"
-        />
-        <Field
-          label="Patients per slot"
-          type="number"
-          min="1"
-          max="20"
-          value={value.capacity}
-          onChange={(e) => set('capacity', e.target.value)}
-          error={errors['schedule.capacity']}
-          hint="1 = one patient per time"
         />
         <Field
           label="Booking window (days)"
@@ -97,7 +86,7 @@ export default function ScheduleEditor({ value, onChange, errors = {} }) {
                 <div className="w-32 shrink-0 pt-2">
                   <p className="text-sm font-semibold text-slate-900">{label}</p>
                   <p className="text-xs text-slate-500">
-                    {ranges.length === 0 ? 'Closed' : `${slots} slot${slots === 1 ? '' : 's'}${capacity > 1 ? ` × ${capacity}` : ''}`}
+                    {ranges.length === 0 ? 'Closed' : `${slots} slot${slots === 1 ? '' : 's'}`}
                   </p>
                 </div>
                 <div className="flex-1 space-y-2">

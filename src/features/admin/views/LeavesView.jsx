@@ -48,7 +48,7 @@ export default function LeavesView({ path }) {
     setAdding(true)
     setStatus({ type: '', message: '' })
     try {
-      const { leave, affectedBookings } = await adminLeavesApi.create({
+      const { leave, affectedBookings, emailedPatients, whatsappedPatients = 0 } = await adminLeavesApi.create({
         doctor: draft.doctor || null,
         date: draft.date,
         from: draft.wholeDay ? '' : draft.from,
@@ -61,7 +61,9 @@ export default function LeavesView({ path }) {
         affectedBookings
           ? {
               type: 'error',
-              message: `Leave added. ${affectedBookings} existing appointment${affectedBookings === 1 ? ' falls' : 's fall'} in this time and still need to be rescheduled or cancelled in Appointments.`,
+              message: whatsappedPatients
+                ? `Leave added. ${affectedBookings} booked patient${affectedBookings === 1 ? '' : 's'} fall${affectedBookings === 1 ? 's' : ''} in this time: ${whatsappedPatients} sent a WhatsApp and ${emailedPatients} emailed that the doctor is not available. Postpone them in Appointments to send their new time.`
+                : `Leave added. ${affectedBookings} booked patient${affectedBookings === 1 ? '' : 's'} fall${affectedBookings === 1 ? 's' : ''} in this time and ${emailedPatients} ${emailedPatients === 1 ? 'was' : 'were'} emailed that the doctor is not available. Postpone them in Appointments to send their new time${emailedPatients < affectedBookings ? ' (call the ones without an email)' : ''}.`,
             }
           : { type: 'success', message: 'Leave added. Those slots are no longer offered on the website.' },
       )

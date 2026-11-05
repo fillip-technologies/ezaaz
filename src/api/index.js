@@ -3,5 +3,6 @@ export { http, request, tokenStore, assetUrl, ApiError, UNAUTHORIZED_EVENT } fro
 export { authApi } from './auth.api'
 export { doctorsApi, adminDoctorsApi } from './doctors.api'
 export { blogsApi, adminBlogsApi, adminBlogCategoriesApi } from './blogs.api'
+export { galleryApi, adminGalleryApi, adminGalleryCategoriesApi } from './gallery.api'
 export { contactApi, adminDepartmentsApi, adminEnquiriesApi } from './contact.api'
 export { appointmentsApi, adminAppointmentsApi, adminLeavesApi, adminSlotPlansApi } from './appointments.api'

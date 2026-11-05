@@ -1,53 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Play,
   X,
   Clock,
-  ArrowLeft
+  ArrowLeft,
+  Loader2,
+  VideoOff
 } from 'lucide-react'
-import ejazVideo from '../../assets/home/ejaz-home.mp4'
-
-// Pure video collection dataset
-const GALLERY_VIDEOS = [
-  {
-    id: 'vid-1',
-    duration: '2:40',
-    thumbnail: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=85',
-    videoSrc: ejazVideo
-  },
-  {
-    id: 'vid-2',
-    duration: '3:15',
-    thumbnail: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=85',
-    videoSrc: ejazVideo
-  },
-  {
-    id: 'vid-3',
-    duration: '2:50',
-    thumbnail: 'https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&w=1200&q=85',
-    videoSrc: ejazVideo
-  },
-  {
-    id: 'vid-4',
-    duration: '4:20',
-    thumbnail: 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1200&q=85',
-    videoSrc: ejazVideo
-  },
-  {
-    id: 'vid-5',
-    duration: '3:05',
-    thumbnail: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=85',
-    videoSrc: ejazVideo
-  },
-  {
-    id: 'vid-6',
-    duration: '2:30',
-    thumbnail: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1200&q=85',
-    videoSrc: ejazVideo
-  }
-]
+import { toVideoCard, useGallery, youtubeEmbedUrl } from './useGallery'
 
 export default function VideosView() {
+  const { i18n } = useTranslation('home')
+  const isHindi = i18n?.language === 'hi'
+  // Videos are managed in the admin panel (/master/gallery)
+  const { videos, loading, error } = useGallery()
+  const galleryVideos = useMemo(() => videos.map((v) => toVideoCard(v, isHindi)), [videos, isHindi])
   const [selectedVideo, setSelectedVideo] = useState(null)
 
   // Keyboard navigation for modal
@@ -98,7 +66,7 @@ export default function VideosView() {
 
           <div className="flex items-center gap-3">
             <span className="px-3.5 py-1.5 rounded-full bg-white text-slate-700 text-xs font-semibold border border-slate-200 shadow-xs">
-              {GALLERY_VIDEOS.length} Videos
+              {galleryVideos.length} {galleryVideos.length === 1 ? 'Video' : 'Videos'}
             </span>
           </div>
         </div>
@@ -106,8 +74,21 @@ export default function VideosView() {
 
       {/* Pure Videos Grid */}
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
+        {loading ? (
+          <div className="flex items-center justify-center gap-2 py-24 text-sm text-slate-500">
+            <Loader2 className="w-5 h-5 animate-spin" />
+            Loading videos…
+          </div>
+        ) : galleryVideos.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-3 py-24 text-center">
+            <VideoOff className="w-10 h-10 text-slate-300" />
+            <p className="text-sm sm:text-base text-slate-500">
+              {error ? 'The video gallery could not be loaded. Please try again later.' : 'Videos will be added here soon.'}
+            </p>
+          </div>
+        ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
-          {GALLERY_VIDEOS.map((video) => (
+          {galleryVideos.map((video) => (
             <div
               key={video.id}
               onClick={() => setSelectedVideo(video)}
@@ -115,8 +96,8 @@ export default function VideosView() {
             >
               <img
                 src={video.thumbnail}
-                alt=""
-                loading="eager"
+                alt={video.title}
+                loading="lazy"
                 decoding="async"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108 opacity-90 group-hover:opacity-100"
               />
@@ -128,14 +109,23 @@ export default function VideosView() {
                 </span>
               </div>
 
+              {video.title && (
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent px-4 pt-8 pb-3 pr-20 pointer-events-none">
+                  <h3 className="text-sm font-bold text-white drop-shadow line-clamp-2">{video.title}</h3>
+                </div>
+              )}
+
               {/* Duration Pill */}
-              <div className="absolute bottom-3 right-3 bg-black/75 backdrop-blur-md text-white text-[11px] font-semibold px-2 py-0.5 rounded-md flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                <span>{video.duration}</span>
-              </div>
+              {video.duration && (
+                <div className="absolute bottom-3 right-3 bg-black/75 backdrop-blur-md text-white text-[11px] font-semibold px-2 py-0.5 rounded-md flex items-center gap-1">
+                  <Clock className="w-3 h-3" />
+                  <span>{video.duration}</span>
+                </div>
+              )}
             </div>
           ))}
         </div>
+        )}
       </div>
 
       {/* Fullscreen Video Modal Player */}
@@ -161,13 +151,24 @@ export default function VideosView() {
             onClick={(e) => e.stopPropagation()}
             className="relative max-w-4xl w-full aspect-[16/9] bg-black rounded-2xl overflow-hidden border border-white/15 shadow-2xl"
           >
-            <video
-              src={selectedVideo.videoSrc}
-              autoPlay
-              controls
-              playsInline
-              className="w-full h-full object-contain"
-            />
+            {selectedVideo.youtubeId ? (
+              <iframe
+                src={youtubeEmbedUrl(selectedVideo.youtubeId)}
+                title={selectedVideo.title || 'Ejaz Hospital video'}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+            ) : (
+              <video
+                src={selectedVideo.videoSrc}
+                poster={selectedVideo.thumbnail}
+                autoPlay
+                controls
+                playsInline
+                className="w-full h-full object-contain"
+              />
+            )}
           </div>
         </div>
       )}

@@ -10,6 +10,8 @@ export const ADMIN_PATHS = {
   blogs: '/master/blogs',
   newBlog: '/master/blogs/new',
   blogCategories: '/master/blogs/categories',
+  gallery: '/master/gallery',
+  galleryCategories: '/master/gallery/categories',
   enquiries: '/master/contact-forms',
   appointments: '/master/appointments',
   settings: '/master/settings',
