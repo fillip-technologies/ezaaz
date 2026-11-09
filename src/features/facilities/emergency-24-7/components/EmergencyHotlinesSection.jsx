@@ -17,24 +17,24 @@ export default function EmergencyHotlinesSection() {
     {
       title: isHindi ? '24×7 एम्बुलेंस सेवा' : '24×7 Ambulance Fleet',
       subtitle: isHindi ? 'ऑक्सीजन एवं वेंटिलेटर युक्त मोबाइल आईसीयू' : 'Advanced life-support mobile ICU transit',
-      number: '+91 6203 770 071',
+      number: '+91 7362 004 545',
       badge: isHindi ? 'त्वरित पिकअप' : 'Rapid Dispatch',
       icon: Ambulance,
       highlight: false
     },
     {
       title: isHindi ? '24×7 क्रिटिकल केयर आईसीयू' : '24×7 Critical Care ICU',
-      subtitle: isHindi ? 'मल्टी-पैरा मॉनिटर एवं लाइफ सपोर्ट बेड' : 'Continuous cardiac & invasive hemodynamic triage',
-      number: '+91 6203 770 072',
+      subtitle: isHindi ? 'मल्टी-पैरा मॉनिटर एवं 40 लाइफ सपोर्ट बेड्स' : 'Continuous cardiac & invasive hemodynamic triage',
+      number: '+91 6203 770 070',
       badge: isHindi ? 'लेवल-1 आईसीयू' : 'Level-1 ICU',
       icon: HeartPulse,
       highlight: false
     },
     {
-      title: isHindi ? '24×7 इमरजेंसी ओटी' : '24×7 Emergency OT',
-      subtitle: isHindi ? 'तत्काल लैप्रोस्कोपिक एवं ट्रॉमा सर्जरी' : 'On-call emergency surgeons & anaesthetists',
-      number: '+91 6203 770 073',
-      badge: isHindi ? 'सक्रिय 24 घंटे' : 'Round-the-clock',
+      title: isHindi ? 'ओपीडी एवं विशेषज्ञ परामर्श' : 'OPD & Consultations',
+      subtitle: isHindi ? 'वरिष्ठ विशेषज्ञों से अग्रिम समय स्लॉट' : 'Senior specialist advance consultation slots',
+      number: '+91 7362 004 545',
+      badge: isHindi ? 'अपॉइंटमेंट' : 'Appointments',
       icon: Activity,
       highlight: false
     }

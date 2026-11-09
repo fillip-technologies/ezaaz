@@ -27,7 +27,7 @@
       },
       {
         "id": "doctors",
-        "value": "40+",
+        "value": "10+",
         "label": "Experienced Specialists",
         "sublabel": "Renowned Medical Faculty"
       }
@@ -57,19 +57,19 @@
     },
     "stats": [
       {
-        "value": "40+",
+        "value": "10+",
         "label": "Experienced Doctors"
       },
       {
+        "value": "40",
+        "label": "Beds (ICU, PCU, General & Private wards)"
+      },
+      {
         "value": "100+",
-        "label": "Beds"
+        "label": "Experienced Staff"
       },
       {
-        "value": "250+",
-        "label": "Trained Staff"
-      },
-      {
-        "value": "15+",
+        "value": "10+",
         "label": "Superspecialities"
       }
     ]
@@ -93,20 +93,20 @@
     "bookDoctor": "Consult Specialist",
     "items": [
       {
-        "id": "hernia",
-        "name": "Hernia Surgery",
-        "category": "Surgical Care",
-        "categoryId": "surgical",
-        "desc": "Specialised laparoscopic and open anatomical hernioplasties utilising state-of-the-art biocompatible 3D meshes.",
-        "tags": ["Inguinal Hernia", "Umbilical Hernia", "Incisional Repair"]
+        "id": "gynaecology",
+        "name": "Gynaecology & Obstetrics",
+        "category": "Women & Rehab",
+        "categoryId": "wellness",
+        "desc": "Holistic women's healthcare encompassing safe maternity, laparoscopic gynaecological surgery, PCOS management, and fertility support.",
+        "tags": ["Safe Motherhood", "Lap Hysterectomy", "PCOS Care"]
       },
       {
-        "id": "cancer-surgery",
-        "name": "Cancer Surgery",
-        "category": "Super Speciality",
-        "categoryId": "super",
-        "desc": "Multi-disciplinary surgical oncology delivering radical curative resections, organ-preserving procedures, and tumour board care.",
-        "tags": ["GI Oncology", "Breast & Endocrine", "Tumour Resection"]
+        "id": "gastrointestinal",
+        "name": "Gastrointestinal Surgery",
+        "category": "Surgical Care",
+        "categoryId": "surgical",
+        "desc": "Dedicated surgical gastro-care targeting liver, pancreas, biliary tract, stomach, colorectal diseases, and acute gastrointestinal bleeding.",
+        "tags": ["HPB Surgery", "Colorectal Surgery", "GERD & Acid Reflux"]
       },
       {
         "id": "urology",
@@ -117,12 +117,20 @@
         "tags": ["Laser Lithotripsy", "Prostate (TURP)", "Kidney Care"]
       },
       {
-        "id": "gynaecology",
-        "name": "Gynaecology & Obstetrics",
-        "category": "Women & Rehab",
-        "categoryId": "wellness",
-        "desc": "Holistic women's healthcare encompassing safe maternity, laparoscopic gynaecological surgery, PCOS management, and fertility support.",
-        "tags": ["Safe Motherhood", "Lap Hysterectomy", "PCOS Care"]
+        "id": "cancer-surgery",
+        "name": "Cancer Surgery",
+        "category": "Super Speciality",
+        "categoryId": "super",
+        "desc": "Multi-disciplinary surgical oncology delivering radical curative resections, organ-preserving procedures, and tumour board care.",
+        "tags": ["GI Oncology", "Breast & Endocrine", "Tumour Resection"]
+      },
+      {
+        "id": "hernia",
+        "name": "Hernia Surgery",
+        "category": "Surgical Care",
+        "categoryId": "surgical",
+        "desc": "Specialised laparoscopic and open anatomical hernioplasties utilising state-of-the-art biocompatible 3D meshes.",
+        "tags": ["Inguinal Hernia", "Umbilical Hernia", "Incisional Repair"]
       },
       {
         "id": "internal-medicine",
@@ -131,14 +139,6 @@
         "categoryId": "medicine",
         "desc": "Holistic clinical diagnosis, chronic lifestyle disease therapy, adult immunisation, and preventive multi-system health management.",
         "tags": ["Diabetes & BP", "Infectious Diseases", "Multi-organ Care"]
-      },
-      {
-        "id": "gastrointestinal",
-        "name": "Gastrointestinal Surgery",
-        "category": "Surgical Care",
-        "categoryId": "surgical",
-        "desc": "Dedicated surgical gastro-care targeting liver, pancreas, biliary tract, stomach, colorectal diseases, and acute gastrointestinal bleeding.",
-        "tags": ["HPB Surgery", "Colorectal Surgery", "GERD & Acid Reflux"]
       },
       {
         "id": "plastic-surgery",
@@ -218,11 +218,11 @@
     "ctaText": "Have Questions? Consult With Our Senior Specialists",
     "ctaBtn": "Book Consultation",
     "emergencyBadge": "24×7 Emergency & Trauma Helpline",
-    "emergencyPhone": "+91 6203 770 070",
+    "emergencyPhone": "+91 6203 770 070 / +91 7362 004 545",
     "stats": [
       { "value": "50,000+", "label": "Treated Patients" },
       { "value": "99.4%", "label": "Clinical Success Rate" },
-      { "value": "40+", "label": "Specialist Doctors" },
+      { "value": "10+", "label": "Specialist Doctors" },
       { "value": "100%", "label": "Compassionate Care" }
     ],
     "pillars": [
@@ -423,7 +423,7 @@
     },
     "map": {
       "hospitalName": "Ejaz Hospital & Advanced Surgical Center",
-      "address": "Main Hospital Road, Patna, Bihar – 800001",
+      "address": "Shareef Colony, Chak Musallahpur, Koiritola, Patna, Bihar 800004",
       "getDirections": "Get Directions",
       "emergencyCall": "Call Helpline",
       "timings": "OPD: Mon – Sat (9 AM – 8 PM) • Emergency: 24×7"

@@ -7,14 +7,8 @@ export default function WhatsAppButton() {
   const isHindi = i18n?.language === 'hi'
   const [showTooltip, setShowTooltip] = useState(true)
 
-  // Hospital WhatsApp Number (standard international format without + or special chars)
-  const phoneNumber = '916203770070'
-  const defaultMessage = encodeURIComponent(
-    isHindi
-      ? 'नमस्ते एजाज अस्पताल, मुझे आपके स्वास्थ्य सेवाओं और परामर्श के बारे में जानकारी चाहिए।'
-      : 'Hello Ejaz Hospital, I would like to inquire about your medical services and doctor appointments.'
-  )
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${defaultMessage}`
+  // Hospital WhatsApp Official Business Link
+  const whatsappUrl = 'https://wa.me/message/MBM4KWAXXZWFM1'
 
   // Automatically minimize tooltip after 8 seconds on initial visit, but hover brings it back
   useEffect(() => {

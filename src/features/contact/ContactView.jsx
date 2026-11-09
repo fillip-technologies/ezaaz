@@ -126,19 +126,19 @@ export default function ContactView() {
       badge: isHindi ? 'तत्काल सहायता' : 'Immediate Response'
     },
     {
-      title: isHindi ? '24×7 इन-हाउस फार्मेसी' : '24×7 In-House Pharmacy',
-      number: '+91 6203 770 071',
-      badge: isHindi ? 'दवाइयां एवं सर्जिकल सप्लाई' : 'Medications & Surgical'
+      title: isHindi ? 'ओपीडी एवं विशेषज्ञ परामर्श' : 'OPD & Doctor Consultations',
+      number: '+91 7362 004 545',
+      badge: isHindi ? 'अपॉइंटमेंट डेस्क' : 'Appointment Desk'
     },
     {
       title: isHindi ? 'टीपीए एवं कैशलेस इंश्योरेंस हेल्पडेस्क' : 'TPA & Cashless Insurance Desk',
-      number: '+91 6203 770 072',
+      number: '+91 6203 770 070',
       badge: isHindi ? 'सभी प्रमुख बीमा स्वीकृत' : 'All Major TPAs Accepted'
     },
     {
-      title: isHindi ? 'पैथोलॉजी व डायग्नोस्टिक लैब' : 'Pathology & Diagnostic Laboratory',
-      number: '+91 6203 770 073',
-      badge: isHindi ? 'डिजिटल रिपोर्ट्स' : 'Digital Reports'
+      title: isHindi ? 'अस्पताल हेल्पडेस्क एवं रिसेप्शन' : 'Hospital Helpdesk & Reception',
+      number: '+91 7362 004 545',
+      badge: isHindi ? 'सामान्य जानकारी' : 'General Inquiries'
     }
   ]
 
@@ -254,38 +254,47 @@ export default function ContactView() {
               </div>
               <div className="mt-5 pt-4 border-t border-slate-100">
                 <a
-                  href="tel:+918002003000"
+                  href="tel:+917362004545"
                   className="text-sm font-bold text-[#003a70] hover:text-[#00284d] flex items-center justify-between group-hover:translate-x-1 transition-transform cursor-pointer"
                 >
-                  <span>1800 200 3000</span>
+                  <span>+91 7362 004 545</span>
                   <span>→</span>
                 </a>
               </div>
             </div>
 
-            {/* Card 3: Email Inquiries */}
+            {/* Card 3: Email & WhatsApp Inquiries */}
             <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
               <div>
                 <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Mail className="w-6 h-6 stroke-[2.2]" />
                 </div>
                 <div className="inline-block text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 mb-2">
-                  {isHindi ? 'डिजिटल सहायता' : 'Online Desk'}
+                  {isHindi ? 'व्हाट्सएप व ईमेल' : 'WhatsApp & Email'}
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
-                  {isHindi ? 'ईमेल एवं रिपोर्ट्स' : 'Email & Reports'}
+                  {isHindi ? 'ईमेल एवं व्हाट्सएप' : 'Email & WhatsApp'}
                 </h3>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                  {isHindi ? 'चिकित्सीय रिपोर्ट एवं सामान्य जानकारी के लिए लिखें।' : 'Medical inquiries, second opinions, and diagnostic report queries.'}
+                  {isHindi ? 'चिकित्सीय रिपोर्ट एवं सामान्य जानकारी के लिए संपर्क करें।' : 'Medical inquiries, second opinions, and diagnostic report queries.'}
                 </p>
               </div>
-              <div className="mt-5 pt-4 border-t border-slate-100">
+              <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-1.5">
                 <a
                   href="mailto:care@ejazhospital.com"
-                  className="text-sm font-bold text-emerald-600 hover:text-emerald-700 flex items-center justify-between group-hover:translate-x-1 transition-transform cursor-pointer truncate"
+                  className="text-xs sm:text-sm font-bold text-emerald-600 hover:text-emerald-700 flex items-center justify-between group-hover:translate-x-1 transition-transform cursor-pointer truncate"
                 >
                   <span className="truncate">care@ejazhospital.com</span>
                   <span className="shrink-0 ml-1">→</span>
+                </a>
+                <a
+                  href="https://wa.me/message/MBM4KWAXXZWFM1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-bold text-[#25D366] hover:underline flex items-center justify-between cursor-pointer"
+                >
+                  <span>{isHindi ? 'व्हाट्सएप चैट करें' : 'Chat on WhatsApp'}</span>
+                  <span>↗</span>
                 </a>
               </div>
             </div>
@@ -302,8 +311,10 @@ export default function ContactView() {
                 <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
                   {isHindi ? 'अस्पताल पता' : 'Hospital Campus'}
                 </h3>
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                  {isHindi ? 'एजाज क्लिनिक एवं सर्जिकल हॉस्पिटल, पटना, बिहार - 800001' : 'Ejaz Clinic & Advanced Surgical Hospital, Patna, Bihar.'}
+                <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                  {isHindi
+                    ? 'शरीफ कॉलोनी, चक मुसल्लहपुर, कोइरीटोला, पटना, बिहार 800004'
+                    : 'Shareef Colony, Chak Musallahpur, Koiritola, Patna, Bihar 800004'}
                 </p>
               </div>
               <div className="mt-5 pt-4 border-t border-slate-100">
@@ -320,6 +331,43 @@ export default function ContactView() {
             </div>
 
           </div>
+
+          {/* Social Media & Instant Connect Strip */}
+          <div className="mt-8 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span className="text-xs sm:text-sm font-bold text-slate-700">
+              {isHindi ? 'सोशल मीडिया पर हमसे जुड़ें:' : 'Connect with Ejaz Hospital online:'}
+            </span>
+            <div className="flex flex-wrap items-center gap-2.5">
+              <a
+                href="https://wa.me/message/MBM4KWAXXZWFM1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white text-xs font-bold transition-all shadow-2xs"
+              >
+                <span>WhatsApp</span>
+                <span className="text-[10px]">↗</span>
+              </a>
+              <a
+                href="https://www.facebook.com/profile.php?id=100068185956623"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#1877F2] hover:bg-[#1877F2] hover:text-white text-xs font-bold transition-all shadow-2xs"
+              >
+                <span>Facebook</span>
+                <span className="text-[10px]">↗</span>
+              </a>
+              <a
+                href="https://www.instagram.com/drejazclinic/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-50 text-[#E4405F] hover:bg-[#E4405F] hover:text-white text-xs font-bold transition-all shadow-2xs"
+              >
+                <span>Instagram</span>
+                <span className="text-[10px]">↗</span>
+              </a>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -545,11 +593,11 @@ export default function ContactView() {
                     </button>
 
                     <a
-                      href="tel:+918002003000"
+                      href="tel:+917362004545"
                       className="w-full sm:w-auto py-3.5 px-6 rounded-xl bg-[#003a70] hover:bg-[#00284d] text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <Phone className="w-4 h-4" />
-                      <span>{isHindi ? 'कॉल करें' : 'Call Now'}</span>
+                      <span>{isHindi ? 'कॉल करें: +91 7362 004 545' : 'Call: +91 7362 004 545'}</span>
                     </a>
                   </div>
 
@@ -622,7 +670,7 @@ export default function ContactView() {
 
                 <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs">
                   <span className="text-slate-600 font-medium truncate mr-2">
-                    Ejaz Clinic & Surgical Hospital, Patna
+                    Shareef Colony, Chak Musallahpur, Koiritola, Patna, Bihar 800004
                   </span>
                   <a
                     href="https://maps.google.com/?cid=1665913498867353594"

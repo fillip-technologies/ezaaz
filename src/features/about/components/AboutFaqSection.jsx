@@ -23,8 +23,8 @@ export default function AboutFaqSection() {
         ? 'एजाज क्लिनिक में कौन-कौन सी सर्जिकल एवं सुपर-स्पेशियलिटी सेवाएं उपलब्ध हैं?'
         : 'What surgical specialities and clinical departments are available at Ejaz Clinic?',
       a: isHindi
-        ? 'हमारे संस्थान में 15+ से अधिक प्रमुख विभाग सक्रिय हैं, जिनमें एडवांस्ड लैप्रोस्कोपिक एवं जीआई सर्जरी, कैंसर सर्जरी (ऑन्कोलॉजी), जटिल हर्निया रिपेयर, यूरोलॉजी एवं किडनी केयर, ऑर्थोपेडिक्स एवं जोड़ प्रत्यारोपण, प्लास्टिक एवं रिकंस्ट्रक्टिव सर्जरी, स्त्री एवं प्रसूति रोग (गाइनेकोलॉजी), जनरल मेडिसिन तथा 24×7 क्रिटिकल केयर आईसीयू शामिल हैं।'
-        : 'Ejaz Clinic houses 15+ specialized departments, including Advanced Laparoscopic & GI Surgery, Onco-Surgery (Cancer Care), Complex Hernia Repair, Urology, Orthopaedics & Joint Arthroplasty, Plastic & Cosmetic Reconstruction, Gynaecology & Obstetrics, General Internal Medicine, and 24×7 Critical Care ICU.'
+        ? 'हमारे संस्थान में 10+ से अधिक प्रमुख सुपर-स्पेशियलिटी विभाग सक्रिय हैं, जिनमें एडवांस्ड लैप्रोस्कोपिक एवं जीआई सर्जरी, कैंसर सर्जरी (ऑन्कोलॉजी), जटिल हर्निया रिपेयर, यूरोलॉजी एवं किडनी केयर, ऑर्थोपेडिक्स एवं जोड़ प्रत्यारोपण, प्लास्टिक एवं रिकंस्ट्रक्टिव सर्जरी, स्त्री एवं प्रसूति रोग (गाइनेकोलॉजी), जनरल मेडिसिन तथा 24×7 क्रिटिकल केयर आईसीयू शामिल हैं।'
+        : 'Ejaz Clinic houses 10+ specialized super-speciality departments, including Advanced Laparoscopic & GI Surgery, Onco-Surgery (Cancer Care), Complex Hernia Repair, Urology, Orthopaedics & Joint Arthroplasty, Plastic & Cosmetic Reconstruction, Gynaecology & Obstetrics, General Internal Medicine, and 24×7 Critical Care ICU.'
     },
     {
       id: '03',
@@ -41,8 +41,8 @@ export default function AboutFaqSection() {
         ? 'क्या अस्पताल में 24×7 आपातकालीन (Emergency) और आईसीयू सेवाएं उपलब्ध हैं?'
         : 'Does Ejaz Clinic operate 24×7 emergency, trauma, and ICU facilities?',
       a: isHindi
-        ? 'हाँ, हमारी आपातकालीन ट्रॉमा यूनिट, क्रिटिकल केयर आईसीयू, आधुनिक मॉड्यूलर ऑपरेशन थिएटर, इन-हाउस फार्मेसी तथा डायग्नोस्टिक पैथोलॉजी सेवाएं वर्ष के 365 दिन, चौबीसों घंटे (24×7) पूर्ण मेडिकल टीम के साथ सक्रिय रहती हैं।'
-        : 'Yes. Our Emergency Trauma Care Unit, Critical Care ICU, modular emergency surgical suites, in-house pharmacy, and diagnostic pathology services operate 24 hours a day, 365 days a year with full medical readiness.'
+        ? 'हाँ, हमारी आपातकालीन ट्रॉमा यूनिट, क्रिटिकल केयर आईसीयू (40 बेड्स क्षमता - आईसीयू, पीसीयू, जनरल एवं प्राइवेट वार्ड्स), आधुनिक मॉड्यूलर ऑपरेशन थिएटर, इन-हाउस फार्मेसी तथा डायग्नोस्टिक पैथोलॉजी सेवाएं वर्ष के 365 दिन, चौबीसों घंटे (24×7) पूर्ण मेडिकल टीम के साथ सक्रिय रहती हैं।'
+        : 'Yes. Our Emergency Trauma Care Unit, Critical Care ICU (40 Beds capacity across ICU, PCU, General & Private wards), modular emergency surgical suites, in-house pharmacy, and diagnostic pathology services operate 24 hours a day, 365 days a year with full medical readiness.'
     },
     {
       id: '05',
@@ -50,8 +50,8 @@ export default function AboutFaqSection() {
         ? 'मरीज वरिष्ठ सर्जनों से परामर्श अथवा अपॉइंटमेंट कैसे प्राप्त कर सकते हैं?'
         : 'How can patients schedule an OPD consultation or second opinion with senior specialists?',
       a: isHindi
-        ? 'मरीज हमारी वेबसाइट पर ऑनलाइन फॉर्म भरकर, हमारे हेल्पलाइन नंबर 0612-2559999 / +91 94310 21045 पर कॉल करके, अथवा पटना स्थित हमारे हॉस्पिटल रिसेप्शन पर सीधे आकर आसानी से अपॉइंटमेंट बुक कर सकते हैं। आपातकालीन मामलों के लिए 24×7 तत्काल भर्ती एवं परामर्श उपलब्ध है।'
-        : 'Consultations can be booked directly online through our website, by calling our helpline at 0612-2559999 / +91 94310 21045, or at our hospital reception in Patna. Emergency triage and walk-in consultations are accessible 24 hours a day.'
+        ? 'मरीज हमारी वेबसाइट पर ऑनलाइन फॉर्म भरकर, हमारे हेल्पलाइन नंबर +91 6203 770 070 / +91 7362 004 545 पर कॉल करके, अथवा पटना (शरीफ कॉलोनी, चक मुसल्लहपुर, कोइरीटोला) स्थित हमारे हॉस्पिटल रिसेप्शन पर सीधे आकर आसानी से अपॉइंटमेंट बुक कर सकते हैं। आपातकालीन मामलों के लिए 24×7 तत्काल भर्ती एवं परामर्श उपलब्ध है।'
+        : 'Consultations can be booked directly online through our website, by calling our helpline at +91 6203 770 070 / +91 7362 004 545, or at our hospital reception in Patna (Shareef Colony, Chak Musallahpur, Koiritola). Emergency triage and walk-in consultations are accessible 24 hours a day.'
     }
   ]
 

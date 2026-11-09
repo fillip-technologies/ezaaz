@@ -11,11 +11,7 @@ import thumbHospital1 from '../../assets/OT-PHOTOS/DSC00761.JPG'
 
 // Exactly the 2 videos requested by the user, with zero text
 const GALLERY_VIDEOS = [
-  {
-    id: 'vid-gi-cancer',
-    thumbnail: thumbGiSurgery,
-    videoSrc: giCancerVideo
-  },
+
   {
     id: 'vid-hospital-overview',
     thumbnail: thumbHospital1,

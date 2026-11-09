@@ -395,11 +395,11 @@ export default function BlogDetailsView() {
             </button>
 
             <a
-              href="tel:+918002003000"
+              href="tel:+917362004545"
               className="w-full sm:w-auto px-5 py-3 rounded-full border border-white/30 hover:bg-white/10 text-white font-semibold text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               <Phone className="w-4 h-4 text-emerald-400" />
-              <span>+91 80020 03000</span>
+              <span>+91 7362 004 545</span>
             </a>
           </div>
         </div>

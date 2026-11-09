@@ -58,11 +58,25 @@ export function CancerSurgeryIcon({ className = 'w-6 h-6' }) {
 export function UrologyIcon({ className = 'w-6 h-6' }) {
   return (
     <svg viewBox="0 0 64 64" fill="none" stroke="#334155" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M22 16c-6 0-10 5-10 12s4 14 11 14c3 0 4-2 4-5 0-5-2-8-4-12-.8-1.5-1-4-1-9z" />
-      <path d="M42 16c6 0 10 5 10 12s-4 14-11 14c-3 0-4-2-4-5 0-5 2-8 4-12 .8-1.5 1-4 1-9z" />
-      <path d="M26 35c2 6 4 10 6 14" strokeWidth="1.8" />
-      <path d="M38 35c-2 6-4 10-6 14" strokeWidth="1.8" />
-      <path d="M26 49c0-3 3-5 6-5s6 2 6 5c0 4-3 7-6 7s-6-3-6-7z" fill="#ef4444" stroke="#dc2626" strokeWidth="1.5" />
+      {/* Left Kidney Bean (Anatomical Hilum Indentation) */}
+      <path d="M20 15 C13 15 9 20 9 27 C9 34 13 39 19 39 C23 39 25 36 25 33 C25 30 22 29 22 27 C22 25 25 24 25 21 C25 18 23 15 20 15 Z" />
+      {/* Left Medulla / Calyx Coral Accent */}
+      <path d="M16 23 C14 25 14 28 16 30" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="21" cy="27" r="1.5" fill="#ef4444" stroke="none" />
+
+      {/* Right Kidney Bean (Anatomical Hilum Indentation) */}
+      <path d="M44 15 C51 15 55 20 55 27 C55 34 51 39 45 39 C41 39 39 36 39 33 C39 30 42 29 42 27 C42 25 39 24 39 21 C39 18 41 15 44 15 Z" />
+      {/* Right Medulla / Calyx Coral Accent */}
+      <path d="M48 23 C50 25 50 28 48 30" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="43" cy="27" r="1.5" fill="#ef4444" stroke="none" />
+
+      {/* Bilateral Ureters */}
+      <path d="M23 33 C26 38 29 43 30 48" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M41 33 C38 38 35 43 34 48" strokeWidth="1.8" strokeLinecap="round" />
+
+      {/* Urinary Bladder with Medical Accent */}
+      <path d="M27 49 C27 46 37 46 37 49 C38 54 36 57 32 57 C28 57 26 54 27 49 Z" fill="#fee2e2" stroke="#ef4444" strokeWidth="1.8" />
+      <circle cx="32" cy="52" r="1.8" fill="#ef4444" stroke="none" />
     </svg>
   )
 }

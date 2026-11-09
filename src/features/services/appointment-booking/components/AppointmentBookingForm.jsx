@@ -266,7 +266,7 @@ export default function AppointmentBookingForm() {
               </button>
 
               <a
-                href="tel:+918002003000"
+                href="tel:+917362004545"
                 className="w-full sm:w-auto px-6 py-3 rounded-full border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2"
               >
                 <Phone className="w-4 h-4 text-emerald-600" />
@@ -369,7 +369,7 @@ export default function AppointmentBookingForm() {
                         {isHindi
                           ? 'इस डॉक्टर के लिए ऑनलाइन बुकिंग उपलब्ध नहीं है। कृपया अपॉइंटमेंट के लिए कॉल करें: '
                           : "Online booking isn't available for this doctor. Please call to book: "}
-                        <a href="tel:+918002003000" className="font-bold underline">+91 80020 03000</a>
+                        <a href="tel:+917362004545" className="font-bold underline">+91 7362 004 545</a>
                       </span>
                     </div>
                   ) : (
@@ -652,11 +652,11 @@ export default function AppointmentBookingForm() {
                   </button>
 
                   <a
-                    href="tel:+918002003000"
+                    href="tel:+917362004545"
                     className="w-full sm:w-auto py-3.5 px-5 rounded-2xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer whitespace-nowrap"
                   >
                     <Phone className="w-4 h-4 text-emerald-600" />
-                    <span>{isHindi ? 'कॉल करें: +91 80020 03000' : 'Call Desk: +91 80020 03000'}</span>
+                    <span>{isHindi ? 'कॉल करें: +91 7362 004 545' : 'Call Desk: +91 7362 004 545'}</span>
                   </a>
                 </div>
 
@@ -733,10 +733,10 @@ export default function AppointmentBookingForm() {
                     {isHindi ? 'आपातकालीन सहायता के लिए:' : 'Need Immediate Help?'}
                   </span>
                   <a
-                    href="tel:+918002003000"
+                    href="tel:+916203770070"
                     className="inline-block font-mono font-bold text-sm text-orange-300 hover:text-white transition-colors"
                   >
-                    +91 80020 03000
+                    +91 6203 770 070 / +91 7362 004 545
                   </a>
                 </div>
               </div>

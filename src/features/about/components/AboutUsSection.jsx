@@ -22,30 +22,30 @@ export default function AboutUsSection() {
   const leftColRef = useRef(null)
   const rightColRef = useRef(null)
 
-  // 4 Core Hospital Stats
+  // 4 Core Hospital Stats matching official hospital capacity
   const stats = [
     {
-      value: '40+',
+      value: '10+',
       label: isHindi ? 'अनुभवी डॉक्टर्स' : 'Experienced Doctors',
-      sub: isHindi ? 'विभिन्न विशेषज्ञताओं में' : 'Across 15+ disciplines',
+      sub: isHindi ? 'विभिन्न सुपर स्पेशियलिटीज़ में' : 'Across super specialties',
       icon: Users
     },
     {
-      value: '100+',
-      label: isHindi ? 'अत्याधुनिक बेड्स' : 'Advanced Inpatient Beds',
-      sub: isHindi ? 'आईसीयू व डीलक्स वार्ड्स' : 'ICU, HDU & private suites',
+      value: '40',
+      label: isHindi ? 'अस्पताल बेड्स' : 'Beds',
+      sub: isHindi ? 'आईसीयू, पीसीयू, जनरल एवं प्राइवेट वार्ड्स' : 'ICU, PCU, General & Private wards',
       icon: BedDouble
     },
     {
-      value: '250+',
-      label: isHindi ? 'प्रशिक्षित मेडिकल स्टाफ' : 'Trained Clinical Staff',
-      sub: isHindi ? '24×7 समर्पित देखभाल' : 'Dedicated nursing & paramedics',
+      value: '100+',
+      label: isHindi ? 'अनुभवी स्टाफ' : 'Experienced Staff',
+      sub: isHindi ? '24×7 समर्पित देखभाल' : 'Dedicated clinical & nursing team',
       icon: Activity
     },
     {
-      value: '15+',
-      label: isHindi ? 'सुपर स्पेशियलिटीज़' : 'Super Specialties',
-      sub: isHindi ? 'व्यापक सर्जिकल सेवाएं' : 'Comprehensive surgical departments',
+      value: '10+',
+      label: isHindi ? 'सुपर स्पेशियलिटीज़' : 'Superspecialities',
+      sub: isHindi ? 'व्यापक सर्जिकल एवं चिकित्सीय विभाग' : 'Comprehensive surgical departments',
       icon: Building2
     }
   ]

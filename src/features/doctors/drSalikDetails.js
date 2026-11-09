@@ -57,7 +57,7 @@ export const DR_SALIK_DETAILS = {
     phoneDisplay: '+91 6203 770 070',
     helpline: '+91 6203 770 070',
     email: 'info@ejazhospital.com',
-    address: 'Ejaz Clinic, Ashok Rajpath, Near PMCH, Patna, Bihar 800006, India',
+    address: 'Ejaz Clinic & Hospital, Shareef Colony, Chak Musallahpur, Koiritola, Patna, Bihar 800004, India',
     addressHi: 'एजाज क्लिनिक, अशोक राजपथ, पीएमसीएच के पास, पटना, बिहार 800006',
   },
 

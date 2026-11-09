@@ -53,7 +53,7 @@ export const DR_SHIVANI_DETAILS = {
     phoneDisplay: '+91 97097 49180',
     helpline: '+91 6203 770 070',
     email: 'shiv.vani02@gmail.com',
-    address: 'P.C. Colony, Kankarbagh & Ejaz Clinic, Ashok Rajpath, Patna, Bihar, India',
+    address: 'Ejaz Clinic & Hospital, Shareef Colony, Chak Musallahpur, Koiritola, Patna, Bihar 800004, India',
     addressHi: 'पी.सी. कॉलोनी, कंकड़बाग एवं एजाज क्लिनिक, अशोक राजपथ, पटना, बिहार',
   },
 

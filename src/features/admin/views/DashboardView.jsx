@@ -796,11 +796,11 @@ export default function DashboardView({ path }) {
               <div className="space-y-2 text-xs text-slate-600">
                 <p className="flex items-center gap-2">
                   <Phone className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                  <span className="font-semibold text-slate-800">Helpline: +91 6203 770 070</span>
+                  <span className="font-semibold text-slate-800">Helpline: +91 6203 770 070 / +91 7362 004 545</span>
                 </p>
                 <p className="flex items-start gap-2">
                   <Building2 className="h-3.5 w-3.5 text-[#003a70] shrink-0 mt-0.5" />
-                  <span>Ashok Rajpath, Near PMCH, Patna, Bihar 800006</span>
+                  <span>Shareef Colony, Chak Musallahpur, Koiritola, Patna, Bihar 800004</span>
                 </p>
               </div>
 

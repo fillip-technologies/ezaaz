@@ -159,12 +159,12 @@ export default function Navbar({ currentRoute = 'home' }) {
   const specialtyList = Array.isArray(rawSpecialties) && rawSpecialties.length > 0
     ? rawSpecialties
     : [
-        { id: 'hernia', name: 'Hernia Surgery' },
-        { id: 'cancer-surgery', name: 'Cancer Surgery' },
-        { id: 'urology', name: 'Urology' },
         { id: 'gynaecology', name: 'Gynaecology & Obstetrics' },
-        { id: 'internal-medicine', name: 'General Internal Medicine' },
         { id: 'gastrointestinal', name: 'Gastrointestinal Surgery' },
+        { id: 'urology', name: 'Urology' },
+        { id: 'cancer-surgery', name: 'Cancer Surgery' },
+        { id: 'hernia', name: 'Hernia Surgery' },
+        { id: 'internal-medicine', name: 'General Internal Medicine' },
         { id: 'plastic-surgery', name: 'Plastic Surgery' },
         { id: 'anaesthesia', name: 'Anaesthesia & Critical Care' }
       ]
