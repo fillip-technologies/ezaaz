@@ -1,10 +1,22 @@
-import { Building2, CalendarClock, CalendarOff, ChevronRight } from 'lucide-react'
+import { BarChart3, Building2, CalendarClock, CalendarOff, ChevronRight, Clapperboard } from 'lucide-react'
 import AdminLayout from '../components/AdminLayout'
 import { Link } from '../components/ui'
 import { ADMIN_PATHS } from '../navigation'
 
 // Website settings managed from the admin panel. Add a card here for each new settings page.
 const SETTINGS = [
+  {
+    to: ADMIN_PATHS.siteVideos,
+    icon: Clapperboard,
+    title: 'Website videos',
+    description: 'The welcome intro video and the home page header video',
+  },
+  {
+    to: ADMIN_PATHS.homeStats,
+    icon: BarChart3,
+    title: 'Home page stats',
+    description: 'The numbers in the home page header, e.g. "15,000+ Total Successful Operations"',
+  },
   {
     to: ADMIN_PATHS.departments,
     icon: Building2,

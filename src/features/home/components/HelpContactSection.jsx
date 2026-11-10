@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { contactApi } from '../../../api'
 import { useDepartments } from '../../contact/useDepartments'
+import WhatsAppConsentNote from '../../../components/layout/WhatsAppConsentNote'
 
 const EMPTY_FORM = {
   fullName: '',
@@ -185,6 +186,7 @@ export default function HelpContactSection() {
                         className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50/70 border border-slate-200 rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none focus:border-[#003a70] focus:bg-white transition-all"
                       />
                     </div>
+                    <WhatsAppConsentNote isHindi={isHindi} />
                   </div>
                 </div>
 

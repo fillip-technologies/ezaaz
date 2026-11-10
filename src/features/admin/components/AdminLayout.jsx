@@ -1,6 +1,21 @@
 import { useState } from 'react'
-import { CalendarCheck, Images, Inbox, LayoutDashboard, LogOut, Menu, Newspaper, Settings, Stethoscope, UserCog, X } from 'lucide-react'
+import {
+  CalendarCheck,
+  Images,
+  Inbox,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  MessageCircle,
+  Newspaper,
+  Settings,
+  Stethoscope,
+  UserCog,
+  Users,
+  X,
+} from 'lucide-react'
 import logoWhiteImg from '../../../assets/Logo_white_text.png'
+import { useWhatsAppUnread } from '../whatsappUnread'
 import { useAuth } from '../auth/useAuth'
 import { ADMIN_PATHS, navigate } from '../navigation'
 import { Link } from './ui'
@@ -9,6 +24,8 @@ const NAV_ITEMS = [
   { to: ADMIN_PATHS.dashboard, label: 'Dashboard', icon: LayoutDashboard },
   { to: ADMIN_PATHS.doctors, label: 'Doctors', icon: Stethoscope },
   { to: ADMIN_PATHS.appointments, label: 'Appointments', icon: CalendarCheck },
+  { to: ADMIN_PATHS.whatsapp, label: 'WhatsApp', icon: MessageCircle, badge: 'whatsapp' },
+  { to: ADMIN_PATHS.patients, label: 'Patients', icon: Users },
   { to: ADMIN_PATHS.blogs, label: 'Blogs', icon: Newspaper },
   { to: ADMIN_PATHS.gallery, label: 'Gallery', icon: Images },
   { to: ADMIN_PATHS.enquiries, label: 'Contact Forms', icon: Inbox },
@@ -16,9 +33,11 @@ const NAV_ITEMS = [
   { to: ADMIN_PATHS.account, label: 'Account', icon: UserCog },
 ]
 
-export default function AdminLayout({ path, title, actions, children }) {
+// fullHeight: the page fills the screen below the header with no padding (the WhatsApp inbox)
+export default function AdminLayout({ path, title, actions, children, fullHeight = false }) {
   const { admin, logout } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
+  const unread = useWhatsAppUnread()
 
   const onLogout = () => {
     logout()
@@ -39,7 +58,7 @@ export default function AdminLayout({ path, title, actions, children }) {
         </button>
       </div>
       <nav className="flex-1 space-y-1 px-3" aria-label="Admin">
-        {NAV_ITEMS.map(({ to, label, icon: Icon }) => {
+        {NAV_ITEMS.map(({ to, label, icon: Icon, badge }) => {
           const active = path === to || path.startsWith(`${to}/`)
           return (
             <Link
@@ -52,7 +71,13 @@ export default function AdminLayout({ path, title, actions, children }) {
               }`}
             >
               <Icon className="h-4 w-4" aria-hidden="true" />
-              {label}
+              <span className="flex-1">{label}</span>
+              {badge === 'whatsapp' && unread > 0 && (
+                <span className="min-w-5 rounded-full bg-[#25d366] px-1.5 py-0.5 text-center text-[11px] font-bold leading-none text-white">
+                  {unread > 99 ? '99+' : unread}
+                  <span className="sr-only"> unread chats</span>
+                </span>
+              )}
             </Link>
           )
         })}
@@ -82,8 +107,8 @@ export default function AdminLayout({ path, title, actions, children }) {
         </div>
       )}
 
-      <div className="lg:pl-64">
-        <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-slate-200 bg-white/90 px-4 py-4 backdrop-blur sm:px-6">
+      <div className={fullHeight ? 'flex h-dvh flex-col lg:pl-64' : 'lg:pl-64'}>
+        <header className="sticky top-0 z-30 flex shrink-0 items-center gap-3 border-b border-slate-200 bg-white/90 px-4 py-4 backdrop-blur sm:px-6">
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
@@ -95,7 +120,7 @@ export default function AdminLayout({ path, title, actions, children }) {
           <h1 className="flex-1 truncate text-lg font-semibold sm:text-xl">{title}</h1>
           {actions}
         </header>
-        <main className="p-4 sm:p-6">{children}</main>
+        <main className={fullHeight ? 'min-h-0 flex-1' : 'p-4 sm:p-6'}>{children}</main>
       </div>
     </div>
   )

@@ -90,8 +90,8 @@ export default function DiagnosisProcessSection() {
       num: '04',
       titleEn: 'Receive Your Report',
       titleHi: 'अपनी रिपोर्ट प्राप्त करें',
-      descEn: 'Get accurate and timely reports online or at the clinic',
-      descHi: 'सटीक व समय पर रिपोर्ट ऑनलाइन या क्लिनिक पर प्राप्त करें',
+      descEn: 'Get your report on WhatsApp or collect it at the clinic',
+      descHi: 'अपनी रिपोर्ट WhatsApp पर पाएँ या क्लिनिक से लें',
       icon: DiagnosticReportIcon,
       isPrimary: false
     }

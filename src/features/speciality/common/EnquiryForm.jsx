@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpRight, ChevronDown, CheckCircle2, AlertCircle } from 'lucide-react'
 import { contactApi } from '../../../api'
+import WhatsAppConsentNote from '../../../components/layout/WhatsAppConsentNote'
 
 // "Enquiry Form" on every specialty page (and the doctors page). Submissions appear in the
 // admin panel under Contact Forms, tagged with `source` and the page's English name.
@@ -145,6 +146,7 @@ export default function EnquiryForm({ specialtyName = 'Specialty Care', pageName
               className="flex-1 min-w-0 px-4 sm:px-4.5 py-3.5 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 text-sm sm:text-[15px] focus:outline-none focus:border-[#d9532f] focus:ring-3 focus:ring-[#d9532f]/10 transition-all"
             />
           </div>
+          <WhatsAppConsentNote isHindi={isHindi} className="-mt-2" />
 
           {/* Field 3: Message Textarea */}
           <div>

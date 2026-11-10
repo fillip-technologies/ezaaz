@@ -20,8 +20,10 @@ import {
   Briefcase,
   Mail,
   FileText,
-  ChevronDown
+  ChevronDown,
+  MessageCircle
 } from 'lucide-react'
+import { pageMessage, whatsappLink } from '../../../components/layout/whatsappLink'
 import { useDoctors, toDoctorProfile, checkIsShahzad, checkIsShivani, checkIsSalik, checkIsSamanWasi } from '../useDoctors'
 
 // Doctor slug from ?id=... (or /doctor-profile/<slug>)
@@ -1150,6 +1152,16 @@ export default function DoctorProfileView({ doctorId = '' }) {
                 >
                   <Phone className="w-3.5 h-3.5 fill-current" />
                   <span>{isHindi ? 'आपातकालीन कॉल: +91 6203 770 070' : 'Emergency: +91 6203 770 070'}</span>
+                </a>
+                {/* Opens the hospital's WhatsApp with this doctor's name filled in */}
+                <a
+                  href={whatsappLink(pageMessage(isHindi, isHindi ? doctor.nameHi || doctor.name : doctor.name))}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2.5 w-full py-2.5 px-4 rounded-xl bg-[#25d366] hover:bg-[#1ebe5b] text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>{isHindi ? 'WhatsApp पर सवाल पूछें' : `Ask about ${doctor.name} on WhatsApp`}</span>
                 </a>
               </div>
 

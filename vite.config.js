@@ -5,8 +5,11 @@ import { defineConfig, loadEnv } from 'vite'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const rawApi = (env.VITE_API_URL || 'https://apiezazclinic.fillipsoftware.com/api').trim()
-  const target = rawApi.replace(/\/api\/?$/, '') || 'https://apiezazclinic.fillipsoftware.com'
+  const defaultApi = mode === 'development'
+    ? 'http://localhost:5000/api'
+    : 'https://apiezazclinic.fillipsoftware.com/api'
+  const rawApi = (env.VITE_API_URL || defaultApi).trim()
+  const target = rawApi.replace(/\/api\/?$/, '') || (mode === 'development' ? 'http://localhost:5000' : 'https://apiezazclinic.fillipsoftware.com')
 
   return {
     plugins: [

@@ -22,6 +22,11 @@ import AppointmentsView from './views/AppointmentsView'
 import LeavesView from './views/LeavesView'
 import SlotPlansView from './views/SlotPlansView'
 import SlotPlanFormView from './views/SlotPlanFormView'
+import SiteVideosView from './views/SiteVideosView'
+import HomeStatsView from './views/HomeStatsView'
+import WhatsAppInboxView from './views/WhatsAppInboxView'
+import PatientsView from './views/PatientsView'
+import PatientDetailView from './views/PatientDetailView'
 
 const PUBLIC_VIEWS = {
   [ADMIN_PATHS.login]: LoginView,
@@ -40,11 +45,16 @@ const PRIVATE_VIEWS = {
   [ADMIN_PATHS.galleryCategories]: GalleryCategoriesView,
   [ADMIN_PATHS.enquiries]: EnquiriesView,
   [ADMIN_PATHS.appointments]: AppointmentsView,
+  [ADMIN_PATHS.whatsapp]: WhatsAppInboxView,
+  [ADMIN_PATHS.patients]: PatientsView,
+  [ADMIN_PATHS.newPatient]: PatientDetailView,
   [ADMIN_PATHS.settings]: SettingsView,
   [ADMIN_PATHS.leaves]: LeavesView,
   [ADMIN_PATHS.slotPlans]: SlotPlansView,
   [ADMIN_PATHS.newSlotPlan]: SlotPlanFormView,
   [ADMIN_PATHS.departments]: DepartmentsView,
+  [ADMIN_PATHS.siteVideos]: SiteVideosView,
+  [ADMIN_PATHS.homeStats]: HomeStatsView,
   [ADMIN_PATHS.account]: AccountView,
 }
 
@@ -53,6 +63,7 @@ const PRIVATE_PATTERNS = [
   { pattern: /^\/master\/doctors\/([a-f0-9]{24})$/, View: DoctorFormView, param: 'id' },
   { pattern: /^\/master\/blogs\/([a-f0-9]{24})$/, View: BlogFormView, param: 'id' },
   { pattern: /^\/master\/settings\/slot-plans\/([a-f0-9]{24})$/, View: SlotPlanFormView, param: 'id' },
+  { pattern: /^\/master\/patients\/([a-f0-9]{24})$/, View: PatientDetailView, param: 'id' },
 ]
 
 function matchPrivate(path) {

@@ -1,9 +1,11 @@
 import { http } from './client'
+import i18n from '../i18n/i18n'
 
 // Website: department dropdown + contact form submission
 export const contactApi = {
   departments: () => http.get('/departments', { auth: false }).then((res) => res.data),
-  submit: (data) => http.post('/contact', data, { auth: false }).then((res) => res.data),
+  // The site language picks the English or Hindi WhatsApp acknowledgement
+  submit: (data) => http.post('/contact', { language: i18n.language === 'hi' ? 'hi' : 'en', ...data }, { auth: false }).then((res) => res.data),
 }
 
 // Admin panel: departments shown in the contact form's dropdown

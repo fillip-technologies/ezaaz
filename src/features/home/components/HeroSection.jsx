@@ -1,31 +1,24 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import {
-  Activity,
-  Award,
-  Users,
-  Stethoscope,
-  Volume2,
-  VolumeX
-} from 'lucide-react'
-import ejazHeroVideo from '../../../assets/home/ejaz-home.mp4'
+import { Volume2, VolumeX } from 'lucide-react'
+import { useHeroStats, useSiteVideo } from '../../site/useSiteSettings'
+import { statIcon } from '../../site/statIcons'
 
 export default function HeroSection() {
-  const { t } = useTranslation('home')
   const videoRef = useRef(null)
   const heroRef = useRef(null)
   const statsBarRef = useRef(null)
   const [isMuted, setIsMuted] = useState(true)
+  const videoSrc = useSiteVideo('hero')
 
   useEffect(() => {
-    if (videoRef.current) {
+    if (videoRef.current && videoSrc) {
       videoRef.current.play().catch((err) => {
         console.log('Video autoplay prevented:', err)
       })
     }
-  }, [])
+  }, [videoSrc])
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -34,23 +27,11 @@ export default function HeroSection() {
     }
   }
 
-  const statsList = t('hero.stats', { returnObjects: true }) || []
-
-  // Map icons to data metrics
-  const getStatIcon = (id, index) => {
-    switch (id) {
-      case 'operations':
-        return Activity
-      case 'experience':
-        return Award
-      case 'patients':
-        return Users
-      case 'doctors':
-        return Stethoscope
-      default:
-        return [Activity, Award, Users, Stethoscope][index % 4]
-    }
-  }
+  // Managed in the admin panel (Settings → Home page stats); built-in numbers from the translations otherwise.
+  // null while loading: the bar stays hidden so the numbers never jump from the built-in to the admin's.
+  const heroStats = useHeroStats()
+  const statsReady = heroStats !== null
+  const statsList = heroStats || []
 
   // Smooth number count-up animation function
   const animateCounters = useCallback(() => {
@@ -96,7 +77,7 @@ export default function HeroSection() {
   // GSAP Animations: Entrance, Floating Levitation & Live Number Counter
   useGSAP(
     () => {
-      if (!statsBarRef.current) return
+      if (!statsBarRef.current || !statsReady) return
 
       // 1. Initial spring entrance
       const entranceTl = gsap.timeline({ defaults: { ease: 'back.out(1.5)' } })
@@ -152,7 +133,7 @@ export default function HeroSection() {
         window.removeEventListener('welcome-intro-closed', handleIntroClosed)
       }
     },
-    { scope: heroRef, dependencies: [animateCounters] }
+    { scope: heroRef, dependencies: [animateCounters, statsReady] }
   )
 
   return (
@@ -164,7 +145,7 @@ export default function HeroSection() {
       {/* Background Video */}
       <video
         ref={videoRef}
-        src={ejazHeroVideo}
+        src={videoSrc || undefined}
         autoPlay
         loop
         muted={isMuted}
@@ -193,6 +174,7 @@ export default function HeroSection() {
       <div className="relative z-10 w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8 lg:pb-10">
         <div
           ref={statsBarRef}
+          style={statsReady ? undefined : { visibility: 'hidden' }}
           className="relative rounded-2xl lg:rounded-full bg-slate-950/70 backdrop-blur-2xl border border-white/25 px-4 sm:px-7 lg:px-9 py-2.5 sm:py-3 lg:py-3.5 shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden transition-shadow duration-300 hover:shadow-[0_25px_70px_rgba(234,88,12,0.25)]"
         >
           {/* Continuous Glass Light Shimmer Reflection */}
@@ -205,12 +187,12 @@ export default function HeroSection() {
           {/* 4 Data Items in a Slim Horizontal Flex / Compact Grid */}
           <div className="relative z-10 grid grid-cols-2 lg:flex lg:items-center lg:justify-between gap-3 sm:gap-4 lg:gap-2">
             {statsList.map((stat, idx) => {
-              const IconComponent = getStatIcon(stat.id, idx)
+              const IconComponent = statIcon(stat.icon, idx)
               const isLast = idx === statsList.length - 1
-              const isOperations = stat.id === 'operations' || idx === 0
+              const isOperations = stat.icon === 'operations' || idx === 0
 
               return (
-                <div key={stat.id || idx} className="contents lg:flex lg:items-center lg:flex-1">
+                <div key={idx} className="contents lg:flex lg:items-center lg:flex-1">
                   {/* Single Stat Item (Slim Horizontal Layout with micro-interactions) */}
                   <div className="hero-stat-item flex items-center gap-2.5 sm:gap-3.5 px-1.5 sm:px-2.5 lg:px-3 py-1 lg:py-0 w-full group cursor-pointer transition-all duration-300 hover:-translate-y-0.5">
                     {/* Compact Icon with Heartbeat / Breathing Pulse */}

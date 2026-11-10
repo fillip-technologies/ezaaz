@@ -14,7 +14,8 @@ import {
   ShieldCheck,
   Building2,
   ChevronDown,
-  RefreshCw
+  RefreshCw,
+  MessageCircle
 } from 'lucide-react'
 import { appointmentsApi } from '../../../../api'
 import { useDoctors, toDoctorCard } from '../../../doctors/useDoctors'
@@ -251,6 +252,14 @@ export default function AppointmentBookingForm() {
               <div className="pt-2 text-[11.5px] text-slate-500 flex items-center gap-1.5">
                 <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                 <span>{isHindi ? 'स्थान: एजाज हॉस्पिटल, कंकड़बाग, पटना' : 'Location: Ejaz Clinic & Advanced Surgical Hospital, Patna'}</span>
+              </div>
+              <div className="text-[11.5px] text-emerald-700 flex items-center gap-1.5">
+                <MessageCircle className="w-3.5 h-3.5 text-[#25d366] shrink-0" aria-hidden="true" />
+                <span>
+                  {isHindi
+                    ? 'कन्फर्मेशन WhatsApp पर भेज दिया गया है, और एक दिन पहले रिमाइंडर आएगा।'
+                    : "We've sent the confirmation to your WhatsApp, and we'll remind you the day before."}
+                </span>
               </div>
             </div>
 
@@ -563,6 +572,13 @@ export default function AppointmentBookingForm() {
                           className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#ea580c]/20 focus:border-[#ea580c]"
                         />
                       </div>
+                      {/* Consent notice for WhatsApp booking updates (Meta policy) */}
+                      <p className="mt-1.5 flex items-start gap-1 text-[11px] leading-snug text-slate-500">
+                        <MessageCircle className="mt-px h-3 w-3 shrink-0 text-[#25d366]" aria-hidden="true" />
+                        {isHindi
+                          ? 'बुकिंग की जानकारी और रिमाइंडर इसी नंबर पर WhatsApp पर भेजे जाएँगे। रोकने के लिए STOP लिखें।'
+                          : 'Booking updates and reminders will be sent to this number on WhatsApp. Reply STOP to opt out.'}
+                      </p>
                     </div>
                   </div>
 

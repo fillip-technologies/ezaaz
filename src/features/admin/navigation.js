@@ -14,17 +14,24 @@ export const ADMIN_PATHS = {
   galleryCategories: '/master/gallery/categories',
   enquiries: '/master/contact-forms',
   appointments: '/master/appointments',
+  whatsapp: '/master/whatsapp',
+  patients: '/master/patients',
+  newPatient: '/master/patients/new',
   settings: '/master/settings',
   departments: '/master/settings/departments',
   leaves: '/master/settings/leave',
   slotPlans: '/master/settings/slot-plans',
   newSlotPlan: '/master/settings/slot-plans/new',
+  siteVideos: '/master/settings/videos',
+  homeStats: '/master/settings/home-stats',
   account: '/master/account',
 }
 
 export const doctorEditPath = (id) => `${ADMIN_PATHS.doctors}/${id}`
 export const blogEditPath = (id) => `${ADMIN_PATHS.blogs}/${id}`
 export const slotPlanEditPath = (id) => `${ADMIN_PATHS.slotPlans}/${id}`
+export const patientPath = (id) => `${ADMIN_PATHS.patients}/${id}`
+export const chatPath = (id) => `${ADMIN_PATHS.whatsapp}?chat=${id}`
 
 // One-time message shown on the next page (e.g. "Doctor added") after a redirect
 let flashMessage = ''

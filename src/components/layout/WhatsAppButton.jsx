@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MessageCircle, X } from 'lucide-react'
+import { X } from 'lucide-react'
+import { pageMessage, whatsappLink } from './whatsappLink'
 
 export default function WhatsAppButton() {
-  const { t, i18n } = useTranslation(['common', 'home'])
+  const { i18n } = useTranslation(['common', 'home'])
   const isHindi = i18n?.language === 'hi'
   const [showTooltip, setShowTooltip] = useState(true)
 
-  // Hospital WhatsApp Official Business Link
-  const whatsappUrl = 'https://wa.me/message/MBM4KWAXXZWFM1'
+  // Hospital WhatsApp; the opening message is set on click from the page being viewed
+  const whatsappUrl = whatsappLink()
+  const withPageMessage = (e) => {
+    e.currentTarget.href = whatsappLink(pageMessage(isHindi))
+  }
 
   // Automatically minimize tooltip after 8 seconds on initial visit, but hover brings it back
   useEffect(() => {
@@ -41,6 +45,7 @@ export default function WhatsAppButton() {
           </span>
           <a
             href={whatsappUrl}
+            onClick={withPageMessage}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs font-bold text-slate-800 hover:text-emerald-600 transition-colors mt-0.5 leading-snug"
@@ -63,6 +68,7 @@ export default function WhatsAppButton() {
       {/* Main Floating WhatsApp Action Button */}
       <a
         href={whatsappUrl}
+        onClick={withPageMessage}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp with Ejaz Hospital"

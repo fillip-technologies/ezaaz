@@ -79,9 +79,16 @@ export default function LeavesView({ path }) {
     if (!window.confirm('Remove this leave entry? Its slots become bookable again.')) return
     setBusyId(leave._id)
     try {
-      await adminLeavesApi.remove(leave._id)
+      const { whatsappedPatients = 0 } = (await adminLeavesApi.remove(leave._id)) || {}
       setLeaves((list) => list.filter((l) => l._id !== leave._id))
-      setStatus({ type: 'success', message: 'Leave removed. Those slots are bookable again.' })
+      setStatus({
+        type: 'success',
+        message: `Leave removed. Those slots are bookable again.${
+          whatsappedPatients
+            ? ` ${whatsappedPatients} patient${whatsappedPatients === 1 ? ' was' : 's were'} told on WhatsApp that their appointment is going ahead.`
+            : ''
+        }`,
+      })
     } catch (err) {
       setStatus({ type: 'error', message: err.message })
     } finally {

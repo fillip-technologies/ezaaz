@@ -2,13 +2,14 @@
  * Single HTTP client used by every API module in this folder.
  * In development (`npm run dev`), we always use `/api` relative URL so requests
  * go through the Vite proxy. This avoids browser CORS errors when connecting to the backend.
- * In production (`npm run build`), VITE_API_URL is used directly if specified.
+ * In production (`npm run build`), VITE_API_URL is used directly (defaults to hosted backend).
  */
 
+const HOSTED_API_URL = 'https://apiezazclinic.fillipsoftware.com/api'
 const rawEnvUrl = (import.meta.env.VITE_API_URL || '').trim()
 const isDev = import.meta.env.DEV
 
-const BASE_URL = (isDev ? '/api' : (rawEnvUrl || '/api')).replace(/\/+$/, '')
+const BASE_URL = (isDev ? '/api' : (rawEnvUrl || HOSTED_API_URL)).replace(/\/+$/, '')
 const TOKEN_KEY = 'ejaz_admin_token'
 
 // In dev, uploaded assets like /uploads/... are proxied by Vite (so ASSET_ORIGIN is empty).
@@ -17,7 +18,7 @@ const ASSET_ORIGIN = isDev
   ? ''
   : /^https?:\/\//.test(BASE_URL)
     ? new URL(BASE_URL).origin
-    : ''
+    : new URL(HOSTED_API_URL).origin
 
 // Turns a stored upload path like /uploads/doctors/x.jpg into a URL the browser can load
 export function assetUrl(path) {
@@ -110,4 +111,27 @@ export const http = {
   post: (path, body, options) => request(path, { ...options, method: 'POST', body }),
   patch: (path, body, options) => request(path, { ...options, method: 'PATCH', body }),
   delete: (path, options) => request(path, { ...options, method: 'DELETE' }),
+}
+
+// Absolute URL of an API path (for streams that can't go through `request`)
+export const apiUrl = (path, params) => buildUrl(path, params)
+
+// Signed-in file download (private report / WhatsApp media): returns a Blob, so it can be shown via URL.createObjectURL
+export async function requestBlob(path, params) {
+  const token = tokenStore.get()
+  let response
+  try {
+    response = await fetch(buildUrl(path, params), { headers: token ? { Authorization: `Bearer ${token}` } : {} })
+  } catch {
+    throw new ApiError('Unable to reach the server. Check your connection and try again.', 0)
+  }
+  if (!response.ok) {
+    const json = await response.json().catch(() => null)
+    if (response.status === 401 && token) {
+      tokenStore.clear()
+      window.dispatchEvent(new Event(UNAUTHORIZED_EVENT))
+    }
+    throw new ApiError(json?.message || `Request failed (${response.status})`, response.status)
+  }
+  return response.blob()
 }

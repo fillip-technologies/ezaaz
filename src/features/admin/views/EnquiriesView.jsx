@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Building2, Calendar, FileText, Mail, Phone, Search, Stethoscope, Trash2 } from 'lucide-react'
-import { adminEnquiriesApi } from '../../../api'
+import { Building2, Calendar, FileText, Mail, MessageCircle, Phone, Search, Stethoscope, Trash2 } from 'lucide-react'
+import { adminEnquiriesApi, adminInboxApi } from '../../../api'
 import AdminLayout from '../components/AdminLayout'
 import { Alert, Button, Field, Modal, Spinner } from '../components/ui'
+import { chatPath, navigate } from '../navigation'
 
 const ENQUIRY_STATUS = {
   new: { label: 'New', className: 'bg-amber-100 text-amber-800' },
@@ -357,6 +358,18 @@ export default function EnquiriesView({ path }) {
                 <a href={`tel:${open.phone.replace(/[\s-]/g, '')}`} className="font-medium text-[#0091da] hover:underline">
                   {open.phone}
                 </a>
+                <button
+                  type="button"
+                  onClick={() =>
+                    adminInboxApi
+                      .start({ phone: open.phone, name: open.fullName })
+                      .then((c) => navigate(chatPath(c._id)))
+                      .catch((err) => setModalError(err.message))
+                  }
+                  className="ml-3 inline-flex items-center gap-1 rounded-full bg-[#00a884] px-2.5 py-0.5 text-xs font-semibold text-white hover:bg-[#008069]"
+                >
+                  <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" /> Reply on WhatsApp
+                </button>
               </Detail>
               {open.email && (
                 <Detail icon={Mail} label="Email">

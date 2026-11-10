@@ -1,4 +1,5 @@
 import { http } from './client'
+import i18n from '../i18n/i18n'
 
 const qs = (params) =>
   new URLSearchParams(Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== '')).toString()
@@ -9,7 +10,8 @@ export const appointmentsApi = {
   days: (doctor) => http.get(`/appointments/days?${qs({ doctor })}`, { auth: false }).then((res) => res.data),
   // { bookable, capacity, status, slots: [{ time, remaining }] }
   slots: (doctor, date) => http.get(`/appointments/slots?${qs({ doctor, date })}`, { auth: false }).then((res) => res.data),
-  book: (data) => http.post('/appointments', data, { auth: false }).then((res) => res.data),
+  // The site language picks the English or Hindi WhatsApp messages for this booking
+  book: (data) => http.post('/appointments', { language: i18n.language === 'hi' ? 'hi' : 'en', ...data }, { auth: false }).then((res) => res.data),
 }
 
 // Admin panel: bookings (doctor = id)
@@ -24,7 +26,8 @@ export const adminAppointmentsApi = {
 export const adminLeavesApi = {
   list: () => http.get('/admin/leaves').then((res) => res.data),
   create: (data) => http.post('/admin/leaves', data).then((res) => res.data),
-  remove: (id) => http.delete(`/admin/leaves/${id}`),
+  // Returns { affectedBookings, whatsappedPatients } (patients told their booking is back on)
+  remove: (id) => http.delete(`/admin/leaves/${id}`).then((res) => res.data),
 }
 
 // Admin panel: reusable schedules assigned to many doctors at once

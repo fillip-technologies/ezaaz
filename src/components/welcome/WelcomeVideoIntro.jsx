@@ -2,12 +2,13 @@ import { useState, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ArrowRight, Volume2, VolumeX } from 'lucide-react'
 import logoImg from '../../assets/Logo_white_text.png'
-import ejazVideo from '../../assets/intro-videos.mp4'
+import { useSiteVideo } from '../../features/site/useSiteSettings'
 
 export default function WelcomeVideoIntro() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
+  const videoSrc = useSiteVideo('intro')
 
   const containerRef = useRef(null)
   const videoRef = useRef(null)
@@ -111,7 +112,7 @@ export default function WelcomeVideoIntro() {
       {/* Background Full Video - Crystal Clear & Fully Visible */}
       <video
         ref={videoRef}
-        src={ejazVideo}
+        src={videoSrc || undefined}
         autoPlay
         muted
         loop

@@ -94,8 +94,8 @@ export default function RadiologyProcessSection() {
       num: '04',
       titleEn: 'Receive Your Report',
       titleHi: 'अपनी रिपोर्ट प्राप्त करें',
-      descEn: 'Get accurate and timely reports from our experts.',
-      descHi: 'हमारे वरिष्ठ विशेषज्ञों से सटीक और समय पर रिपोर्ट प्राप्त करें।',
+      descEn: 'Expert-reviewed reports, sent to you on WhatsApp.',
+      descHi: 'विशेषज्ञों द्वारा जाँची गई रिपोर्ट, सीधे आपके WhatsApp पर।',
       icon: DiagnosticReportIcon,
       isPrimary: false
     }

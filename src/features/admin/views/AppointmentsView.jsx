@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { CalendarClock, Mail, Phone, Search, Stethoscope, User, X } from 'lucide-react'
-import { adminAppointmentsApi, adminDoctorsApi } from '../../../api'
+import { AlertTriangle, CalendarClock, CheckCircle2, FolderOpen, Mail, MessageCircle, Phone, Search, Stethoscope, User, X } from 'lucide-react'
+import { adminAppointmentsApi, adminDoctorsApi, adminInboxApi } from '../../../api'
 import AdminLayout from '../components/AdminLayout'
-import { Alert, Button, Field, Modal, Spinner } from '../components/ui'
+import { Alert, Button, Field, Link, Modal, Spinner } from '../components/ui'
+import { chatPath, navigate, patientPath } from '../navigation'
 import RescheduleForm from '../components/RescheduleForm'
 import {
   APPOINTMENT_STATUS,
@@ -42,6 +43,31 @@ export default function AppointmentsView({ path }) {
   const [draft, setDraft] = useState({ status: 'confirmed', adminNote: '', cancelReason: '', nextVisitDate: '' })
   const [saving, setSaving] = useState(false)
   const [modalError, setModalError] = useState('')
+  // Whether WhatsApp is connected, so messages here say what the patient will actually get
+  const [whatsappOn, setWhatsappOn] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    adminInboxApi
+      .summary()
+      .then((s) => !cancelled && setWhatsappOn(s.configured))
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  // What the patient is told: 'a WhatsApp and an email' / 'an email' / ''
+  const tells = (a) => [whatsappOn && 'a WhatsApp', a.email && 'an email'].filter(Boolean).join(' and ')
+
+  const openChat = async (a) => {
+    try {
+      const c = await adminInboxApi.start({ phone: a.phone, name: a.patientName })
+      navigate(chatPath(c._id))
+    } catch (err) {
+      setModalError(err.message)
+    }
+  }
 
   const range = useMemo(() => {
     const p = RANGE_PRESETS.find((r) => r.key === preset)
@@ -132,7 +158,7 @@ export default function AppointmentsView({ path }) {
   const onConfirmCancel = () =>
     save(
       { status: 'cancelled', cancelReason: draft.cancelReason.trim(), nextVisitDate: draft.nextVisitDate },
-      (u) => `${u.patientName}'s appointment was cancelled${u.email ? ' and they were emailed' : ''}. The slot is free again.`,
+      (u) => `${u.patientName}'s appointment was cancelled${tells(u) ? ` and they were sent ${tells(u)}` : ''}. The slot is free again.`,
     )
 
   const onRescheduled = (updated) => {
@@ -271,6 +297,16 @@ export default function AppointmentsView({ path }) {
                               {a.patientName}
                             </button>
                             <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${status.className}`}>{status.label}</span>
+                            {isActive(a) && a.changeRequestedAt && (
+                              <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+                                <AlertTriangle className="h-3 w-3" aria-hidden="true" /> Wants to change: call
+                              </span>
+                            )}
+                            {isActive(a) && !a.changeRequestedAt && a.patientConfirmedAt && (
+                              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                                <CheckCircle2 className="h-3 w-3" aria-hidden="true" /> Coming
+                              </span>
+                            )}
                           </div>
                           <p className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
                             <a href={`tel:${a.phone.replace(/[\s-]/g, '')}`} className="font-medium text-slate-700 hover:text-[#0091da]">
@@ -352,11 +388,11 @@ export default function AppointmentsView({ path }) {
               <>
                 <p className="text-slate-600">
                   The time slot becomes free for other patients.
-                  {open.email ? ` ${open.patientName} will get a cancellation email.` : ''}
+                  {tells(open) ? ` ${open.patientName} will get ${tells(open)} about it.` : ''}
                 </p>
                 <Field
                   label="Reason (optional)"
-                  hint={open.email ? 'Included in the email to the patient' : 'Kept with the appointment'}
+                  hint={tells(open) ? 'Included in the message to the patient' : 'Kept with the appointment'}
                   maxLength={300}
                   value={draft.cancelReason}
                   onChange={(e) => setDraft((d) => ({ ...d, cancelReason: e.target.value }))}
@@ -366,7 +402,7 @@ export default function AppointmentsView({ path }) {
                   label="Next visit date (optional)"
                   type="date"
                   min={today}
-                  hint={open.email ? 'The email tells the patient to come on this day' : 'Kept with the appointment'}
+                  hint={tells(open) ? 'The message tells the patient to come on this day (and WhatsApp reminds them the day before)' : 'Kept with the appointment'}
                   value={draft.nextVisitDate}
                   onChange={(e) => setDraft((d) => ({ ...d, nextVisitDate: e.target.value }))}
                 />
@@ -390,6 +426,28 @@ export default function AppointmentsView({ path }) {
                     <span className="break-all">{open.email || '—'}</span>
                   </Detail>
                 </dl>
+                <div className="flex flex-wrap gap-2">
+                  <a href={`tel:${open.phone.replace(/[\s-]/g, '')}`}>
+                    <Button variant="secondary" size="sm">
+                      <Phone className="h-4 w-4" aria-hidden="true" /> Call
+                    </Button>
+                  </a>
+                  <Button variant="secondary" size="sm" onClick={() => openChat(open)}>
+                    <MessageCircle className="h-4 w-4 text-[#00a884]" aria-hidden="true" /> WhatsApp chat
+                  </Button>
+                  {open.patient && (
+                    <Link to={patientPath(open.patient)}>
+                      <Button variant="secondary" size="sm">
+                        <FolderOpen className="h-4 w-4" aria-hidden="true" /> Patient record
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+                {open.changeRequestedAt && open.status === 'confirmed' && (
+                  <p className="rounded-lg bg-amber-50 px-3 py-2 text-amber-800">
+                    The patient tapped <strong>Need to change</strong> on the reminder. Call them, then use Postpone to send the new time.
+                  </p>
+                )}
                 <div>
                   <p className="mb-1 font-medium text-slate-700">Symptoms / reason</p>
                   <p className="whitespace-pre-wrap rounded-lg bg-slate-50 px-3.5 py-2.5 text-slate-700">{open.notes || '—'}</p>
@@ -401,11 +459,17 @@ export default function AppointmentsView({ path }) {
                 </div>
                 <Field as="select" label="Status" value={draft.status} onChange={(e) => setDraft((d) => ({ ...d, status: e.target.value }))}
                   hint={
-                    draft.status === 'confirmed' && open.status !== 'confirmed' && open.email
-                      ? 'The patient will get a confirmation email'
-                      : draft.status === 'cancelled' && open.status !== 'cancelled'
-                        ? 'Frees the slot' + (open.email ? ' and emails the patient' : '')
-                        : undefined
+                    draft.status === open.status
+                      ? undefined
+                      : draft.status === 'confirmed' && tells(open)
+                        ? `The patient will get ${tells(open)} confirming it`
+                        : draft.status === 'cancelled'
+                          ? 'Frees the slot' + (tells(open) ? ` and sends the patient ${tells(open)}` : '')
+                          : draft.status === 'no_show' && whatsappOn
+                            ? 'The patient gets a WhatsApp inviting them to book again'
+                            : draft.status === 'completed' && whatsappOn
+                              ? 'The patient gets a thank-you WhatsApp'
+                              : undefined
                   }
                 >
                   {Object.entries(APPOINTMENT_STATUS).map(([key, { label }]) => (

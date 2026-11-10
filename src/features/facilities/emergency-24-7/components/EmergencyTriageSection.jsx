@@ -8,8 +8,10 @@ import {
   Send,
   ShieldCheck,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  MapPin
 } from 'lucide-react'
+import { whatsappLink } from '../../../../components/layout/whatsappLink'
 
 export default function EmergencyTriageSection() {
   const { i18n } = useTranslation()
@@ -164,6 +166,20 @@ export default function EmergencyTriageSection() {
                 className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#ea580c] hover:bg-[#c2410c] text-white font-bold text-xs sm:text-sm text-center transition-all cursor-pointer shadow-md shrink-0"
               >
                 {isHindi ? 'कॉल करें: +91 6203 770 070' : 'Call: +91 6203 770 070'}
+              </a>
+              {/* After calling: share the pickup location so the ambulance finds you */}
+              <a
+                href={whatsappLink(
+                  isHindi
+                    ? 'इमरजेंसी: एम्बुलेंस के लिए मैं अपनी लोकेशन भेज रहा/रही हूँ।'
+                    : 'Emergency: I am sending my location for the ambulance.',
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-5 py-3 rounded-xl bg-[#25d366] hover:bg-[#1ebe5b] text-white font-bold text-xs sm:text-sm text-center transition-all cursor-pointer shadow-md shrink-0 flex items-center justify-center gap-2"
+              >
+                <MapPin className="w-4 h-4" aria-hidden="true" />
+                {isHindi ? 'WhatsApp पर लोकेशन भेजें' : 'Send location on WhatsApp'}
               </a>
             </div>
           </div>

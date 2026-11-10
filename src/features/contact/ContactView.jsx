@@ -22,6 +22,7 @@ import contactHeroBg from '../../assets/contact-page-1.png'
 import { useDoctors, toDoctorCard } from '../doctors/useDoctors'
 import { contactApi } from '../../api'
 import { useDepartments } from './useDepartments'
+import WhatsAppConsentNote from '../../components/layout/WhatsAppConsentNote'
 
 const EMPTY_FORM = {
   fullName: '',
@@ -444,6 +445,7 @@ export default function ContactView() {
                             }`}
                         />
                       </div>
+                      <WhatsAppConsentNote isHindi={isHindi} />
                       {formErrors.phone && (
                         <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1">
                           <AlertCircle className="w-3 h-3" />
