@@ -335,7 +335,7 @@ function ReportModal({ open, onClose, patientId, visits, onSaved }) {
         <Alert>{error}</Alert>
         <label className="block rounded-lg border-2 border-dashed border-slate-300 p-5 text-center text-sm text-slate-600 hover:border-[#0091da]">
           <FileText className="mx-auto mb-2 h-6 w-6 text-slate-400" aria-hidden="true" />
-          {file ? file.name : 'Choose the report (PDF, JPG or PNG, up to 15 MB)'}
+          {file ? file.name : 'Choose the report (PDF, JPG or PNG, up to 10 MB)'}
           <input
             type="file"
             accept="application/pdf,image/jpeg,image/png"

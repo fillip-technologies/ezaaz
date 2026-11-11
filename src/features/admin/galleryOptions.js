@@ -1,5 +1,5 @@
 // Must match the backend (server/src/modules/gallery)
-export const PHOTO_MAX_MB = 15
+export const PHOTO_MAX_MB = 10
 export const PHOTOS_PER_UPLOAD = 20
 // Photos are sent in requests of at most this size, so a proxy's body limit isn't hit
 export const UPLOAD_BATCH_MB = 20

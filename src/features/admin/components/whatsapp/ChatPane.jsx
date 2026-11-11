@@ -6,7 +6,7 @@ import MessageBubble from './MessageBubble'
 import { Avatar } from './ConversationList'
 import { CHAT_BACKGROUND, WA, chatName, dayLabel, formatPhone, telHref, windowLeft } from './format'
 
-const MAX_FILE_MB = 15
+const MAX_FILE_MB = 10
 
 function Composer({ detail, onSent, onOpenTemplate, onSendReport }) {
   const { conversation, reports } = detail

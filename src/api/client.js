@@ -20,9 +20,14 @@ const ASSET_ORIGIN = isDev
     ? new URL(BASE_URL).origin
     : new URL(HOSTED_API_URL).origin
 
+// Optional free CDN in front of Cloudinary's public photos and videos (a Cloudflare Worker, see server/CDN_SETUP.md)
+const MEDIA_CDN_URL = (import.meta.env.VITE_MEDIA_CDN_URL || '').trim().replace(/\/+$/, '')
+const CLOUDINARY_PUBLIC = /^https:\/\/res\.cloudinary\.com\/[^/]+\/((?:image|video)\/upload\/)/
+
 // Turns a stored upload path like /uploads/doctors/x.jpg into a URL the browser can load
 export function assetUrl(path) {
   if (!path) return ''
+  if (MEDIA_CDN_URL && CLOUDINARY_PUBLIC.test(path)) return path.replace(CLOUDINARY_PUBLIC, `${MEDIA_CDN_URL}/$1`)
   if (/^(https?:|data:|blob:)/.test(path)) return path
   return `${ASSET_ORIGIN}${path}`
 }
