@@ -24,6 +24,7 @@ import SlotPlansView from './views/SlotPlansView'
 import SlotPlanFormView from './views/SlotPlanFormView'
 import SiteVideosView from './views/SiteVideosView'
 import HomeStatsView from './views/HomeStatsView'
+import PageBannersView from './views/PageBannersView'
 import WhatsAppInboxView from './views/WhatsAppInboxView'
 import PatientsView from './views/PatientsView'
 import PatientDetailView from './views/PatientDetailView'
@@ -55,6 +56,7 @@ const PRIVATE_VIEWS = {
   [ADMIN_PATHS.departments]: DepartmentsView,
   [ADMIN_PATHS.siteVideos]: SiteVideosView,
   [ADMIN_PATHS.homeStats]: HomeStatsView,
+  [ADMIN_PATHS.pageBanners]: PageBannersView,
   [ADMIN_PATHS.account]: AccountView,
 }
 

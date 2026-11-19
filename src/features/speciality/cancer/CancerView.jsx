@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import cancerHeroImg from '../../../assets/speciality/cancer-hero.png'
 
 export default function CancerView() {
   const cancerHighlights = [
@@ -45,7 +44,7 @@ export default function CancerView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section */}
       <SpecialtyHero
-        image={cancerHeroImg}
+        pageKey="cancer"
         titlePrefixEn="Cancer"
         titleHighlightEn="Surgery"
         titlePrefixHi="कैंसर"

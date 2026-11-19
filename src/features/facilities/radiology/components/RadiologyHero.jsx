@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import radiologyHeroBg from '../../../../assets/radiology/radiology.png'
+import BannerImage from '../../../site/BannerImage'
 
 export default function RadiologyHero({
   titlePrefixEn = 'Radiology &',
@@ -17,8 +17,8 @@ export default function RadiologyHero({
       {/* Compact Banner matching standard hospital page hero design */}
       <div className="relative w-full h-[200px] sm:h-[250px] md:h-[290px] lg:h-[330px] xl:h-[350px] overflow-hidden">
         {/* Actual Image - crisp, unshaded and clear */}
-        <img
-          src={radiologyHeroBg}
+        <BannerImage
+          pageKey="radiology"
           alt={isHindi ? altTextHi : altTextEn}
           className="w-full h-full object-cover object-center block"
         />

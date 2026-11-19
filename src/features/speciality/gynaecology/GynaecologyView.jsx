@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import gynecologyHeroImg from '../../../assets/speciality/gyanelogy-hero.png'
 
 export default function GynaecologyView() {
   const gynaeHighlights = [
@@ -45,7 +44,7 @@ export default function GynaecologyView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section with gyanelogy-hero.png */}
       <SpecialtyHero
-        image={gynecologyHeroImg}
+        pageKey="gynaecology"
         titlePrefixEn="Gynaecology &"
         titleHighlightEn="Obstetrics"
         titlePrefixHi="स्त्री रोग एवं"

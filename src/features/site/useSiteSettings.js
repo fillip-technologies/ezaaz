@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { assetUrl, siteApi } from '../../api'
 import defaultIntroVideo from '../../assets/intro-videos.mp4'
 import defaultHeroVideo from '../../assets/home/ejaz-home.mp4'
+import { DEFAULT_PAGE_BANNERS } from './pageBanners'
 
 // Site settings managed in the admin panel: the welcome intro and home header videos
-// (/master/settings/videos) and the home header stats (/master/settings/home-stats).
+// (/master/settings/videos), the home header stats (/master/settings/home-stats) and the
+// inner pages' top banners (/master/settings/page-banners).
 // Fetched once per page load and shared by every component below.
 let settingsPromise = null
 
@@ -50,6 +52,15 @@ export function useSiteVideo(key) {
   if (settings === undefined) return ''
   const uploaded = settings?.[`${key}Video`]
   return uploaded ? assetUrl(uploaded) : DEFAULT_VIDEOS[key]
+}
+
+// Top banner image URL of page `key` (see pageBanners.js): the uploaded one, else the built-in image.
+// '' until the settings have loaded, for the same reason as useSiteVideo.
+export function usePageBanner(key) {
+  const settings = useSettings()
+  if (settings === undefined) return ''
+  const uploaded = settings?.pageBanners?.[key]
+  return uploaded ? assetUrl(uploaded) : DEFAULT_PAGE_BANNERS[key]
 }
 
 // Home header stats as [{ icon, value, label }] in the current language: the admin's list,

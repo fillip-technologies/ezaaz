@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import urologyHeroImg from '../../../assets/speciality/urology-hero.png'
 
 export default function UrologyView() {
   const urologyHighlights = [
@@ -45,7 +44,7 @@ export default function UrologyView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section with urology-hero.png */}
       <SpecialtyHero
-        image={urologyHeroImg}
+        pageKey="urology"
         titlePrefixEn="Advanced"
         titleHighlightEn="Urology & Kidney Care"
         titlePrefixHi="उन्नत"

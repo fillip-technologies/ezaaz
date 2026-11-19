@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import generalSurgeryHeroImg from '../../../assets/speciality/general-surgery.png'
 
 export default function GeneralSurgeryView() {
   const generalSurgeryHighlights = [
@@ -45,7 +44,7 @@ export default function GeneralSurgeryView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section */}
       <SpecialtyHero
-        image={generalSurgeryHeroImg}
+        pageKey="generalSurgery"
         titlePrefixEn="General"
         titleHighlightEn="Surgery"
         titlePrefixHi="सामान्य"

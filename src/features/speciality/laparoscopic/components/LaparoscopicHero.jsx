@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import laparoscopicBg from '../../../../assets/speciality/laproscopic/Laparoscopic-image-1.png'
+import BannerImage from '../../../site/BannerImage'
 
 export default function LaparoscopicHero() {
   const { i18n } = useTranslation()
@@ -10,8 +10,8 @@ export default function LaparoscopicHero() {
       {/* Compact Banner with decreased height and unshaded full image */}
       <div className="relative w-full h-[200px] sm:h-[250px] md:h-[290px] lg:h-[330px] xl:h-[350px] overflow-hidden">
         {/* Actual Image - 100% bright and unshaded */}
-        <img
-          src={laparoscopicBg}
+        <BannerImage
+          pageKey="laparoscopic"
           alt={isHindi ? 'लैप्रोस्कोपिक सर्जरी' : 'Laparoscopic Surgery'}
           className="w-full h-full object-cover object-center block"
         />

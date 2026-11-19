@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import gastroHeroImg from '../../../assets/speciality/Gastroenterolory-hero.png'
 
 export default function GastrointestinalView() {
   const gastroHighlights = [
@@ -45,7 +44,7 @@ export default function GastrointestinalView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section */}
       <SpecialtyHero
-        image={gastroHeroImg}
+        pageKey="gastrointestinal"
         titlePrefixEn="Gastrointestinal"
         titleHighlightEn="Surgery"
         titlePrefixHi="गैस्ट्रोइंटेस्टाइनल"

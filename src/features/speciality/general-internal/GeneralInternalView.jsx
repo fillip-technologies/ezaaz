@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import generalInternalHeroImg from '../../../assets/speciality/general-internal-hero.png'
 
 export default function GeneralInternalView() {
   const internalHighlights = [
@@ -45,7 +44,7 @@ export default function GeneralInternalView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section with general-internal-hero.png */}
       <SpecialtyHero
-        image={generalInternalHeroImg}
+        pageKey="generalInternal"
         titlePrefixEn="General"
         titleHighlightEn="Internal Medicine"
         titlePrefixHi="जनरल"

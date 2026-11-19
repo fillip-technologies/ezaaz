@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
-import appointmentHeroBg from '../../../../assets/appointment/appointment-hero.jpg'
+import BannerImage from '../../../site/BannerImage'
 import { SPECIALTY_TAGS } from '../../../doctors/specialtyTags'
 
 export default function BookAppointmentHero({
@@ -34,8 +34,8 @@ export default function BookAppointmentHero({
       {/* Banner matching user UI reference */}
       <div className="relative w-full h-[240px] sm:h-[280px] md:h-[310px] lg:h-[340px] overflow-hidden">
         {/* Actual Image Background */}
-        <img
-          src={appointmentHeroBg}
+        <BannerImage
+          pageKey="bookAppointment"
           alt={isHindi ? altTextHi : altTextEn}
           className="w-full h-full object-cover block"
           style={{ objectPosition: 'center 25%' }}

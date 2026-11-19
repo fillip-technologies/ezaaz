@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import herniaHeroImg from '../../../assets/speciality/hernia-hero.png'
 
 export default function HerniaView() {
   const herniaHighlights = [
@@ -45,7 +44,7 @@ export default function HerniaView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section */}
       <SpecialtyHero
-        image={herniaHeroImg}
+        pageKey="hernia"
         titlePrefixEn="Hernia"
         titleHighlightEn="Surgery"
         titlePrefixHi="हर्निया"

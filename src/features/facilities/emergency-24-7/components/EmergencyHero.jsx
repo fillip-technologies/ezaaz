@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import ambulanceHeroBg from '../../../../assets/emergency.png'
+import BannerImage from '../../../site/BannerImage'
 
 export default function EmergencyHero({
   titlePrefixEn = '24×7 Emergency &',
@@ -17,8 +17,8 @@ export default function EmergencyHero({
       {/* Compact Banner with matching standard height across all hospital pages */}
       <div className="relative w-full h-[200px] sm:h-[250px] md:h-[290px] lg:h-[330px] xl:h-[350px] overflow-hidden">
         {/* Actual Image - ambulance-image.jpg with optimal object-position to show ambulance and call illustration */}
-        <img
-          src={ambulanceHeroBg}
+        <BannerImage
+          pageKey="emergency"
           alt={isHindi ? altTextHi : altTextEn}
           className="w-full h-full object-cover block"
           style={{ objectPosition: 'center 60%' }}

@@ -18,7 +18,7 @@ import {
   User,
   AlertCircle
 } from 'lucide-react'
-import contactHeroBg from '../../assets/contact-page-1.png'
+import BannerImage from '../site/BannerImage'
 import { useDoctors, toDoctorCard } from '../doctors/useDoctors'
 import { contactApi } from '../../api'
 import { useDepartments } from './useDepartments'
@@ -176,8 +176,8 @@ export default function ContactView() {
       {/* Compact Banner matching Laparoscopic & Specialty Hero */}
       <section className="relative w-full pt-20 sm:pt-22 bg-slate-950">
         <div className="relative w-full h-[200px] sm:h-[250px] md:h-[290px] lg:h-[330px] xl:h-[350px] overflow-hidden">
-          <img
-            src={contactHeroBg}
+          <BannerImage
+            pageKey="contact"
             alt={isHindi ? 'संपर्क करें - एजाज क्लिनिक' : 'Contact Us - Ejaz Clinic'}
             className="w-full h-full object-cover object-center block"
           />

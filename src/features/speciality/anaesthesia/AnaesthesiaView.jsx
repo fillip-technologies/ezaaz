@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import anaesthesiaHeroImg from '../../../assets/speciality/anethesia-hero.png'
 
 export default function AnaesthesiaView() {
   const anaesthesiaHighlights = [
@@ -45,7 +44,7 @@ export default function AnaesthesiaView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section */}
       <SpecialtyHero
-        image={anaesthesiaHeroImg}
+        pageKey="anaesthesia"
         titlePrefixEn="Anaesthesia &"
         titleHighlightEn="Critical Care"
         titlePrefixHi="एनेस्थीसिया एवं"
