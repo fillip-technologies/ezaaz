@@ -213,11 +213,10 @@ export default function EmergencyTriageSection() {
                     value={formData.patientName}
                     onChange={handleChange}
                     placeholder={isHindi ? 'मरीज का नाम दर्ज करें' : 'e.g. Rahul Verma'}
-                    className={`w-full px-3.5 py-2.5 bg-white border rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none transition-all ${
-                      formErrors.patientName
+                    className={`w-full px-3.5 py-2.5 bg-white border rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none transition-all ${formErrors.patientName
                         ? 'border-red-500 focus:ring-1 focus:ring-red-500'
                         : 'border-slate-300 focus:border-[#003a70] focus:ring-2 focus:ring-[#003a70]/10'
-                    }`}
+                      }`}
                   />
                   {formErrors.patientName && (
                     <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1">
@@ -237,11 +236,10 @@ export default function EmergencyTriageSection() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder={isHindi ? '10 अंकों का मोबाइल नंबर' : '10-digit mobile number'}
-                    className={`w-full px-3.5 py-2.5 bg-white border rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none transition-all ${
-                      formErrors.phone
+                    className={`w-full px-3.5 py-2.5 bg-white border rounded-xl text-slate-800 text-xs sm:text-sm focus:outline-none transition-all ${formErrors.phone
                         ? 'border-red-500 focus:ring-1 focus:ring-red-500'
                         : 'border-slate-300 focus:border-[#003a70] focus:ring-2 focus:ring-[#003a70]/10'
-                    }`}
+                      }`}
                   />
                   {formErrors.phone && (
                     <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1">

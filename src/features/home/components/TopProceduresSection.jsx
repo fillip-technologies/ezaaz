@@ -8,25 +8,34 @@ import {
   ArrowRight
 } from 'lucide-react'
 
-// Import facility photos from assets/home/procedures, Laboratory, Nursing, and assets
+// Import facility photos from assets/home/procedures, Laboratory, Nursing, and dumps-images
+import roboticSurgeryImg from '../../../assets/dumps-images/robotic-surgery.JPG'
+import inpatientWardImg from '../../../assets/Nursing/47.jpg'
 import emergencyImg from '../../../assets/home/procedures/emergency-image.png'
 import icuImg from '../../../assets/dumps-images/DSC00535.JPG'
 import radiologyImg from '../../../assets/home/procedures/radiology-image.png'
 import diagnosisImg from '../../../assets/Laboratory/27.png'
 import physiotherapyImg from '../../../assets/home/procedures/physioteraphy.jpg'
-import modularOtImg from '../../../assets/OT-PHOTOS/DSC00453.JPG'
-import generalWardImg from '../../../assets/dumps-images/DSC00476.JPG'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const FACILITY_IMAGES = {
+  'operation-theatres': roboticSurgeryImg,
+  'robotic-surgery': roboticSurgeryImg,
+  'general-ward': inpatientWardImg,
+  'inpatient-ward': inpatientWardImg,
   'emergency': emergencyImg,
   'icu': icuImg,
   'radiology': radiologyImg,
   'diagnosis': diagnosisImg,
-  'physiotherapy': physiotherapyImg,
-  'operation-theatres': modularOtImg,
-  'general-ward': generalWardImg
+  'physiotherapy': physiotherapyImg
+}
+
+const FACILITY_POSITIONS = {
+  'general-ward': 'object-[center_35%]',
+  'inpatient-ward': 'object-[center_35%]',
+  'operation-theatres': 'object-center',
+  'icu': 'object-center'
 }
 
 export default function TopProceduresSection() {
@@ -203,7 +212,7 @@ export default function TopProceduresSection() {
                       <img
                         src={imageSrc}
                         alt={fac.title}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                        className={`w-full h-full object-cover ${FACILITY_POSITIONS[fac.id] || 'object-center'} group-hover:scale-105 transition-transform duration-500 ease-out`}
                         loading="eager"
                         decoding="async"
                       />

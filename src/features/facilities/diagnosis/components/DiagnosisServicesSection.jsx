@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next'
 
-import bloodTestsImg from '../../../../assets/diagnosis/blood-tests.jpg'
-import urineTestsImg from '../../../../assets/diagnosis/urine-tests.jpg'
-import liverFunctionImg from '../../../../assets/diagnosis/liver-function.jpg'
-import kidneyFunctionImg from '../../../../assets/diagnosis/kidney-function.jpg'
-import hormoneTestsImg from '../../../../assets/diagnosis/hormone-tests.jpg'
-import infectionImmunityImg from '../../../../assets/diagnosis/infection-immunity.jpg'
-import cardiacMarkersImg from '../../../../assets/diagnosis/cardiac-markers.jpg'
-import wellnessTestsImg from '../../../../assets/diagnosis/wellness-tests.jpg'
+import bloodTestsImg from '../../../../assets/Laboratory/37.jpg'
+import urineTestsImg from '../../../../assets/Laboratory/35.jpg'
+import liverFunctionImg from '../../../../assets/Laboratory/34.jpg'
+import kidneyFunctionImg from '../../../../assets/Laboratory/33.jpg'
+import hormoneTestsImg from '../../../../assets/Laboratory/27.png'
+import infectionImmunityImg from '../../../../assets/Laboratory/36.jpg'
+import cardiacMarkersImg from '../../../../assets/Laboratory/cardiac-markers.jpg'
+import wellnessTestsImg from '../../../../assets/Nursing/14.jpg'
 
 export default function DiagnosisServicesSection() {
   const { i18n } = useTranslation()
@@ -20,7 +20,8 @@ export default function DiagnosisServicesSection() {
       titleHi: 'रक्त परीक्षण (Blood Tests)',
       descEn: 'Complete blood count, sugar levels, thyroid, lipid profile and more.',
       descHi: 'कम्प्लीट ब्लड काउंट (CBC), शुगर लेवल, थायरॉइड, लिपिड प्रोफाइल एवं अन्य परीक्षण।',
-      image: bloodTestsImg
+      image: bloodTestsImg,
+      position: 'center 20%'
     },
     {
       id: 'urine-tests',
@@ -28,7 +29,8 @@ export default function DiagnosisServicesSection() {
       titleHi: 'मूत्र परीक्षण (Urine Tests)',
       descEn: 'Routine and specialized urine analysis for various conditions.',
       descHi: 'विभिन्न स्वास्थ्य स्थितियों और संक्रमणों के लिए नियमित व विशिष्ट मूत्र विश्लेषण।',
-      image: urineTestsImg
+      image: urineTestsImg,
+      position: 'center 35%'
     },
     {
       id: 'liver-function',
@@ -36,7 +38,8 @@ export default function DiagnosisServicesSection() {
       titleHi: 'लिवर फंक्शन टेस्ट (LFT)',
       descEn: 'Assess liver health and detect related disorders.',
       descHi: 'लिवर स्वास्थ्य का सटीक मूल्यांकन और संबंधित विकारों की समय पर पहचान।',
-      image: liverFunctionImg
+      image: liverFunctionImg,
+      position: 'center 25%'
     },
     {
       id: 'kidney-function',
@@ -44,7 +47,8 @@ export default function DiagnosisServicesSection() {
       titleHi: 'किडनी फंक्शन टेस्ट (KFT)',
       descEn: 'Evaluate kidney health and monitor function.',
       descHi: 'गुर्दे के स्वास्थ्य का मूल्यांकन और निरंतर कार्यप्रणाली की निगरानी।',
-      image: kidneyFunctionImg
+      image: kidneyFunctionImg,
+      position: 'center 25%'
     },
     {
       id: 'hormone-tests',
@@ -52,7 +56,8 @@ export default function DiagnosisServicesSection() {
       titleHi: 'हार्मोन परीक्षण (Hormone Tests)',
       descEn: 'Thyroid, diabetes, fertility and other hormone-related tests.',
       descHi: 'थायरॉइड, मधुमेह, प्रजनन क्षमता और अन्य अंतःस्रावी हार्मोन जांच।',
-      image: hormoneTestsImg
+      image: hormoneTestsImg,
+      position: 'center 20%'
     },
     {
       id: 'infection-immunity',
@@ -60,7 +65,8 @@ export default function DiagnosisServicesSection() {
       titleHi: 'संक्रमण एवं प्रतिरक्षा परीक्षण',
       descEn: 'Detect infections and assess immune health.',
       descHi: 'वायरल व बैक्टीरियल संक्रमणों की पहचान और रोग-प्रतिरोधक क्षमता का आकलन।',
-      image: infectionImmunityImg
+      image: infectionImmunityImg,
+      position: 'center 25%'
     },
     {
       id: 'cardiac-markers',
@@ -68,7 +74,8 @@ export default function DiagnosisServicesSection() {
       titleHi: 'कार्डियक मार्कर्स (Cardiac Markers)',
       descEn: 'Specialized tests for heart health.',
       descHi: 'हृदय स्वास्थ्य और आपातकालीन हृदय जोखिमों के लिए विशेष डायग्नोस्टिक परीक्षण।',
-      image: cardiacMarkersImg
+      image: cardiacMarkersImg,
+      position: 'center center'
     },
     {
       id: 'wellness-tests',
@@ -76,7 +83,8 @@ export default function DiagnosisServicesSection() {
       titleHi: 'वेलनेस एवं प्रिवेंटिव हेल्थ टेस्ट',
       descEn: 'Comprehensive health packages for early detection and better prevention.',
       descHi: 'प्रारंभिक पहचान और बेहतर रोकथाम के लिए संपूर्ण स्वास्थ्य पैकेज।',
-      image: wellnessTestsImg
+      image: wellnessTestsImg,
+      position: 'center 20%'
     }
   ]
 
@@ -113,7 +121,8 @@ export default function DiagnosisServicesSection() {
                 <img
                   src={service.image}
                   alt={isHindi ? service.titleHi : service.titleEn}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 block"
+                  style={service.position ? { objectPosition: service.position } : undefined}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 block"
                   loading="lazy"
                 />
               </div>

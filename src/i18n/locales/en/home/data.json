@@ -277,6 +277,20 @@
     "callHelpline": "Call 24/7 Helpline",
     "items": [
       {
+        "id": "operation-theatres",
+        "title": "Modern AI Robotic Surgery Unit",
+        "category": "Advanced Surgical Suites",
+        "desc": "HEPA-filtered laminar airflow surgical suites equipped with cutting-edge AI robotic surgical systems and 4K laparoscopy.",
+        "href": "/speciality/robotic-surgery"
+      },
+      {
+        "id": "general-ward",
+        "title": "Inpatient Private & General Wards",
+        "category": "Comfortable Patient Care",
+        "desc": "Comfortable, hygienic private rooms and general inpatient wards supported by attentive nursing and round-the-clock medical care.",
+        "href": "/contact"
+      },
+      {
         "id": "emergency",
         "title": "Emergency & Critical Care",
         "category": "Immediate Trauma Response",
@@ -310,20 +324,6 @@
         "category": "Restorative Therapy",
         "desc": "Specialized post-op recovery programs, joint rehabilitation, and targeted musculoskeletal pain management.",
         "href": "/facilities/physiotherapy"
-      },
-      {
-        "id": "operation-theatres",
-        "title": "Modern Modular Operation Theatres",
-        "category": "Advanced Surgical Suites",
-        "desc": "HEPA-filtered laminar airflow surgical suites equipped with 4K laparoscopy and robotic assistance.",
-        "href": "#specialties"
-      },
-      {
-        "id": "general-ward",
-        "title": "Inpatient General & Private Wards",
-        "category": "Comfortable Patient Care",
-        "desc": "Comfortable, hygienic patient rooms and general wards supported by attentive nursing and round-the-clock medical care.",
-        "href": "/contact"
       }
     ]
   },

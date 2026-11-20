@@ -1,10 +1,9 @@
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { HeartPulse, ShieldCheck, Stethoscope, Activity, Zap, CheckCircle2 } from 'lucide-react'
+import { ShieldCheck, Activity } from 'lucide-react'
 
-import cardiacMicuImg from '../../../../assets/icu/cardiac-micu.jpg'
-import surgicalSicuImg from '../../../../assets/icu/surgical-sicu.jpg'
-import neuroTraumaImg from '../../../../assets/icu/neuro-trauma-icu.jpg'
+import surgicalSicuImg from '../../../../assets/dumps-images/DSC00786.JPG'
+import neuroTraumaImg from '../../../../assets/Nursing/46.jpg'
 
 // Dedicated Vertical Ribbon matching the reference design with solid deep navy & geometric pattern
 function VerticalRibbon({ title }) {
@@ -69,70 +68,20 @@ export default function IcuServicesSection() {
           </p>
         </div>
 
-        {/* 3 Stacked Horizontal Cards with Left Ribbon & Alternating Layout */}
+        {/* 2 Stacked Horizontal Cards with Left Ribbon & Alternating Layout */}
         <div className="space-y-6 sm:space-y-8 lg:space-y-10">
           
           {/* ======================================================== */}
-          {/* CARD 1: CARDIAC & MEDICAL ICU (MICU / ICCU)              */}
-          {/* ======================================================== */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-row items-stretch">
-            
-            {/* Left Vertical Ribbon */}
-            <VerticalRibbon title={isHindi ? 'कार्डियक एवं मेडिकल' : 'CARDIAC & MICU'} />
-
-            {/* Inner Content (Text on Left, Image on Right) */}
-            <div className="flex-1 flex flex-col md:flex-row items-center justify-between p-5 sm:p-7 md:p-10 lg:p-12 gap-6 md:gap-8 bg-white">
-              
-              {/* Text Area */}
-              <div className="flex-1 max-w-xl text-left">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-50 text-red-700 text-xs font-bold mb-3 border border-red-200/80">
-                  <HeartPulse className="w-3.5 h-3.5 text-red-600" />
-                  <span>{isHindi ? 'हृदय एवं मल्टी-ऑर्गन क्रिटिकल केयर' : 'Cardiac & Multi-Organ Critical Care'}</span>
-                </div>
-
-                <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-900 leading-snug mb-3">
-                  {isHindi
-                    ? 'उन्नत कार्डियक केयर एवं मेडिकल इंटेंसिव केयर यूनिट (MICU)'
-                    : 'Advanced Cardiac Care & Medical Intensive Care Unit (MICU)'}
-                </h3>
-                
-                <p className="text-xs sm:text-sm md:text-[15px] text-slate-600 leading-relaxed">
-                  {isHindi
-                    ? 'एक्यूट मायोकार्डियल इन्फार्कशन (हार्ट अटैक), कार्डियोजेनिक शॉक, गंभीर अतालता (Arrhythmias) और गंभीर मल्टी-ऑर्गन डिसफंक्शन के लिए समर्पित क्रिटिकल केयर। इसमें इनवेसिव आर्टेरियल लाइन मॉनिटरिंग, बेडसाइड 2D इकोकार्डियोग्राफी, और वरिष्ठ कार्डियोलॉजिस्टों की देखरेख में चौबीसों घंटे टेलीमेट्री शामिल है।'
-                    : 'Dedicated critical care for acute myocardial infarction, cardiogenic shock, complex arrhythmias, and severe multi-organ medical conditions. Features invasive arterial line monitoring, bedside echocardiography, and continuous telemetry overseen by expert cardiologists and intensivists.'}
-                </p>
-                
-                <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-bold text-[#003a70]">
-                  <span className="px-2.5 py-1 bg-slate-100 rounded-md">24×7 Continuous Telemetry</span>
-                  <span className="px-2.5 py-1 bg-slate-100 rounded-md">Invasive Hemodynamics</span>
-                  <span className="px-2.5 py-1 bg-slate-100 rounded-md">Bedside 2D Echo & ABG</span>
-                </div>
-              </div>
-
-              {/* Image Area */}
-              <div className="w-full md:w-[42%] lg:w-[45%] shrink-0 flex items-center justify-center">
-                <img
-                  src={cardiacMicuImg}
-                  alt={isHindi ? 'कार्डियक आईसीयू बेड एवं मॉनिटर' : 'Cardiac ICU and Hemodynamic Monitoring'}
-                  className="w-full h-52 sm:h-64 md:h-72 lg:h-80 object-cover rounded-xl sm:rounded-2xl shadow-sm border border-slate-100 block"
-                  loading="lazy"
-                />
-              </div>
-
-            </div>
-          </div>
-
-          {/* ======================================================== */}
-          {/* CARD 2: SURGICAL INTENSIVE CARE UNIT (SICU)              */}
-          {/* (Alternating: Image on Left, Text on Right)               */}
+          {/* CARD 1: SURGICAL INTENSIVE CARE UNIT (SICU)              */}
+          {/* (Text on Left, Image on Right)                           */}
           {/* ======================================================== */}
           <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-row items-stretch">
             
             {/* Left Vertical Ribbon */}
             <VerticalRibbon title={isHindi ? 'सर्जिकल आईसीयू' : 'SURGICAL SICU'} />
 
-            {/* Inner Content (Image on Left, Text on Right) */}
-            <div className="flex-1 flex flex-col md:flex-row-reverse items-center justify-between p-5 sm:p-7 md:p-10 lg:p-12 gap-6 md:gap-8 bg-white">
+            {/* Inner Content (Text on Left, Image on Right) */}
+            <div className="flex-1 flex flex-col md:flex-row items-center justify-between p-5 sm:p-7 md:p-10 lg:p-12 gap-6 md:gap-8 bg-white">
               
               {/* Text Area */}
               <div className="flex-1 max-w-xl text-left">
@@ -165,7 +114,7 @@ export default function IcuServicesSection() {
                 <img
                   src={surgicalSicuImg}
                   alt={isHindi ? 'सर्जिकल आईसीयू रिकवरी यूनिट' : 'Surgical Intensive Care Unit Recovery'}
-                  className="w-full h-52 sm:h-64 md:h-72 lg:h-80 object-cover rounded-xl sm:rounded-2xl shadow-sm border border-slate-100 block"
+                  className="w-full h-52 sm:h-64 md:h-72 lg:h-80 object-cover object-center rounded-xl sm:rounded-2xl shadow-sm border border-slate-100 block"
                   loading="lazy"
                 />
               </div>
@@ -174,16 +123,16 @@ export default function IcuServicesSection() {
           </div>
 
           {/* ======================================================== */}
-          {/* CARD 3: NEURO-TRAUMA, STROKE & RESUSCITATION CARE        */}
-          {/* (Text on Left, Image on Right)                           */}
+          {/* CARD 2: NEURO-TRAUMA, STROKE & RESUSCITATION CARE        */}
+          {/* (Alternating: Image on Left, Text on Right)               */}
           {/* ======================================================== */}
           <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-row items-stretch">
             
             {/* Left Vertical Ribbon */}
             <VerticalRibbon title={isHindi ? 'न्यूरो एवं ट्रॉमा' : 'NEURO & TRAUMA'} />
 
-            {/* Inner Content (Text on Left, Image on Right) */}
-            <div className="flex-1 flex flex-col md:flex-row items-center justify-between p-5 sm:p-7 md:p-10 lg:p-12 gap-6 md:gap-8 bg-white">
+            {/* Inner Content (Image on Left, Text on Right) */}
+            <div className="flex-1 flex flex-col md:flex-row-reverse items-center justify-between p-5 sm:p-7 md:p-10 lg:p-12 gap-6 md:gap-8 bg-white">
               
               {/* Text Area */}
               <div className="flex-1 max-w-xl text-left">
@@ -216,7 +165,7 @@ export default function IcuServicesSection() {
                 <img
                   src={neuroTraumaImg}
                   alt={isHindi ? 'न्यूरो-ट्रॉमा एवं स्ट्रोक केयर' : 'Neuro-Trauma and Stroke Care Unit'}
-                  className="w-full h-52 sm:h-64 md:h-72 lg:h-80 object-cover rounded-xl sm:rounded-2xl shadow-sm border border-slate-100 block"
+                  className="w-full h-52 sm:h-64 md:h-72 lg:h-80 object-cover object-[center_20%] rounded-xl sm:rounded-2xl shadow-sm border border-slate-100 block"
                   loading="lazy"
                 />
               </div>

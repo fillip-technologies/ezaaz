@@ -2,8 +2,7 @@ import SpecialtyHero from '../common/SpecialtyHero'
 import PhysiotherapyAboutSection from './components/PhysiotherapyAboutSection'
 import PhysiotherapyTypesSection from './components/PhysiotherapyTypesSection'
 import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
-import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
-import TestimonialsSection from '../../home/components/TestimonialsSection'
+import PhysiotherapyRehabProcessSection from './components/PhysiotherapyRehabProcessSection'
 
 
 export default function PhysiotherapyView() {
@@ -68,18 +67,8 @@ export default function PhysiotherapyView() {
         highlights={physioHighlights}
       />
 
-      {/* Advanced Technology & Equipment We Use (Machines 1 to 4) */}
-      <SpecialtyEquipmentSection
-        titlePrefixEn="Modern Physical Therapy &"
-        titleHighlightEn="Equipment We Use"
-        titlePrefixHi="आधुनिक फिजिकल थेरेपी एवं"
-        titleHighlightHi="उपकरण"
-        descEn="At Ejaz Clinic, our physiotherapy and rehabilitation center is equipped with computer-controlled traction units, dual-monitor diagnostic displays, and advanced electrotherapy platforms."
-        descHi="एजाज क्लिनिक में, हमारा फिजियोथेरेपी और पुनर्वास केंद्र कंप्यूटर-नियंत्रित ट्रैक्शन यूनिट, डुअल-मॉनिटर डायग्नोस्टिक डिस्प्ले और उन्नत इलेक्ट्रोथेरेपी प्लेटफॉर्म से सुसज्जित है।"
-      />
-
-      {/* Real Patient Recovery Stories & Testimonials */}
-      <TestimonialsSection />
+      {/* Physiotherapy Rehabilitation Process & Patient Care Approach (Content Only) */}
+      <PhysiotherapyRehabProcessSection />
     </div>
   )
 }
