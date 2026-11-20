@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import doctorsHeroImg from '../../../assets/doctors/doctors-hero.jpg'
+import BannerImage from '../../site/BannerImage'
 
 export default function DoctorsHero() {
   const { i18n } = useTranslation()
@@ -10,8 +10,8 @@ export default function DoctorsHero() {
       {/* Compact Banner with decreased height matching specialty pages */}
       <div className="relative w-full h-[200px] sm:h-[250px] md:h-[290px] lg:h-[330px] xl:h-[350px] overflow-hidden">
         {/* Actual Image - 100% bright with object-position shifted down to show full heads */}
-        <img
-          src={doctorsHeroImg}
+        <BannerImage
+          pageKey="doctors"
           alt={isHindi ? "हमारे विशेषज्ञ डॉक्टर्स - एजाज क्लिनिक" : "Meet Our Doctors - Ejaz Clinic"}
           className="w-full h-full object-cover block"
           style={{ objectPosition: 'center 20%' }}

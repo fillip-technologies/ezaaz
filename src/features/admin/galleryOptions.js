@@ -4,6 +4,8 @@ export const PHOTOS_PER_UPLOAD = 20
 // Photos are sent in requests of at most this size, so a proxy's body limit isn't hit
 export const UPLOAD_BATCH_MB = 20
 export const VIDEO_MAX_MB = 100
+// Must match PAGE_BANNER_MAX_MB in the backend (modules/site/site.routes.js)
+export const BANNER_MAX_MB = 5
 export const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp']
 export const VIDEO_TYPES = ['video/mp4', 'video/webm']
 

@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import orthopedicHeroImg from '../../../assets/speciality/orthopedic-hero.png'
 
 export default function OrthopedicsView() {
   const orthopedicsHighlights = [
@@ -45,7 +44,7 @@ export default function OrthopedicsView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section */}
       <SpecialtyHero
-        image={orthopedicHeroImg}
+        pageKey="orthopaedics"
         titlePrefixEn="Orthopaedics &"
         titleHighlightEn="Joint Care"
         titlePrefixHi="ऑर्थोपेडिक्स एवं"

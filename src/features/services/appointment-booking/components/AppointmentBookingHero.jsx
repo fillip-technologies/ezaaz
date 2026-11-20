@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { CheckCircle2, ShieldCheck, Clock, Calendar } from 'lucide-react'
-import appointmentHeroBg from '../../../../assets/appointment/appointment-hero.jpg'
+import BannerImage from '../../../site/BannerImage'
 
 export default function AppointmentBookingHero() {
   const { i18n } = useTranslation()
@@ -10,8 +10,8 @@ export default function AppointmentBookingHero() {
     <section className="relative w-full pt-20 sm:pt-22 bg-slate-950">
       <div className="relative w-full h-[220px] sm:h-[260px] md:h-[280px] lg:h-[300px] overflow-hidden">
         {/* Background Image */}
-        <img
-          src={appointmentHeroBg}
+        <BannerImage
+          pageKey="appointmentBooking"
           alt={isHindi ? 'अपॉइंटमेंट बुकिंग - एजाज हॉस्पिटल' : 'Appointment Booking - Ejaz Hospital'}
           className="w-full h-full object-cover block"
           style={{ objectPosition: 'center 25%' }}

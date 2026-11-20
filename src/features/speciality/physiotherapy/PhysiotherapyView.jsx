@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import physioHeroImg from '../../../assets/speciality/Physiotherapy-hero.png'
 
 export default function PhysiotherapyView() {
   const physioHighlights = [
@@ -45,7 +44,7 @@ export default function PhysiotherapyView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section */}
       <SpecialtyHero
-        image={physioHeroImg}
+        pageKey="physiotherapy"
         titlePrefixEn="Physiotherapy &"
         titleHighlightEn="Rehabilitation"
         titlePrefixHi="फिजियोथेरेपी एवं"

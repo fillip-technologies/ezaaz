@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import aboutHeroBg from '../../../assets/about/about.png'
+import BannerImage from '../../site/BannerImage'
 
 export default function AboutHero() {
   const { i18n } = useTranslation(['common', 'home'])
@@ -10,8 +10,8 @@ export default function AboutHero() {
       {/* Compact Banner matching standard hospital page hero design */}
       <div className="relative w-full h-[200px] sm:h-[250px] md:h-[290px] lg:h-[330px] xl:h-[350px] overflow-hidden">
         {/* Actual Image - crisp, unshaded and clear */}
-        <img
-          src={aboutHeroBg}
+        <BannerImage
+          pageKey="about"
           alt={isHindi ? 'हमारे बारे में - एजाज क्लिनिक' : 'About Us - Ejaz Clinic'}
           className="w-full h-full object-cover object-center block"
         />

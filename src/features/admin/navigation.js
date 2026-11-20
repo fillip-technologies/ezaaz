@@ -24,6 +24,7 @@ export const ADMIN_PATHS = {
   newSlotPlan: '/master/settings/slot-plans/new',
   siteVideos: '/master/settings/videos',
   homeStats: '/master/settings/home-stats',
+  pageBanners: '/master/settings/page-banners',
   account: '/master/account',
 }
 

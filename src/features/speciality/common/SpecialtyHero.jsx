@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next'
+import BannerImage from '../../site/BannerImage'
 
+// `pageKey` = the page's key in site/pageBanners.js; the banner image is the admin's upload or the built-in one
 export default function SpecialtyHero({
-  image,
+  pageKey,
   titlePrefixEn = '',
   titleHighlightEn = '',
   titlePrefixHi = '',
@@ -17,8 +19,8 @@ export default function SpecialtyHero({
       {/* Compact Banner with decreased height and unshaded full image */}
       <div className="relative w-full h-[200px] sm:h-[250px] md:h-[290px] lg:h-[330px] xl:h-[350px] overflow-hidden">
         {/* Actual Image - 100% bright and unshaded */}
-        <img
-          src={image}
+        <BannerImage
+          pageKey={pageKey}
           alt={isHindi ? (altTextHi || titlePrefixHi) : (altTextEn || titlePrefixEn)}
           className="w-full h-full object-cover object-center block"
         />

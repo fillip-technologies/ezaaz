@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import diagnosisHeroBg from '../../../../assets/diagnosis/diagnosis.png'
+import BannerImage from '../../../site/BannerImage'
 
 export default function DiagnosisHero({
   titlePrefixEn = 'Diagnostic &',
@@ -17,8 +17,8 @@ export default function DiagnosisHero({
       {/* Compact Banner matching standard hospital page hero design */}
       <div className="relative w-full h-[200px] sm:h-[250px] md:h-[290px] lg:h-[330px] xl:h-[350px] overflow-hidden">
         {/* Actual Image - crisp, unshaded and clear */}
-        <img
-          src={diagnosisHeroBg}
+        <BannerImage
+          pageKey="diagnosis"
           alt={isHindi ? altTextHi : altTextEn}
           className="w-full h-full object-cover object-center block"
         />

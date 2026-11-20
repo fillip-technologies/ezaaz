@@ -5,7 +5,6 @@ import SpecialtyHighlightsSection from '../common/SpecialtyHighlightsSection'
 import SpecialtyEquipmentSection from '../common/SpecialtyEquipmentSection'
 import TestimonialsSection from '../../home/components/TestimonialsSection'
 
-import plasticSurgeryHeroImg from '../../../assets/speciality/plastic-surgery.png'
 
 export default function PlasticSurgeryView() {
   const plasticHighlights = [
@@ -45,7 +44,7 @@ export default function PlasticSurgeryView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Section with plastic-surgery.png */}
       <SpecialtyHero
-        image={plasticSurgeryHeroImg}
+        pageKey="plasticSurgery"
         titlePrefixEn="Plastic &"
         titleHighlightEn="Reconstructive Surgery"
         titlePrefixHi="प्लास्टिक एवं"

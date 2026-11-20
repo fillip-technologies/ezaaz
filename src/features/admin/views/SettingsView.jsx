@@ -1,4 +1,4 @@
-import { BarChart3, Building2, CalendarClock, CalendarOff, ChevronRight, Clapperboard } from 'lucide-react'
+import { BarChart3, Building2, CalendarClock, CalendarOff, ChevronRight, Clapperboard, Image as ImageIcon } from 'lucide-react'
 import AdminLayout from '../components/AdminLayout'
 import { Link } from '../components/ui'
 import { ADMIN_PATHS } from '../navigation'
@@ -16,6 +16,12 @@ const SETTINGS = [
     icon: BarChart3,
     title: 'Home page stats',
     description: 'The numbers in the home page header, e.g. "15,000+ Total Successful Operations"',
+  },
+  {
+    to: ADMIN_PATHS.pageBanners,
+    icon: ImageIcon,
+    title: 'Page banners',
+    description: 'The image at the top of each page, e.g. About us, Our doctors, Cancer surgery',
   },
   {
     to: ADMIN_PATHS.departments,

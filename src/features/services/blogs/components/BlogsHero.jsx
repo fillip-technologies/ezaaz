@@ -9,7 +9,7 @@ import {
   BookOpen,
   X
 } from 'lucide-react'
-import heroBg from '../../../../assets/appointment/appointment-hero.jpg'
+import BannerImage from '../../../site/BannerImage'
 
 export default function BlogsHero({
   searchQuery,
@@ -40,8 +40,8 @@ export default function BlogsHero({
       <div className="relative w-full h-[230px] sm:h-[270px] md:h-[300px] lg:h-[330px] overflow-hidden bg-slate-950">
         
         {/* Background Image */}
-        <img
-          src={heroBg}
+        <BannerImage
+          pageKey="blogs"
           alt={isHindi ? 'स्वास्थ्य ब्लॉग - एजाज हॉस्पिटल' : 'Health Blogs - Ejaz Hospital'}
           className="w-full h-full object-cover block"
           style={{ objectPosition: 'center 25%' }}

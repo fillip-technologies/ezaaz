@@ -145,7 +145,7 @@ export default function RoboticSurgeryView() {
     <div className="w-full bg-slate-950 text-white min-h-screen">
       {/* Hero Banner Section */}
       <SpecialtyHero
-        image={roboticHeroImg}
+        pageKey="roboticSurgery"
         titlePrefixEn="Robotic"
         titleHighlightEn="Surgery"
         titlePrefixHi="रोबोटिक"
